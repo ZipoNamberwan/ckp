@@ -20,3 +20,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => ['role:admin']], function () {
+    //
+});
+
+Route::group(['middleware' => ['role:coordinator|subcoordinator']], function () {
+    Route::get('/ratings', [App\Http\Controllers\RatingController::class, 'index'])->name('ratings');
+});
+
+Route::resources(['ckps' => 'App\Http\Controllers\CkpController',]);
