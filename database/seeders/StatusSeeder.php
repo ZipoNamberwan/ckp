@@ -15,22 +15,28 @@ class StatusSeeder extends Seeder
     public function run()
     {
         StatusCkp::create([
-            'name' => 'Belum Entri'
+            'name' => 'Belum Entri',
+            'color' => 'default',
         ]);
         StatusCkp::create([
-            'name' => 'Sedang Entri'
+            'name' => 'Sedang Entri',
+            'color' => 'default',
         ]);
         StatusCkp::create([
-            'name' => 'Submit'
+            'name' => 'Submit',
+            'color' => 'default',
         ]);
         StatusCkp::create([
-            'name' => 'Reject'
+            'name' => 'Reject',
+            'color' => 'default',
         ]);
         StatusCkp::create([
-            'name' => 'Approve'
+            'name' => 'Approve',
+            'color' => 'default',
         ]);
         StatusCkp::create([
-            'name' => 'Sudah Dinilai'
+            'name' => 'Sudah Dinilai',
+            'color' => 'default',
         ]);
     }
 }

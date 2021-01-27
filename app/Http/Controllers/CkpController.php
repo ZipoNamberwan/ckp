@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ckp;
+use App\Models\Month;
+use App\Models\Year;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -25,8 +27,26 @@ class CkpController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $ckps = Ckp::where('user_id', $user->id)->get();
-        return view('ckp.index');
+        $months = Month::all();
+        $years = Year::all();
+        $currentyear = Year::firstWhere('name', date("Y"));
+
+        foreach ($months as $month) {
+            Ckp::firstOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'year_id' => $currentyear->id,
+                    'month_id' => $month->id,
+                ],
+                [
+                    'status_id' => '1'
+                ]
+            );
+        }
+
+        $ckps = Ckp::where(['user_id' => $user->id, 'year_id' => $currentyear->id])->orderBy('month_id', 'asc')->get();
+
+        return view('ckp.index', compact('ckps', 'months', 'currentyear', 'years'));
     }
 
     /**
@@ -34,7 +54,7 @@ class CkpController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
     }
@@ -93,5 +113,12 @@ class CkpController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function entrickp($month, $year)
+    {
+        $month = Month::find($month);
+        $year = Year::find($year);
+        return view('ckp.entrickp', compact('year', 'month'));
     }
 }

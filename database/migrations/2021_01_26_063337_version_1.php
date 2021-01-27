@@ -29,6 +29,7 @@ class Version1 extends Migration
             $table->id()->autoincrement();
             $table->string('name');
             $table->integer('position')->nullable();
+            $table->string('color')->nullable();
         });
 
         Schema::create('ckp', function (Blueprint $table) {
@@ -36,7 +37,7 @@ class Version1 extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('year_id')->constrained('years');
             $table->foreignId('month_id')->constrained('months');
-            $table->foreignId('status_id')->constrained('statuses');
+            $table->foreignId('status_id')->constrained('statuses')->default('1');
             $table->timestamps();
         });
 
