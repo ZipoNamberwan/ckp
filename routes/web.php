@@ -31,5 +31,3 @@ Route::group(['middleware' => ['role:coordinator|subcoordinator']], function () 
 
 Route::resources(['ckps' => 'App\Http\Controllers\CkpController',]);
 
-Route::get('/entrickp/{month}/{year}', [App\Http\Controllers\CkpController::class, 'entrickp'])->name('entrickp');
-

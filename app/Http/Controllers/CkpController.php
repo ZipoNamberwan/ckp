@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityCkp;
 use App\Models\Ckp;
 use App\Models\Month;
 use App\Models\Year;
@@ -87,9 +88,12 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Ckp $ckp)
     {
-        //
+        if (Auth::user()->id != $ckp->user->id) {
+            abort(403);
+        }
+        return view('ckp.entrickp', compact('ckp'));
     }
 
     /**
@@ -99,9 +103,19 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Ckp $ckp)
     {
-        //
+        if ($request->issend == "1") {
+            $request->validate([
+                'activityname.*' => 'required',
+                'activityunit.*' => 'required',
+                'activitytarget.*' => 'required',
+                'activityreal.*' => 'required',
+                'activitynote.*' => 'required',
+            ]);
+        }
+
+        dd($request->issend);
     }
 
     /**
@@ -113,12 +127,5 @@ class CkpController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function entrickp($month, $year)
-    {
-        $month = Month::find($month);
-        $year = Year::find($year);
-        return view('ckp.entrickp', compact('year', 'month'));
     }
 }

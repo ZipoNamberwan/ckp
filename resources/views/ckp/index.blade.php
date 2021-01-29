@@ -69,7 +69,7 @@
                                     {{$ckp->status->name}}
                                 </td>
                                 <td>
-                                    <a href="{{url('/entrickp/'.$ckp->month->id.'/'.$currentyear->id)}}" class="btn btn-outline-info  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Entri CKP">
+                                    <a href="{{url('/ckps/'.$ckp->id.'/edit')}}" class="btn btn-outline-info  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Entri CKP">
                                         <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>
                                       </a>
                                     <form class="d-inline" method="POST" action="#">
