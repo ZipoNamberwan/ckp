@@ -105,17 +105,45 @@ class CkpController extends Controller
      */
     public function update(Request $request, Ckp $ckp)
     {
+
+        if ($request->removedactivity) {
+            ActivityCkp::whereIn('id', $request->removedactivity)->delete();
+        }
+
+        for ($i = 0; $i < count($request->activityname); $i++) {
+            $activity = new ActivityCkp;
+            if ($request->activityid[$i]) {
+                $activity = ActivityCkp::find($request->activityid[$i]);
+            }
+            $activity->type = $request->activitytype[$i];
+            $activity->name = $request->activityname[$i];
+            $activity->unit = $request->activityunit[$i];
+            $activity->target = $request->activitytarget[$i];
+            $activity->real = $request->activityreal[$i];
+            $activity->note = $request->activitynote[$i];
+            $activity->ckp_id = $ckp->id;
+            $activity->save();
+        }
+
         if ($request->issend == "1") {
             $request->validate([
                 'activityname.*' => 'required',
                 'activityunit.*' => 'required',
                 'activitytarget.*' => 'required',
                 'activityreal.*' => 'required',
-                'activitynote.*' => 'required',
             ]);
+            $ckp->status_id = '3';
+            $ckp->save();
+        } else {
+            $ckp->status_id = '2';
+            $ckp->save();
         }
 
-        dd($request->issend);
+        if ($request->issend == "1") {
+            return redirect('/ckps')->with('success-send', 'CKP sudah dikirim dan sedang dalam proses penilaian!');
+        } else {
+            return redirect('/ckps/' . $ckp->id . '/edit')->with('success-save', 'CKP sudah disimpan!');
+        }
     }
 
     /**
@@ -127,5 +155,18 @@ class CkpController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function deleteAllActivities(Request $request)
+    {
+        $ckp = Ckp::find($request->id);
+        if ($ckp->status_id != '1' || $ckp->status_id != '1') {
+            ActivityCkp::where('ckp_id', $ckp->id)->delete();
+            $ckp->status_id = '1';
+            $ckp->save();
+            return response()->json(true);
+        } else {
+            return response()->json(false);
+        }
     }
 }

@@ -44,14 +44,16 @@ class Version1 extends Migration
         Schema::create('activity_ckp', function (Blueprint $table) {
             $table->id()->autoincrement();
             $table->foreignId('ckp_id')->constrained('ckp');
-            $table->enum('type', ['utama', 'tambahan']);
-            $table->string('name');
-            $table->string('unit');
-            $table->decimal('target');
-            $table->decimal('real');
+            $table->enum('type', ['main', 'additional'])->nullable();
+            $table->string('name')->nullable();
+            $table->string('unit')->nullable();
+            $table->decimal('target')->nullable();
+            $table->decimal('real')->nullable();
             $table->decimal('quality')->nullable();
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            
         });
     }
 

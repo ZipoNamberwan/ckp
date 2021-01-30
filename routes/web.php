@@ -29,5 +29,7 @@ Route::group(['middleware' => ['role:coordinator|subcoordinator']], function () 
     Route::get('/ratings', [App\Http\Controllers\RatingController::class, 'index'])->name('ratings');
 });
 
-Route::resources(['ckps' => 'App\Http\Controllers\CkpController',]);
+Route::resources(['ckps' => 'App\Http\Controllers\CkpController']);
+Route::post('/ckps/deleteallactivities', [App\Http\Controllers\CkpController::class, 'deleteAllActivities']);
+
 
