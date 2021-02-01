@@ -112,7 +112,7 @@
           <h6 class="navbar-heading p-0 text-muted">Penilaian</h6>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="#" target="_blank">
+              <a class="nav-link" href="{{url('/ratings')}}">
                 <i class="fas fa-star text-cyan"></i>
                 <span class="nav-link-text">Isi Penilaian</span>
               </a>

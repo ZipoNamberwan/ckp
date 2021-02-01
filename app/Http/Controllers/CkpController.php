@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ActivityCkp;
 use App\Models\Ckp;
 use App\Models\Month;
+use App\Models\SubmittedCkp;
+use App\Models\User;
 use App\Models\Year;
 use Auth;
 use Illuminate\Http\Request;
@@ -93,6 +95,7 @@ class CkpController extends Controller
         if (Auth::user()->id != $ckp->user->id) {
             abort(403);
         }
+
         return view('ckp.entrickp', compact('ckp'));
     }
 
@@ -105,6 +108,27 @@ class CkpController extends Controller
      */
     public function update(Request $request, Ckp $ckp)
     {
+
+        if ($request->issend == "1") {
+            $request->validate([
+                'activityname.*' => 'required',
+                'activityunit.*' => 'required',
+                'activitytarget.*' => 'required',
+                'activityreal.*' => 'required',
+            ]);
+
+            $ckp->status_id = '3';
+            $ckp->save();
+
+            $submittedckp = new SubmittedCkp;
+            $submittedckp->assessor_id = User::where('department_id', $ckp->user->department->parent->id)->first()->id;
+            $submittedckp->ckp_id = $ckp->id;
+            $submittedckp->status_id = '3';
+            $submittedckp->save();
+        } else {
+            $ckp->status_id = '2';
+            $ckp->save();
+        }
 
         if ($request->removedactivity) {
             ActivityCkp::whereIn('id', $request->removedactivity)->delete();
@@ -123,20 +147,6 @@ class CkpController extends Controller
             $activity->note = $request->activitynote[$i];
             $activity->ckp_id = $ckp->id;
             $activity->save();
-        }
-
-        if ($request->issend == "1") {
-            $request->validate([
-                'activityname.*' => 'required',
-                'activityunit.*' => 'required',
-                'activitytarget.*' => 'required',
-                'activityreal.*' => 'required',
-            ]);
-            $ckp->status_id = '3';
-            $ckp->save();
-        } else {
-            $ckp->status_id = '2';
-            $ckp->save();
         }
 
         if ($request->issend == "1") {

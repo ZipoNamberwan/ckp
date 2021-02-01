@@ -27,7 +27,8 @@ class Version1 extends Migration
 
         Schema::create('statuses', function (Blueprint $table) {
             $table->id()->autoincrement();
-            $table->string('name');
+            $table->string('name_1');
+            $table->string('name_2')->nullable();
             $table->integer('position')->nullable();
             $table->string('color')->nullable();
         });
@@ -53,7 +54,6 @@ class Version1 extends Migration
             $table->string('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            
         });
     }
 

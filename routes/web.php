@@ -26,7 +26,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 });
 
 Route::group(['middleware' => ['role:coordinator|subcoordinator']], function () {
-    Route::get('/ratings', [App\Http\Controllers\RatingController::class, 'index'])->name('ratings');
+    Route::resources(['ratings' => 'App\Http\Controllers\RatingController']);
 });
 
 Route::resources(['ckps' => 'App\Http\Controllers\CkpController']);

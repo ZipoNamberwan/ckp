@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityCkp;
+use App\Models\SubmittedCkp;
+use Auth;
 use Illuminate\Http\Request;
 
 class RatingController extends Controller
@@ -22,7 +25,8 @@ class RatingController extends Controller
      */
     public function index()
     {
-        return 'daskd;lksad';
+        $submittedckps = SubmittedCkp::where('assessor_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+        return view('assess.index', compact('submittedckps'));
     }
 
     /**
@@ -63,9 +67,17 @@ class RatingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(SubmittedCkp $rating)
     {
-        //
+        if ($rating->assessor->id != Auth::user()->id) {
+            abort(403);
+        }
+
+        $ckp = $rating;
+
+        $activities = $rating->ckp->activities;
+
+        return view('assess.entrickp', compact('activities', 'ckp'));
     }
 
     /**
@@ -75,9 +87,43 @@ class RatingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, SubmittedCkp $rating)
     {
-        //
+        if ($request->isapprove == "1") {
+            $request->validate([
+                'activityquality.*' => 'required',
+            ]);
+
+            for ($i = 0; $i < count($request->activityid); $i++) {
+                $activity = ActivityCkp::find($request->activityid[$i]);
+                $activity->quality = $request->activityquality[$i];
+                $activity->save();
+            }
+
+            $ckp = $rating->ckp;
+            $ckp->status_id = "5";
+            $rating->status_id = "5";
+            $ckp->save();
+            $rating->save();
+
+            return redirect('/ratings')->with(
+                'success-approve',
+                'CKP ' . $rating->ckp->user->name . ' ' . $rating->ckp->month->name . ' '
+                    . $rating->ckp->year->name . ' sudah disetujui!'
+            );
+        } else {
+            $ckp = $rating->ckp;
+            $ckp->status_id = "4";
+            $rating->status_id = "4";
+            $ckp->save();
+            $rating->save();
+
+            return redirect('/ratings')->with(
+                'success-reject',
+                'CKP ' . $rating->ckp->user->name . ' ' . $rating->ckp->month->name . ' '
+                    . $rating->ckp->year->name . ' sudah ditolak!'
+            );
+        }
     }
 
     /**
