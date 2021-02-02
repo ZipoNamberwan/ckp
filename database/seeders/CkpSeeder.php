@@ -16,7 +16,7 @@ class CkpSeeder extends Seeder
     public function run()
     {
         $ckp = Ckp::create([
-            'user_id' => '4',
+            'user_id' => '6',
             'month_id' => '2',
             'year_id' => '1',
             'status_id' => '2',

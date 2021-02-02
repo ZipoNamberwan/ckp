@@ -32,5 +32,9 @@ Route::group(['middleware' => ['role:coordinator|subcoordinator']], function () 
 
 Route::resources(['ckps' => 'App\Http\Controllers\CkpController']);
 Route::post('/ckps/deleteallactivities', [App\Http\Controllers\CkpController::class, 'deleteAllActivities']);
+Route::get('/download', [App\Http\Controllers\DownloadController::class, 'index']);
+Route::post('/download', [App\Http\Controllers\DownloadController::class, 'download']);
+
+
 
 

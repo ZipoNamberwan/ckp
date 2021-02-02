@@ -36,7 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body px-0 ">
                     <div class="table-responsive py-2">
                         <table class="table" width="90%" id="ckp-table">
                             <thead class="thead-light">
@@ -55,7 +55,7 @@
                                     <td>{{$i + 1}}</td>
                                     <td>{{$users[$i]->name}}</td>
                                     @for($j = 0; $j < count($months); $j++)
-                                    @if (count($statuses[$i]) > 0)
+                                    @if (count($statuses[$i]) == 12)
                                     <td>{{$statuses[$i][$j]->status->name_1}}</td>
                                     @else
                                     <td>Belum Entri</td>

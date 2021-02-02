@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ckp;
-use App\Models\Department;
 use App\Models\Month;
-use App\Models\User;
-use Auth;
+use App\Models\Year;
 use Illuminate\Http\Request;
 
-class MonitoringController extends Controller
+class DownloadController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,29 +15,9 @@ class MonitoringController extends Controller
      */
     public function index()
     {
-        $department = Auth::user()->department;
-
         $months = Month::all();
-        $users = collect();
-        foreach ($department->allchildren as $bidang) {
-            $users = $users->merge($bidang->users);
-            if ($bidang->allchildren) {
-                foreach ($bidang->allchildren as $seksi) {
-                    $users = $users->merge($seksi->users);
-                }
-            }
-        }
-
-        $statuses = collect();
-
-        foreach ($users as $user) {
-            $statuses = $statuses->merge([Ckp::where(['user_id' => $user->id, 'year_id' => '1'])->orderBy('month_id', 'ASC')->get()]);
-        }
-
-        //dd($statuses);
-        //dd($statuses[0][0]->statuses->name_1);
-
-        return view('monitoring.index', compact(['months', 'users', 'statuses']));
+        $years = Year::all();
+        return view('download.index', compact(['months', 'years']));
     }
 
     /**
@@ -50,7 +27,7 @@ class MonitoringController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -107,5 +84,10 @@ class MonitoringController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function download(Request $request)
+    {
+        
     }
 }

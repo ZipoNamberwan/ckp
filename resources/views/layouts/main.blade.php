@@ -85,7 +85,7 @@
               </a>
             </li> -->
             <li class="nav-item">
-              <a class="nav-link" href="{{url('/assemblies')}}">
+              <a class="nav-link" href="{{url('/download')}}">
                 <i class="fas fa-cloud-download-alt text-red"></i>
                 <span class="nav-link-text">Unduh</span>
               </a>

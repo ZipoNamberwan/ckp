@@ -15,9 +15,20 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $root = Department::create([
+            'name' => 'Root',
+            'position' => '1',
+        ]);
+
+        $head = Department::create([
+            'name' => 'Kepala BPS Provinsi NTT',
+            'parent_id' => $root->id,
+            'position' => '1',
+        ]);
 
         $ipds = Department::create([
             'name' => 'Koordinator IPDS',
+            'parent_id' => $head->id,
             'position' => '1',
         ]);
 
@@ -45,13 +56,28 @@ class UserSeeder extends Seeder
             'parent_id' => $jrs->id,
         ]);
 
+        $superadmin = User::create([
+            'name' => 'Administrator',
+            'email' => 'admin@bps.go.id',
+            'password' => bcrypt('123456'),
+            'department_id' => $root->id,
+        ]);
+        $superadmin->assignRole('admin');
+
+        $kabps = User::create([
+            'name' => 'Kepala BPS Provinsi NTT',
+            'email' => 'kabps@bps.go.id',
+            'password' => bcrypt('123456'),
+            'department_id' => $head->id,
+        ]);
+        $superadmin->assignRole('admin');
+
         $coordinator = User::create([
             'name' => 'Tio',
             'email' => 'tio@bps.go.id',
             'password' => bcrypt('123456'),
             'department_id' => $ipds->id,
         ]);
-
         $coordinator->assignRole('coordinator');
 
         $subcoordinator = User::create([
