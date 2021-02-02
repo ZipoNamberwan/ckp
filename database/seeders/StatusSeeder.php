@@ -31,7 +31,7 @@ class StatusSeeder extends Seeder
         ]);
         StatusCkp::create([
             'name_1' => 'Rejected',
-            'name_2' => 'Sedang Entri',
+            'name_2' => 'Rejected',
             'color' => 'default',
         ]);
         StatusCkp::create([

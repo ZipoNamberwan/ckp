@@ -98,7 +98,7 @@
           <h6 class="navbar-heading p-0 text-muted">Monitoring</h6>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="#" target="_blank">
+              <a class="nav-link" href="{{url('/monitoring')}}">
                 <i class="fas fa-eye text-purple"></i>
                 <span class="nav-link-text">Monitoring</span>
               </a>

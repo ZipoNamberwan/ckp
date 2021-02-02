@@ -91,7 +91,7 @@ class RatingController extends Controller
     {
         if ($request->isapprove == "1") {
             $request->validate([
-                'activityquality.*' => 'required',
+                'activityquality.*' => 'required|numeric|max:100|min:0',
             ]);
 
             for ($i = 0; $i < count($request->activityid); $i++) {

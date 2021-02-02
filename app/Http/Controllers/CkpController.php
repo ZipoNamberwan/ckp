@@ -113,8 +113,8 @@ class CkpController extends Controller
             $request->validate([
                 'activityname.*' => 'required',
                 'activityunit.*' => 'required',
-                'activitytarget.*' => 'required',
-                'activityreal.*' => 'required',
+                'activitytarget.*' => 'required|numeric|min:0',
+                'activityreal.*' => 'required|numeric|min:0',
             ]);
 
             $ckp->status_id = '3';

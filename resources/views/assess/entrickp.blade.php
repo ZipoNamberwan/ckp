@@ -62,67 +62,128 @@
                                             <tr>
                                                 <td colspan="7"><b>Kegiatan Utama</b></td>
                                             </tr>
-                                            @for($i = 0; $i < count($activities); $i++) @if($activities[$i]->type == 'main')
-                                                <tr>
-                                                    <td>{{$i}}</td>
-                                                    <td class="px-1"><input class="form-control" type="text" name="activityname[]" value="{{old('activityname.'.$i, $activities[$i]->name)}}" disabled><input type="hidden" name="activitytype[]" value="{{old('activitytype.'.$i, $activities[$i]->type)}}">
-                                                        <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i, $activities[$i]->id)}}">
-                                                    </td>
-                                                    <td class="px-1">
-                                                        <input class="form-control" type="text" name="activityunit[]" value="{{old('activityunit.'.$i, $activities[$i]->unit)}}" disabled>
-                                                    </td>
-                                                    <td class="px-1">
-                                                        <input class="form-control" type="text" name="activitytarget[]" value="{{old('activitytarget.'.$i, $activities[$i]->target)}}" disabled>
-                                                    </td>
-                                                    <td class="px-1">
-                                                        <input class="form-control" type="text" name="activityreal[]" value="{{old('activityreal.'.$i, $activities[$i]->real)}}" disabled>
-                                                    </td>
-                                                    <td class="px-1">
-                                                        <input class="form-control" min="0" max="100" type="number" name="activityquality[]" value="{{old('activityquality.'.$i, $activities[$i]->quality)}}">
-                                                        @error('activityquality.'.$i)
-                                                        <div class="error-feedback">
-                                                            kosong
-                                                        </div>
-                                                        @enderror
-                                                    </td>
-                                                    <td class="px-1">
-                                                        <input class="form-control" type="text" name="activitynote[]" value="{{old('activitynote.'.$i, $activities[$i]->note)}}" disabled>
-                                                    </td>
+                                            @if (old('activityquality'))
+                                            @for($i = 0; $i < count(old('activityquality')); $i++) @if(old('activitytype.'.$i)=='main' ) <tr>
+                                                <td>{{$i}}</td>
+                                                <td class="px-1"><input class="form-control" type="text" name="activityname[]" value="{{old('activityname.'.$i)}}" readonly><input type="hidden" name="activitytype[]" value="{{old('activitytype.'.$i)}}">
+                                                    <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i)}}">
+                                                </td>
+                                                <td class="px-1">
+                                                    <input class="form-control" type="text" name="activityunit[]" value="{{old('activityunit.'.$i)}}" readonly>
+                                                </td>
+                                                <td class="px-1">
+                                                    <input class="form-control" type="text" name="activitytarget[]" value="{{old('activitytarget.'.$i)}}" readonly>
+                                                </td>
+                                                <td class="px-1">
+                                                    <input class="form-control" type="text" name="activityreal[]" value="{{old('activityreal.'.$i)}}" readonly>
+                                                </td>
+                                                <td class="px-1">
+                                                    <input class="form-control" min="0" max="100" type="number" name="activityquality[]" value="{{old('activityquality.'.$i)}}">
+                                                    @error('activityquality.'.$i)
+                                                    <div class="error-feedback">
+                                                        error
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td class="px-1">
+                                                    <input class="form-control" type="text" name="activitynote[]" value="{{old('activitynote.'.$i)}}" readonly>
+                                                </td>
                                                 </tr>
                                                 @endif
                                                 @endfor
-                                                <tr>
-                                                    <td colspan="7"><b>Kegiatan Tambahan</b></td>
-                                                </tr>
-                                                @for($i = 0; $i < count($activities); $i++) @if($activities[$i]->type == 'additional')
+                                                @else
+                                                @for($i = 0; $i < count($activities); $i++) @if($activities[$i]->type == 'main')
                                                     <tr>
                                                         <td>{{$i}}</td>
-                                                        <td class="px-1"><input class="form-control" type="text" name="activityname[]" value="{{old('activityname.'.$i, $activities[$i]->name)}}" disabled><input type="hidden" name="activitytype[]" value="{{old('activitytype.'.$i, $activities[$i]->type)}}">
-                                                            <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i, $activities[$i]->id)}}">
+                                                        <td class="px-1"><input class="form-control" type="text" name="activityname[]" value="{{$activities[$i]->name}}" readonly><input type="hidden" name="activitytype[]" value="{{$activities[$i]->type}}">
+                                                            <input type="hidden" name="activityid[]" value="{{$activities[$i]->id}}">
                                                         </td>
                                                         <td class="px-1">
-                                                            <input class="form-control" type="text" name="activityunit[]" value="{{old('activityunit.'.$i, $activities[$i]->unit)}}" disabled>
+                                                            <input class="form-control" type="text" name="activityunit[]" value="{{$activities[$i]->unit}}" readonly>
                                                         </td>
                                                         <td class="px-1">
-                                                            <input class="form-control" type="text" name="activitytarget[]" value="{{old('activitytarget.'.$i, $activities[$i]->target)}}" disabled>
+                                                            <input class="form-control" type="text" name="activitytarget[]" value="{{$activities[$i]->target}}" readonly>
                                                         </td>
                                                         <td class="px-1">
-                                                            <input class="form-control" type="text" name="activityreal[]" value="{{old('activityreal.'.$i, $activities[$i]->real)}}" disabled>
+                                                            <input class="form-control" type="text" name="activityreal[]" value="{{$activities[$i]->real}}" readonly>
                                                         </td>
                                                         <td class="px-1">
-                                                            <input class="form-control" min="0" max="100" type="number" name="activityquality[]" value="{{old('activityquality.'.$i, $activities[$i]->quality)}}">
+                                                            <input class="form-control" min="0" max="100" type="number" name="activityquality[]" value="{{$activities[$i]->quality}}">
                                                             @error('activityquality.'.$i)
                                                             <div class="error-feedback">
-                                                                kosong
+                                                                error
                                                             </div>
                                                             @enderror
                                                         </td>
                                                         <td class="px-1">
-                                                            <input class="form-control" type="text" name="activitynote[]" value="{{old('activitynote.'.$i, $activities[$i]->note)}}" disabled>
+                                                            <input class="form-control" type="text" name="activitynote[]" value="{{$activities[$i]->note}}" readonly>
                                                         </td>
                                                     </tr>
                                                     @endif
                                                     @endfor
+                                                    @endif
+                                                    <tr>
+                                                        <td colspan="7"><b>Kegiatan Tambahan</b></td>
+                                                    </tr>
+                                                    @if (old('activityquality'))
+                                                    @for($i = 0; $i < count(old('activityquality')); $i++) @if(old('activitytype.'.$i)=='additional' ) <tr>
+                                                        <td>{{$i}}</td>
+                                                        <td class="px-1"><input class="form-control" type="text" name="activityname[]" value="{{old('activityname.'.$i)}}" readonly><input type="hidden" name="activitytype[]" value="{{old('activitytype.'.$i)}}">
+                                                            <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i)}}">
+                                                        </td>
+                                                        <td class="px-1">
+                                                            <input class="form-control" type="text" name="activityunit[]" value="{{old('activityunit.'.$i)}}" readonly>
+                                                        </td>
+                                                        <td class="px-1">
+                                                            <input class="form-control" type="text" name="activitytarget[]" value="{{old('activitytarget.'.$i)}}" readonly>
+                                                        </td>
+                                                        <td class="px-1">
+                                                            <input class="form-control" type="text" name="activityreal[]" value="{{old('activityreal.'.$i)}}" readonly>
+                                                        </td>
+                                                        <td class="px-1">
+                                                            <input class="form-control" min="0" max="100" type="number" name="activityquality[]" value="{{old('activityquality.'.$i)}}">
+                                                            @error('activityquality.'.$i)
+                                                            <div class="error-feedback">
+                                                                error
+                                                            </div>
+                                                            @enderror
+                                                        </td>
+                                                        <td class="px-1">
+                                                            <input class="form-control" type="text" name="activitynote[]" value="{{old('activitynote.'.$i)}}" readonly>
+                                                        </td>
+                                                        </tr>
+                                                        @endif
+                                                        @endfor @else
+                                                        @for($i=0; $i < count($activities); $i++) @if($activities[$i]->type == 'additional')
+                                                            <tr>
+                                                                <td>{{$i}}</td>
+                                                                <td class="px-1"><input class="form-control" type="text" name="activityname[]" value="{{$activities[$i]->name}}" readonly><input type="hidden" name="activitytype[]" value="{{$activities[$i]->type}}">
+                                                                    <input type="hidden" name="activityid[]" value="{{$activities[$i]->id}}">
+                                                                </td>
+                                                                <td class="px-1">
+                                                                    <input class="form-control" type="text" name="activityunit[]" value="{{$activities[$i]->unit}}" readonly>
+                                                                </td>
+                                                                <td class="px-1">
+                                                                    <input class="form-control" type="text" name="activitytarget[]" value="{{$activities[$i]->target}}" readonly>
+                                                                </td>
+                                                                <td class="px-1">
+                                                                    <input class="form-control" type="text" name="activityreal[]" value="{{$activities[$i]->real}}" readonly>
+                                                                </td>
+                                                                <td class="px-1">
+                                                                    <input class="form-control" min="0" max="100" type="number" value="{{$activities[$i]->quality}}" name="activityquality[]">
+                                                                    @error('activityquality.'.$i)
+                                                                    <div class="error-feedback">
+                                                                        error
+                                                                    </div>
+                                                                    @enderror
+                                                                </td>
+                                                                <td class="px-1">
+                                                                    <input class="form-control" type="text" name="activitynote[]" value="{{$activities[$i]->note}}" readonly>
+                                                                </td>
+                                                            </tr>
+                                                            @endif
+                                                            @endfor
+                                                            @endif
                                         </tbody>
                                     </table>
                                 </div>

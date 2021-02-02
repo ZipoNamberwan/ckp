@@ -17,4 +17,27 @@ class ActivityCkp extends Model
     {
         return $this->belongsTo(Ckp::class, 'ckp_id');
     }
+
+    public function getTargetAttribute($value)
+    {
+        if ($value) {
+            return $value + 0;
+        }
+        return $value;
+    }
+
+    public function getRealAttribute($value)
+    {
+        if ($value) {
+            return $value + 0;
+        }
+        return $value;
+    }
+    public function getQualityAttribute($value)
+    {
+        if ($value) {
+            return $value + 0;
+        }
+        return $value;
+    }
 }
