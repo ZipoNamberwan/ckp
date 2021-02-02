@@ -36,7 +36,38 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body"></div>
+                <div class="card-body">
+                    <div class="table-responsive py-2">
+                        <table class="table" width="90%" id="ckp-table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="3%" class="text-center">No</th>
+                                    <th width="10%" class="px-1 text-center">Nama Pegawai</th>
+                                    @foreach($months as $month)
+                                    <th width="4%" class="px-1 text-center">{{$month->name}}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for($i = 0; $i < count($users); $i++)
+
+                                <tr>
+                                    <td>{{$i + 1}}</td>
+                                    <td>{{$users[$i]->name}}</td>
+                                    @for($j = 0; $j < count($months); $j++)
+                                    @if (count($statuses[$i]) > 0)
+                                    <td>{{$statuses[$i][$j]->status->name_1}}</td>
+                                    @else
+                                    <td>Belum Entri</td>
+                                    @endif
+                                    @endfor
+                                </tr>
+                                @endfor
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

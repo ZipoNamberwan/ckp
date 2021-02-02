@@ -145,6 +145,7 @@ class CkpController extends Controller
             $activity->target = $request->activitytarget[$i];
             $activity->real = $request->activityreal[$i];
             $activity->note = $request->activitynote[$i];
+            $activity->quality = '100';
             $activity->ckp_id = $ckp->id;
             $activity->save();
         }

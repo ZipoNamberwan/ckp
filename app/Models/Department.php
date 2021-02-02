@@ -11,4 +11,9 @@ class Department extends Model
     use HasFactory, SelfReferenceTrait;
     protected $guarded = [];
     public $timestamps = false;
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

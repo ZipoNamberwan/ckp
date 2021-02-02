@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ckp;
 use App\Models\Department;
+use App\Models\Month;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -18,22 +20,26 @@ class MonitoringController extends Controller
     {
         $department = Auth::user()->department;
 
-        $relateddept = [];
-        $users = [];
+        $months = Month::all();
+        $users = collect();
         foreach ($department->allchildren as $bidang) {
-            $relateddept[] = $bidang;
-            array_push($users, User::where(['department_id' => $bidang->id])->get());
+            $users = $users->merge($bidang->users);
             if ($bidang->allchildren) {
                 foreach ($bidang->allchildren as $seksi) {
-                    $relateddept[] = $seksi;
-                    array_push($users, User::where(['department_id' => $seksi->id])->get());
-                    dd(User::where(['department_id' => $seksi->id])->get());
+                    $users = $users->merge($seksi->users);
                 }
             }
         }
 
-        dd($users);
-        return view('monitoring.index');
+        $statuses = collect();
+
+        foreach ($users as $user) {
+            $statuses = $statuses->merge([Ckp::where(['user_id' => $user->id, 'year_id' => '1'])->orderBy('month_id', 'ASC')->get()]);
+        }
+
+        //dd($statuses[0][0]->statuses->name_1);
+
+        return view('monitoring.index', compact(['months', 'users', 'statuses']));
     }
 
     /**
