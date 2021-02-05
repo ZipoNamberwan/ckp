@@ -109,8 +109,8 @@
                                      @enderror
                                  </div>
                                  <div class="custom-control custom-control-alternative custom-checkbox">
-                                     <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
-                                     <label class="custom-control-label" for=" customCheckLogin">
+                                     <input class="custom-control-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                     <label class="custom-control-label" for="remember">
                                          <span class="text-muted">Remember me</span>
                                      </label>
                                  </div>

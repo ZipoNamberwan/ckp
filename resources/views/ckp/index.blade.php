@@ -120,10 +120,18 @@
                     url: "{{url('ckps/deleteallactivities')}}",
                     success: function(result, status, xhr) {
                         loading.style.display = 'none';
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Semua Kegiatan Sudah Dihapus'
-                        });
+                        if (result.issuccess == true) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: result.message,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: result.message,
+                            });
+                        }
+
                     },
                     error: function(xhr, status, error) {
                         console.log(xhr);

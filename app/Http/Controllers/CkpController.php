@@ -171,13 +171,25 @@ class CkpController extends Controller
     public function deleteAllActivities(Request $request)
     {
         $ckp = Ckp::find($request->id);
-        if ($ckp->status_id != '1' || $ckp->status_id != '1') {
+        if ($ckp->status_id != '5') {
             ActivityCkp::where('ckp_id', $ckp->id)->delete();
             $ckp->status_id = '1';
             $ckp->save();
-            return response()->json(true);
+            $submittedCkps = SubmittedCkp::where(['status_id' => '3', 'ckp_id' => $ckp->id])->get();
+            foreach($submittedCkps as $submittedCkp){
+                $submittedCkp->delete();
+            }
+            $status = array(
+                'issuccess' => true,
+                'message' => 'Semua Kegiatan Berhasil Dihapus'
+            );
+            return response()->json($status);
         } else {
-            return response()->json(false);
+            $status = array(
+                'issuccess' => false,
+                'message' => 'CKP yang Sudah Dinilai Tidak Bisa Dihapus'
+            );
+            return response()->json($status);
         }
     }
 }
