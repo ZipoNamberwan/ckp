@@ -17,5 +17,9 @@ class YearSeeder extends Seeder
         Year::create([
             'name' => '2021'
         ]);
+
+        Year::create([
+            'name' => '2022'
+        ]);
     }
 }

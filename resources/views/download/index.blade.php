@@ -64,7 +64,7 @@
                                 <label class="form-control-label" for="year">Tahun</label>
                                 <select class="form-control @error('year') is-invalid @enderror" data-toggle="select" name="year">
                                     @foreach($years as $year)
-                                    <option value="{{$year->id}}" {{ old('year') == $year->id ? 'selected' : '' }}>{{$year->name}}</option>
+                                    <option value="{{$year->id}}" {{ old('year', $currentyear->id) == $year->id ? 'selected' : '' }}>{{$year->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('year')

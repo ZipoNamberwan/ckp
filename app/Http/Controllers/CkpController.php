@@ -29,10 +29,44 @@ class CkpController extends Controller
      */
     public function index()
     {
+
         $user = Auth::user();
         $months = Month::all();
         $years = Year::all();
         $currentyear = Year::firstWhere('name', date("Y"));
+
+        if ($currentyear == null) {
+            $currentyear = Year::all()->last();
+        }
+
+        foreach ($months as $month) {
+            Ckp::firstOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'year_id' => $currentyear->id,
+                    'month_id' => $month->id,
+                ],
+                [
+                    'status_id' => '1'
+                ]
+            );
+        }
+
+        $ckps = Ckp::where(['user_id' => $user->id, 'year_id' => $currentyear->id])->orderBy('month_id', 'asc')->get();
+
+        return view('ckp.index', compact('ckps', 'months', 'currentyear', 'years'));
+    }
+
+    public function ckpByYear($year)
+    {
+        $user = Auth::user();
+        $months = Month::all();
+        $years = Year::all();
+        $currentyear = Year::find($year);
+
+        if ($currentyear == null) {
+            $currentyear = Year::all()->last();
+        }
 
         foreach ($months as $month) {
             Ckp::firstOrCreate(
@@ -57,10 +91,10 @@ class CkpController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
-    {
-        //
-    }
+    // public function create(Request $request)
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -68,10 +102,10 @@ class CkpController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
      * Display the specified resource.
@@ -79,10 +113,10 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+    // public function show($id)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -163,10 +197,10 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    // public function destroy($id)
+    // {
+    //     //
+    // }
 
     public function deleteAllActivities(Request $request)
     {
@@ -176,7 +210,7 @@ class CkpController extends Controller
             $ckp->status_id = '1';
             $ckp->save();
             $submittedCkps = SubmittedCkp::where(['status_id' => '3', 'ckp_id' => $ckp->id])->get();
-            foreach($submittedCkps as $submittedCkp){
+            foreach ($submittedCkps as $submittedCkp) {
                 $submittedCkp->delete();
             }
             $status = array(

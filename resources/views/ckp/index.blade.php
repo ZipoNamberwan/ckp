@@ -44,19 +44,19 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h2 class="mb-0">CKP</h2>
+                            <h2 class="mb-0">CKP {{$currentyear->name}}</h2>
                         </div>
                     </div>
                 </div>
                 <div class="form-row mx-3 my-3">
                     <div class="col-md-3">
-                        <label class="form-control-label mb-3" for="validationCustom05">Tahun</label>
-                        <select class="form-control d-inline" data-toggle="select" name="sockettype">
+                        <label class="form-control-label mb-3" for="year">Tahun</label>
+                        <select class="form-control d-inline" data-toggle="select" name="year" id="year">
                             @foreach($years as $year)
-                            <option value="{{$year->id}}">{{$year->name}}</option>
+                            <option value="{{$year->id}}" @if($year->id == $currentyear->id) selected @endif>{{$year->name}}</option>
                             @endforeach
                         </select>
-                        <button class="btn btn-primary mt-3 d-inline" type="button">Tampilkan</button>
+                        <button onclick="getckpbyyear()" class="btn btn-primary mt-3 d-inline" type="button">Tampilkan</button>
                     </div>
                 </div>
 
@@ -152,6 +152,15 @@
                 });
             }
         })
+    }
+</script>
+
+<script>
+    function getckpbyyear() {
+        var year = document.getElementById('year').value;
+        var url = "{{url('/ckps/year/')}}/" + year;
+
+        window.location.assign(url);
     }
 </script>
 

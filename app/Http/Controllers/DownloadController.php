@@ -426,7 +426,13 @@ class DownloadController extends Controller
     {
         $months = Month::all();
         $years = Year::all();
-        return view('download.index', compact(['months', 'years']));
+        $currentyear = Year::firstWhere('name', date("Y"));
+
+        if ($currentyear == null) {
+            $currentyear = Year::all()->last();
+        }
+
+        return view('download.index', compact(['months', 'years', 'currentyear']));
     }
 
     /**

@@ -35,7 +35,47 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h2 class="mb-0">Daftar Penilaian CKP</h2>
+                            <h2 class="mb-0">Isi Penilaian CKP</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pb-0">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5 class="mb-0">
+                                    Satuan Organisasi
+                                </h5>
+                            </div>
+                            <div class="col-auto">
+                                <h5>
+                                    : {{$ckp->ckp->user->department->name}}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5 class="mb-0">
+                                    Nama
+                                </h5>
+                            </div>
+                            <div class="col-auto">
+                                <h5>
+                                    : {{$ckp->ckp->user->name}}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5 class="mb-0">
+                                    Periode
+                                </h5>
+                            </div>
+                            <div class="col-auto">
+                                <h5>
+                                    : {{$ckp->ckp->month->name}} {{$ckp->ckp->year->name}}
+                                </h5>
+                            </div>
                         </div>
                     </div>
                 </div>
