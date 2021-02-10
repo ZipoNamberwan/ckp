@@ -58,7 +58,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="table-responsive py-4">
                     <table class="table" id="datatable-id" width="100%">
                         <thead class="thead-light">

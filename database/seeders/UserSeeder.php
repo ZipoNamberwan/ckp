@@ -50,6 +50,12 @@ class UserSeeder extends Seeder
             'parent_id' => $ipds->id
         ]);
 
+        $dls = Department::create([
+            'name' => 'Sub Koordinator DLS',
+            'position' => '3',
+            'parent_id' => $ipds->id
+        ]);
+
         $stafjrs = Department::create([
             'name' => 'Staf JRS',
             'position' => '1',

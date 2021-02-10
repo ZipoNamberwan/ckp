@@ -227,7 +227,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -259,7 +258,6 @@
             var row = table.rows[i];
             if (row.cells[1]) {
                 var rowObj = row.cells[1].childNodes[1];
-                console.log(rowObj);
                 if (rowObj.value == 'main') {
                     row.cells[0].innerHTML = startmain++;
                 } else {

@@ -66,6 +66,7 @@
               </a>
             </li>
           </ul>
+          @role('staf|coordinator|subcoordinator')
           <!-- Divider -->
           <hr class="my-3">
           <!-- Heading -->
@@ -78,12 +79,6 @@
                 <span class="nav-link-text">CKP</span>
               </a>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="{{url('/assemblies')}}">
-                <i class="fas fa-file text-green"></i>
-                <span class="nav-link-text">CKP-R</span>
-              </a>
-            </li> -->
             <li class="nav-item">
               <a class="nav-link" href="{{url('/download')}}">
                 <i class="fas fa-cloud-download-alt text-red"></i>
@@ -91,6 +86,7 @@
               </a>
             </li>
           </ul>
+          @endrole
           @role('coordinator|subcoordinator')
           <!-- Divider -->
           <hr class="my-3">
@@ -119,25 +115,33 @@
             </li>
           </ul>
           @endrole
+          @role('coordinator|subcoordinator|admin')
           <!-- Divider -->
           <hr class="my-3">
           <!-- Heading -->
           <h6 class="navbar-heading p-0 text-muted">Sistem</h6>
           <!-- Navigation -->
+          @endrole
+          @role('coordinator|subcoordinator|admin')
           <ul class="navbar-nav mb-md-3">
+            @role('coordinator|subcoordinator|admin')
             <li class="nav-item">
-              <a class="nav-link" href="#" target="_blank">
+              <a class="nav-link" href="{{url('/users')}}">
                 <i class="fas fa-users"></i>
                 <span class="nav-link-text">User</span>
               </a>
             </li>
+            @endrole
+            @role('admin')
             <li class="nav-item">
-              <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard/docs/components/alerts.html" target="_blank">
+              <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard/docs/components/alerts.html">
                 <i class="fas fa-tools"></i>
                 <span class="nav-link-text">Pengaturan</span>
               </a>
             </li>
+            @endrole
           </ul>
+          @endrole
         </div>
       </div>
     </div>

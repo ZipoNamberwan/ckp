@@ -50,13 +50,12 @@
                             </thead>
                             <tbody>
                                 @for($i = 0; $i < count($users); $i++)
-
                                 <tr>
                                     <td>{{$i + 1}}</td>
                                     <td>{{$users[$i]->name}}</td>
                                     @for($j = 0; $j < count($months); $j++)
                                     @if (count($statuses[$i]) == 12)
-                                    <td>{{$statuses[$i][$j]->status->name_1}}</td>
+                                    <td>@if($statuses[$i][$j]->status->id != '1') <a href="{{url('/ckps/'.$statuses[$i][$j]->id)}}" target="_blank"> {{$statuses[$i][$j]->status->name_1}} </a> @else {{$statuses[$i][$j]->status->name_1}} @endif </td>
                                     @else
                                     <td>Belum Entri</td>
                                     @endif

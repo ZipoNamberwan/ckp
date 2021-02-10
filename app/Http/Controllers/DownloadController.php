@@ -330,8 +330,12 @@ class DownloadController extends Controller
                         $sheetR->setCellValue('D' . $row, $activities[$i]->unit);
                         $sheetR->setCellValue('E' . $row, $activities[$i]->target);
                         $sheetR->setCellValue('F' . $row, $activities[$i]->real);
-                        $sheetR->setCellValue('G' . $row, '');
-                        $sheetR->setCellValue('H' . $row, $activities[$i]->quality);
+                        $sheetR->setCellValue('G' . $row, $activities[$i]->real / $activities[$i]->target * 100);
+                        if ($ckp->status->id == '5') {
+                            $sheetR->setCellValue('H' . $row, $activities[$i]->quality);
+                        } else {
+                            $sheetR->setCellValue('H' . $row, '');
+                        }
                         $sheetR->setCellValue('I' . $row, '');
                         $sheetR->setCellValue('J' . $row, $activities[$i]->note);
                         $sheetR->getStyle('A' . $row . ':J' . $row)->applyFromArray($thinborderall);
@@ -356,8 +360,12 @@ class DownloadController extends Controller
                         $sheetR->setCellValue('D' . $row, $activities[$i]->unit);
                         $sheetR->setCellValue('E' . $row, $activities[$i]->target);
                         $sheetR->setCellValue('F' . $row, $activities[$i]->real);
-                        $sheetR->setCellValue('G' . $row, '');
-                        $sheetR->setCellValue('H' . $row, $activities[$i]->quality);
+                        $sheetR->setCellValue('G' . $row, $activities[$i]->real / $activities[$i]->target * 100);
+                        if ($ckp->status->id == '5') {
+                            $sheetR->setCellValue('H' . $row, $activities[$i]->quality);
+                        } else {
+                            $sheetR->setCellValue('H' . $row, '');
+                        }
                         $sheetR->setCellValue('I' . $row, '');
                         $sheetR->setCellValue('J' . $row, $activities[$i]->note);
                         $sheetR->getStyle('A' . $row . ':J' . $row)->applyFromArray($thinborderall);

@@ -113,10 +113,30 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show($id)
-    // {
-    //     //
-    // }
+    public function show(Ckp $ckp)
+    {
+        $department = Auth::user()->department;
+        $users = collect();
+        foreach ($department->allchildren as $bidang) {
+            $users = $users->merge($bidang->users);
+            if ($bidang->allchildren) {
+                foreach ($bidang->allchildren as $seksi) {
+                    $users = $users->merge($seksi->users);
+                }
+            }
+        }
+        $isallowed = false;
+        foreach ($users as $user) {
+            if ($user->id == $ckp->user->id) {
+                $isallowed = true;
+                break;
+            }
+        }
+        if (!$isallowed) {
+            abort(403);
+        }
+        return view('ckp.view', compact('ckp'));
+    }
 
     /**
      * Show the form for editing the specified resource.
