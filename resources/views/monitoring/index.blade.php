@@ -55,9 +55,14 @@
                                     <td>{{$users[$i]->name}}</td>
                                     @for($j = 0; $j < count($months); $j++)
                                     @if (count($statuses[$i]) == 12)
-                                    <td>@if($statuses[$i][$j]->status->id != '1') <a href="{{url('/ckps/'.$statuses[$i][$j]->id)}}" target="_blank"> {{$statuses[$i][$j]->status->name_1}} </a> @else {{$statuses[$i][$j]->status->name_1}} @endif </td>
+                                    <td>@if($statuses[$i][$j]->status->id != '1') 
+                                        <a href="{{url('/ckps/'.$statuses[$i][$j]->id)}}" target="_blank"> 
+                                            <span class="badge badge-{{$statuses[$i][$j]->status->color}}">{{$statuses[$i][$j]->status->name_1}}</span>
+                                         </a> @else 
+                                         <span class="badge badge-{{$statuses[$i][$j]->status->color}}">{{$statuses[$i][$j]->status->name_1}}</span> @endif 
+                                        </td>
                                     @else
-                                    <td>Belum Entri</td>
+                                    <td><span class="badge badge-danger">Belum Entri</span></td>
                                     @endif
                                     @endfor
                                 </tr>

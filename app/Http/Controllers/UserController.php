@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:coordinator|subcoordinator|admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,15 +21,7 @@ class UserController extends Controller
     public function index()
     {
         $department = Auth::user()->department;
-        $users = collect();
-        foreach ($department->allchildren as $bidang) {
-            $users = $users->merge($bidang->users);
-            if ($bidang->allchildren) {
-                foreach ($bidang->allchildren as $seksi) {
-                    $users = $users->merge($seksi->users);
-                }
-            }
-        }
+        $users = $department->getAllChildrenUsers();
         return view('user.index', compact('users'));
     }
 
@@ -37,15 +34,7 @@ class UserController extends Controller
     {
         $department = Auth::user()->department;
 
-        $departments = collect();
-        foreach ($department->allchildren as $bidang) {
-            $departments->push($bidang);
-            if ($bidang->allchildren) {
-                foreach ($bidang->allchildren as $seksi) {
-                    $departments->push($seksi);
-                }
-            }
-        }
+        $departments = $department->getAllChildrenDepartment();
 
         return view('user.create', compact('departments'));
     }
@@ -96,15 +85,7 @@ class UserController extends Controller
     {
         $department = Auth::user()->department;
 
-        $departments = collect();
-        foreach ($department->allchildren as $bidang) {
-            $departments->push($bidang);
-            if ($bidang->allchildren) {
-                foreach ($bidang->allchildren as $seksi) {
-                    $departments->push($seksi);
-                }
-            }
-        }
+        $departments = $department->getAllChildrenDepartment();
 
         return view('user.edit', compact('departments', 'departments', 'user'));
     }

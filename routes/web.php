@@ -19,13 +19,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    Route::group(['middleware' => ['role:admin']], function () {
-        Route::resources(['settings' => 'App\Http\Controllers\SettingController']);
-    });
+    Route::resources(['settings' => 'App\Http\Controllers\SettingController']);
+    Route::resources(['users' => 'App\Http\Controllers\UserController']);
 
     Route::group(['middleware' => ['role:coordinator|subcoordinator']], function () {
         Route::resources(['ratings' => 'App\Http\Controllers\RatingController']);
-        Route::resources(['users' => 'App\Http\Controllers\UserController']);
         Route::get('/monitoring', [App\Http\Controllers\MonitoringController::class, 'index']);
     });
 

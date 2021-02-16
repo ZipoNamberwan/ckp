@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +17,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        return view('setting.index');
     }
 
     /**

@@ -76,7 +76,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('123456'),
             'department_id' => $head->id,
         ]);
-        $superadmin->assignRole('admin');
+        $kabps->assignRole('coordinator');
 
         $coordinator = User::create([
             'name' => 'Tio',

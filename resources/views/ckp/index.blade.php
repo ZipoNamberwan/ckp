@@ -76,7 +76,7 @@
                                 <td>{{$loop->iteration}}</td>
                                 <td><b>{{$ckp->month->name}}</b></td>
                                 <td>
-                                    {{$ckp->status->name_1}}
+                                    <h3><span class="badge badge-{{$ckp->status->color}}">{{$ckp->status->name_1}}</span></h3>
                                 </td>
                                 <td>
                                     <a href="{{url('/ckps/'.$ckp->id.'/edit')}}" class="btn btn-outline-info  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Entri CKP">

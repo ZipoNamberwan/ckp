@@ -58,14 +58,6 @@
       <div class="navbar-inner">
         <!-- Collapse -->
         <div class="collapse navbar-collapse" id="sidenav-collapse-main">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="/pages/widgets.html">
-                <i class="fas fa-home text-primary"></i>
-                <span class="nav-link-text">Dashboard</span>
-              </a>
-            </li>
-          </ul>
           @role('staf|coordinator|subcoordinator')
           <!-- Divider -->
           <hr class="my-3">
@@ -134,7 +126,7 @@
             @endrole
             @role('admin')
             <li class="nav-item">
-              <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard/docs/components/alerts.html">
+              <a class="nav-link" href="{{url('/settings')}}">
                 <i class="fas fa-tools"></i>
                 <span class="nav-link-text">Pengaturan</span>
               </a>
