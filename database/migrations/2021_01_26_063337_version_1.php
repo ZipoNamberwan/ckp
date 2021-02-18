@@ -51,6 +51,7 @@ class Version1 extends Migration
             $table->decimal('target')->nullable();
             $table->decimal('real')->nullable();
             $table->decimal('quality')->nullable();
+            $table->string('credit')->nullable();
             $table->string('note')->nullable();
             $table->timestamps();
             $table->softDeletes();

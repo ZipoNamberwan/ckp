@@ -14,7 +14,7 @@
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="#"><i class="ni ni-app"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">User</li>
+                            <li class="breadcrumb-item active" aria-current="page">Unit Kerja</li>
                         </ol>
                     </nav>
                 </div>
@@ -52,10 +52,10 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h2 class="mb-0">Daftar User</h2>
+                            <h2 class="mb-0">Daftar Unit Kerja</h2>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="{{url('/users/create')}}" class="btn btn-primary btn-round btn-icon mb-2" data-toggle="tooltip" data-original-title="Tambah User">
+                            <a href="{{url('/departments/create')}}" class="btn btn-primary btn-round btn-icon mb-2" data-toggle="tooltip" data-original-title="Tambah User">
                                 <span class="btn-inner--icon"><i class="fas fa-plus-circle"></i></span>
                                 <span class="btn-inner--text">Tambah</span>
                             </a>
@@ -67,27 +67,23 @@
                         <thead class="thead-light">
                             <tr>
                                 <th width="5%">#</th>
-                                <th width="30%">Nama</th>
-                                <th width="15%">Email</th>
-                                <th width="15%">Unit</th>
+                                <th width="30%">Unit Kerja</th>
                                 <th width="10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($users as $user)
+                            @foreach($departments as $department)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td><b>{{$user->name}}</b></td>
-                                <td>{{$user->email}}</td>
-                                <td>{{$user->department->name}}</td>
+                                <td><b>{{$department->name}}</b></td>
                                 <td> 
-                                    <a href="{{url('/users/'.$user->id.'/edit')}}" class="btn btn-outline-info  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Ubah Data">
+                                    <a href="{{url('/departments/'.$department->id.'/edit')}}" class="btn btn-outline-info  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Ubah Data">
                                         <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>
                                     </a>
-                                    <form class="d-inline" id="formdelete{{$user->id}}" name="formdelete{{$user->id}}" onsubmit="deleteuser('{{$user->id}}','{{$user->name}}')" method="POST" action="{{url('/users/'.$user->id)}}">
+                                    <form class="d-inline" id="formdelete{{$department->id}}" name="formdelete{{$department->id}}" onsubmit="deletedepartment('{{$department->id}}','{{$department->name}}')" method="POST" action="{{url('/departments/'.$department->id)}}">
                                         @method('delete')
                                         @csrf
-                                        <button class="btn btn-icon btn-outline-danger btn-sm" type="submit" data-toggle="tooltip" data-original-title="Hapus User">
+                                        <button class="btn btn-icon btn-outline-danger btn-sm" type="submit" data-toggle="tooltip" data-original-title="Hapus Unit Kerja">
                                             <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
                                         </button>
                                     </form>
@@ -104,28 +100,8 @@
 @endsection
 
 @section('optionaljs')
-<script src="/assets/vendor/sweetalert2/dist/sweetalert2.js"></script>
 <script src="/assets/vendor/datatables2/datatables.min.js"></script>
-
-<script>
-    function deleteuser($id, $name) {
-        event.preventDefault();
-        Swal.fire({
-            title: 'Yakin Hapus User Ini?',
-            text: "*CKP " + $name + " akan hilang semua",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('formdelete' + $id).submit();
-            }
-        })
-    }
-</script>
+<script src="/assets/vendor/sweetalert2/dist/sweetalert2.js"></script>
 
 <script>
     var table = $('#datatable-id').DataTable({
@@ -141,4 +117,34 @@
         }
     });
 </script>
+
+<script>
+    function deletedepartment(id, name) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Yakin Hapus Unit Kerja Ini?',
+            text: name,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('formdelete' + id).submit();
+            }
+        })
+    }
+</script>
+
+@if (session('error-delete'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal Hapus',
+        text: "{{session('error-delete')}}",
+    });
+</script>
+@endif
 @endsection

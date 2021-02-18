@@ -21,6 +21,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resources(['settings' => 'App\Http\Controllers\SettingController']);
     Route::resources(['users' => 'App\Http\Controllers\UserController']);
+    Route::resources(['departments' => 'App\Http\Controllers\DepartmentController']);
+
+    Route::delete('/years/{year}', [App\Http\Controllers\SettingController::class, 'destroyYear']);
+    Route::patch('/years/{year}', [App\Http\Controllers\SettingController::class, 'updateYear']);
+    Route::get('/years/create', [App\Http\Controllers\SettingController::class, 'createYear']);
+    Route::get('/years/{year}/edit', [App\Http\Controllers\SettingController::class, 'editYear']);
+    Route::post('/years', [App\Http\Controllers\SettingController::class, 'storeYear']);
 
     Route::group(['middleware' => ['role:coordinator|subcoordinator']], function () {
         Route::resources(['ratings' => 'App\Http\Controllers\RatingController']);

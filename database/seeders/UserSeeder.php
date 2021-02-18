@@ -50,16 +50,22 @@ class UserSeeder extends Seeder
             'parent_id' => $ipds->id
         ]);
 
+        $stafjrs = Department::create([
+            'name' => 'Staf JRS',
+            'position' => '1',
+            'parent_id' => $jrs->id,
+        ]);
+
         $dls = Department::create([
             'name' => 'Sub Koordinator DLS',
             'position' => '3',
             'parent_id' => $ipds->id
         ]);
 
-        $stafjrs = Department::create([
-            'name' => 'Staf JRS',
-            'position' => '1',
-            'parent_id' => $jrs->id,
+        $stafdls = Department::create([
+            'name' => 'Staf DLS',
+            'position' => '3',
+            'parent_id' => $dls->id
         ]);
 
         $superadmin = User::create([
@@ -123,6 +129,14 @@ class UserSeeder extends Seeder
             'email' => 'stephen@bps.go.id',
             'password' => bcrypt('123456'),
             'department_id' => $stafipd->id,
+        ]);
+        $staf3->assignRole('staf');
+
+        $staf4 = User::create([
+            'name' => 'Minan',
+            'email' => 'minan@bps.go.id',
+            'password' => bcrypt('123456'),
+            'department_id' => $stafdls->id,
         ]);
         $staf3->assignRole('staf');
     }

@@ -19,9 +19,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title>Argon Dashboard PRO - Premium Bootstrap 4 Admin Template</title>
+  <title>CKP Online - BPS Provinsi NTT</title>
   <!-- Favicon -->
-  <link rel="icon" href="/assets/img/brand/favicon.png" type="image/png">
+  <link rel="icon" href="/assets/img/brand/ckp logo.png" type="image/png">
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   <!-- Icons -->
@@ -41,8 +41,8 @@
     <div class="scrollbar-inner">
       <!-- Brand -->
       <div class="sidenav-header d-flex align-items-center">
-        <a class="navbar-brand" href="/pages/dashboards/dashboard.html">
-          <img src="/assets/img/brand/blue.png" class="navbar-brand-img" alt="...">
+        <a class="navbar-brand" href="/">
+          <img src="/assets/img/brand/ckp logo 2.png" class="navbar-brand-img" alt="...">
         </a>
         <div class="ml-auto">
           <!-- Sidenav toggler -->
@@ -126,6 +126,12 @@
             @endrole
             @role('admin')
             <li class="nav-item">
+              <a class="nav-link" href="{{url('/departments')}}">
+                <i class="fas fa-building"></i>
+                <span class="nav-link-text">Unit Kerja</span>
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{{url('/settings')}}">
                 <i class="fas fa-tools"></i>
                 <span class="nav-link-text">Pengaturan</span>
@@ -179,7 +185,7 @@
                   <i class="ni ni-zoom-split-in"></i>
                 </a>
               </li>
-              <li class="nav-item dropdown">
+              {{-- <li class="nav-item dropdown">
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="ni ni-bell-55"></i>
                 </a>
@@ -289,7 +295,7 @@
                   <!-- View all -->
                   <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
                 </div>
-              </li>
+              </li> --}}
             </ul>
             <ul class="navbar-nav align-items-center ml-auto ml-md-0">
               <li class="nav-item dropdown">
