@@ -75,7 +75,7 @@ class RatingController extends Controller
 
         $ckp = $rating;
 
-        $activities = $rating->ckp->activities;
+        $activities = $rating->ckp->activitiesR;
 
         return view('assess.entrickp', compact('activities', 'ckp'));
     }

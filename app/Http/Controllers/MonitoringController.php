@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CkpR;
+use App\Models\Ckp;
 use App\Models\Month;
 use Auth;
 
@@ -23,7 +23,7 @@ class MonitoringController extends Controller
         $statuses = collect();
 
         foreach ($users as $user) {
-            $statuses = $statuses->merge([CkpR::where(['user_id' => $user->id, 'year_id' => '1'])->orderBy('month_id', 'ASC')->get()]);
+            $statuses = $statuses->merge([Ckp::where(['user_id' => $user->id, 'year_id' => '1'])->orderBy('month_id', 'ASC')->get()]);
         }
 
         return view('monitoring.index', compact(['months', 'users', 'statuses']));

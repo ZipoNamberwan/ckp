@@ -94,27 +94,27 @@
                                     <tr>
                                         <td colspan="7"><b>Kegiatan Utama</b></td>
                                     </tr>
-                                    @for($i = 0; $i < count($ckp->activities); $i++) @if($ckp->activities[$i]->type =='main' ) <tr>
+                                    @for($i = 0; $i < count($ckp->activitiesR); $i++) @if($ckp->activitiesR[$i]->type =='main' ) <tr>
                                         <td>{{$i}}</td>
-                                        <td class="px-1">{{$ckp->activities[$i]->name}}<input type="hidden" name="activitytype[]" value="{{$ckp->activities[$i]->type}}">
+                                        <td class="px-1">{{$ckp->activitiesR[$i]->name}}<input type="hidden" name="activitytype[]" value="{{$ckp->activitiesR[$i]->type}}">
                                             <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i)}}">
                                         </td>
                                         <td class="px-1">
-                                            {{$ckp->activities[$i]->unit}}
+                                            {{$ckp->activitiesR[$i]->unit}}
                                         </td>
                                         <td class="px-1">
-                                            {{$ckp->activities[$i]->target}}                                        
+                                            {{$ckp->activitiesR[$i]->target}}                                        
                                         </td>
                                         <td class="px-1">
-                                            {{$ckp->activities[$i]->real}}                                        
+                                            {{$ckp->activitiesR[$i]->real}}                                        
                                         </td>
                                         <td class="px-1">
                                             @if($ckp->status->id == '5')
-                                            {{$ckp->activities[$i]->quality}}
+                                            {{$ckp->activitiesR[$i]->quality}}
                                             @endif
                                         </td>
                                         <td class="px-1">
-                                            {{$ckp->activities[$i]->note}}                                        
+                                            {{$ckp->activitiesR[$i]->note}}                                        
                                         </td>
                                         </tr>
                                         @endif
@@ -122,27 +122,27 @@
                                     <tr>
                                         <td colspan="7"><b>Kegiatan Tambahan</b></td>
                                     </tr>
-                                    @for($i = 0; $i < count($ckp->activities); $i++) @if($ckp->activities[$i]->type =='additional' ) <tr>
+                                    @for($i = 0; $i < count($ckp->activitiesR); $i++) @if($ckp->activitiesR[$i]->type =='additional' ) <tr>
                                         <td>{{$i}}</td>
-                                        <td class="px-1">{{$ckp->activities[$i]->name}}<input type="hidden" name="activitytype[]" value="{{$ckp->activities[$i]->type}}">
+                                        <td class="px-1">{{$ckp->activitiesR[$i]->name}}<input type="hidden" name="activitytype[]" value="{{$ckp->activitiesR[$i]->type}}">
                                             <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i)}}">
                                         </td>
                                         <td class="px-1">
-                                            {{$ckp->activities[$i]->unit}}
+                                            {{$ckp->activitiesR[$i]->unit}}
                                         </td>
                                         <td class="px-1">
-                                            {{$ckp->activities[$i]->target}}                                        
+                                            {{$ckp->activitiesR[$i]->target}}                                        
                                         </td>
                                         <td class="px-1">
-                                            {{$ckp->activities[$i]->real}}                                        
+                                            {{$ckp->activitiesR[$i]->real}}                                        
                                         </td>
                                         <td class="px-1">
                                             @if($ckp->status->id == '5')
-                                            {{$ckp->activities[$i]->quality}}
+                                            {{$ckp->activitiesR[$i]->quality}}
                                             @endif
                                         </td>
                                         <td class="px-1">
-                                            {{$ckp->activities[$i]->note}}                                        
+                                            {{$ckp->activitiesR[$i]->note}}                                        
                                         </td>
                                         </tr>
                                         @endif

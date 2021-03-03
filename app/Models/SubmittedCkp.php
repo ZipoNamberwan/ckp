@@ -20,7 +20,7 @@ class SubmittedCkp extends Model
 
     public function ckp()
     {
-        return $this->belongsTo(CkpR::class, 'ckp_r_id');
+        return $this->belongsTo(Ckp::class, 'ckp_id');
     }
 
     public function status()

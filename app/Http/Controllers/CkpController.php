@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ActivityCkpR;
-use App\Models\CkpR;
+use App\Models\ActivityCkpT;
+use App\Models\Ckp;
 use App\Models\Month;
 use App\Models\SubmittedCkp;
 use App\Models\User;
@@ -39,7 +40,7 @@ class CkpController extends Controller
         }
 
         foreach ($months as $month) {
-            CkpR::firstOrCreate(
+            Ckp::firstOrCreate(
                 [
                     'user_id' => $user->id,
                     'year_id' => $currentyear->id,
@@ -51,7 +52,7 @@ class CkpController extends Controller
             );
         }
 
-        $ckps = CkpR::where(['user_id' => $user->id, 'year_id' => $currentyear->id])->orderBy('month_id', 'asc')->get();
+        $ckps = Ckp::where(['user_id' => $user->id, 'year_id' => $currentyear->id])->orderBy('month_id', 'asc')->get();
 
         return view('ckp.index', compact('ckps', 'months', 'currentyear', 'years'));
     }
@@ -68,7 +69,7 @@ class CkpController extends Controller
         }
 
         foreach ($months as $month) {
-            CkpR::firstOrCreate(
+            Ckp::firstOrCreate(
                 [
                     'user_id' => $user->id,
                     'year_id' => $currentyear->id,
@@ -80,7 +81,7 @@ class CkpController extends Controller
             );
         }
 
-        $ckps = CkpR::where(['user_id' => $user->id, 'year_id' => $currentyear->id])->orderBy('month_id', 'asc')->get();
+        $ckps = Ckp::where(['user_id' => $user->id, 'year_id' => $currentyear->id])->orderBy('month_id', 'asc')->get();
 
         return view('ckp.index', compact('ckps', 'months', 'currentyear', 'years'));
     }
@@ -112,7 +113,7 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(CkpR $ckp)
+    public function show(Ckp $ckp)
     {
         $department = Auth::user()->department;
         $users = $department->getAllChildrenUsers();
@@ -135,13 +136,22 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(CkpR $ckp)
+    public function editCkpT(Ckp $ckp)
     {
         if (Auth::user()->id != $ckp->user->id) {
             abort(403);
         }
 
-        return view('ckp.entrickp', compact('ckp'));
+        return view('ckp.entrickpt', compact('ckp'));
+    }
+
+    public function editCkpR(Ckp $ckp)
+    {
+        if (Auth::user()->id != $ckp->user->id) {
+            abort(403);
+        }
+
+        return view('ckp.entrickpr', compact('ckp'));
     }
 
     /**
@@ -151,7 +161,7 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CkpR $ckp)
+    public function updateCkpR(Request $request, Ckp $ckp)
     {
         if ($request->issend == "1") {
             $request->validate([
@@ -166,7 +176,7 @@ class CkpController extends Controller
 
             $submittedckp = new SubmittedCkp;
             $submittedckp->assessor_id = User::where('department_id', $ckp->user->department->parent->id)->first()->id;
-            $submittedckp->ckp_r_id = $ckp->id;
+            $submittedckp->ckp_id = $ckp->id;
             $submittedckp->status_id = '3';
             $submittedckp->save();
         } else {
@@ -190,14 +200,45 @@ class CkpController extends Controller
             $activity->real = $request->activityreal[$i];
             $activity->note = $request->activitynote[$i];
             $activity->quality = '100';
-            $activity->ckp_r_id = $ckp->id;
+            $activity->ckp_id = $ckp->id;
             $activity->save();
         }
 
         if ($request->issend == "1") {
             return redirect('/ckps')->with('success-send', 'CKP sudah dikirim dan sedang dalam proses penilaian!');
         } else {
-            return redirect('/ckps/' . $ckp->id . '/edit')->with('success-save', 'CKP sudah disimpan!');
+            return redirect('/ckps/ckpr/' . $ckp->id . '/edit')->with('success-save', 'CKP-R sudah disimpan!');
+        }
+    }
+
+    public function updateCkpT(Request $request, Ckp $ckp)
+    {
+
+        $ckp->status_id = '2';
+        $ckp->save();
+
+        if ($request->removedactivity) {
+            ActivityCkpT::whereIn('id', $request->removedactivity)->delete();
+        }
+
+        for ($i = 0; $i < count($request->activityname); $i++) {
+            $activity = new ActivityCkpT();
+            if ($request->activityid[$i]) {
+                $activity = ActivityCkpT::find($request->activityid[$i]);
+            }
+            $activity->type = $request->activitytype[$i];
+            $activity->name = $request->activityname[$i];
+            $activity->unit = $request->activityunit[$i];
+            $activity->target = $request->activitytarget[$i];
+            $activity->note = $request->activitynote[$i];
+            $activity->ckp_id = $ckp->id;
+            $activity->save();
+        }
+
+        if ($request->issend == "1") {
+            return redirect('/ckps')->with('success-send', 'CKP sudah dikirim dan sedang dalam proses penilaian!');
+        } else {
+            return redirect('/ckps/ckpt/' . $ckp->id . '/edit')->with('success-save', 'CKP-T sudah disimpan!');
         }
     }
 
@@ -214,12 +255,12 @@ class CkpController extends Controller
 
     public function deleteAllActivities(Request $request)
     {
-        $ckp = CkpR::find($request->id);
+        $ckp = Ckp::find($request->id);
         if ($ckp->status_id != '5') {
-            ActivityCkpR::where('ckp_r_id', $ckp->id)->delete();
+            ActivityCkpR::where('ckp_id', $ckp->id)->delete();
             $ckp->status_id = '1';
             $ckp->save();
-            $submittedCkps = SubmittedCkp::where(['status_id' => '3', 'ckp_r_id' => $ckp->id])->get();
+            $submittedCkps = SubmittedCkp::where(['status_id' => '3', 'ckp_id' => $ckp->id])->get();
             foreach ($submittedCkps as $submittedCkp) {
                 $submittedCkp->delete();
             }
