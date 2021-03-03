@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ckp extends Model
+class CkpR extends Model
 {
     use HasFactory;
-    protected $table = 'ckp';
+    protected $table = 'ckp_r';
     protected $guarded = [];
 
     public function month()
@@ -33,6 +33,6 @@ class Ckp extends Model
 
     public function activities()
     {
-        return $this->hasMany(ActivityCkp::class, 'ckp_id');
+        return $this->hasMany(ActivityCkpR::class, 'ckp_r_id');
     }
 }

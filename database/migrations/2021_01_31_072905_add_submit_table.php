@@ -16,7 +16,7 @@ class AddSubmitTable extends Migration
         Schema::create('submitted_ckp', function (Blueprint $table) {
             $table->id()->autoincrement();
             $table->foreignId('assessor_id')->constrained('users');
-            $table->foreignId('ckp_id')->constrained('ckp');
+            $table->foreignId('ckp_r_id')->constrained('ckp_r');
             $table->foreignId('status_id')->constrained('statuses');
             $table->timestamps();
             $table->softDeletes();

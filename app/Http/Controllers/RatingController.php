@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivityCkp;
+use App\Models\ActivityCkpR;
 use App\Models\SubmittedCkp;
 use Auth;
 use Illuminate\Http\Request;
@@ -95,7 +95,7 @@ class RatingController extends Controller
             ]);
 
             for ($i = 0; $i < count($request->activityid); $i++) {
-                $activity = ActivityCkp::find($request->activityid[$i]);
+                $activity = ActivityCkpR::find($request->activityid[$i]);
                 $activity->quality = $request->activityquality[$i];
                 $activity->save();
             }

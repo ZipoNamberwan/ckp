@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 //require 'vendor/autoload.php';
 
-use App\Models\ActivityCkp;
-use App\Models\Ckp;
+use App\Models\ActivityCkpR;
+use App\Models\CkpR;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 use App\Models\Month;
@@ -19,14 +19,14 @@ class DownloadController extends Controller
 
     public function download(Request $request)
     {
-        $ckp = Ckp::where(['year_id' => $request->year, 'month_id' => $request->month, 'user_id' => Auth::user()->id,])->get()->first();
+        $ckp = CkpR::where(['year_id' => $request->year, 'month_id' => $request->month, 'user_id' => Auth::user()->id,])->get()->first();
         $year = Year::find($request->year);
         $month = Month::find($request->month);
 
         if ($ckp) {
             $assessor = User::where('department_id', $ckp->user->department->parent->id)->first();
             $user = Auth::user();
-            $activities = ActivityCkp::where(['ckp_id' => $ckp->id])->get();
+            $activities = ActivityCkpR::where(['ckp_r_id' => $ckp->id])->get();
 
             if (count($activities) > 0) {
 

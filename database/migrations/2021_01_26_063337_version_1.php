@@ -33,7 +33,7 @@ class Version1 extends Migration
             $table->string('color')->nullable();
         });
 
-        Schema::create('ckp', function (Blueprint $table) {
+        Schema::create('ckp_r', function (Blueprint $table) {
             $table->id()->autoincrement();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('year_id')->constrained('years');
@@ -42,9 +42,9 @@ class Version1 extends Migration
             $table->timestamps();
         });
 
-        Schema::create('activity_ckp', function (Blueprint $table) {
+        Schema::create('activity_ckp_r', function (Blueprint $table) {
             $table->id()->autoincrement();
-            $table->foreignId('ckp_id')->constrained('ckp');
+            $table->foreignId('ckp_r_id')->constrained('ckp_r');
             $table->enum('type', ['main', 'additional'])->nullable();
             $table->string('name')->nullable();
             $table->string('unit')->nullable();

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivityCkp;
-use App\Models\Ckp;
+use App\Models\ActivityCkpR;
+use App\Models\CkpR;
 use App\Models\Month;
 use App\Models\SubmittedCkp;
 use App\Models\User;
@@ -29,7 +29,6 @@ class CkpController extends Controller
      */
     public function index()
     {
-
         $user = Auth::user();
         $months = Month::all();
         $years = Year::all();
@@ -40,7 +39,7 @@ class CkpController extends Controller
         }
 
         foreach ($months as $month) {
-            Ckp::firstOrCreate(
+            CkpR::firstOrCreate(
                 [
                     'user_id' => $user->id,
                     'year_id' => $currentyear->id,
@@ -52,7 +51,7 @@ class CkpController extends Controller
             );
         }
 
-        $ckps = Ckp::where(['user_id' => $user->id, 'year_id' => $currentyear->id])->orderBy('month_id', 'asc')->get();
+        $ckps = CkpR::where(['user_id' => $user->id, 'year_id' => $currentyear->id])->orderBy('month_id', 'asc')->get();
 
         return view('ckp.index', compact('ckps', 'months', 'currentyear', 'years'));
     }
@@ -69,7 +68,7 @@ class CkpController extends Controller
         }
 
         foreach ($months as $month) {
-            Ckp::firstOrCreate(
+            CkpR::firstOrCreate(
                 [
                     'user_id' => $user->id,
                     'year_id' => $currentyear->id,
@@ -81,7 +80,7 @@ class CkpController extends Controller
             );
         }
 
-        $ckps = Ckp::where(['user_id' => $user->id, 'year_id' => $currentyear->id])->orderBy('month_id', 'asc')->get();
+        $ckps = CkpR::where(['user_id' => $user->id, 'year_id' => $currentyear->id])->orderBy('month_id', 'asc')->get();
 
         return view('ckp.index', compact('ckps', 'months', 'currentyear', 'years'));
     }
@@ -113,18 +112,10 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Ckp $ckp)
+    public function show(CkpR $ckp)
     {
         $department = Auth::user()->department;
-        $users = collect();
-        foreach ($department->allchildren as $bidang) {
-            $users = $users->merge($bidang->users);
-            if ($bidang->allchildren) {
-                foreach ($bidang->allchildren as $seksi) {
-                    $users = $users->merge($seksi->users);
-                }
-            }
-        }
+        $users = $department->getAllChildrenUsers();
         $isallowed = false;
         foreach ($users as $user) {
             if ($user->id == $ckp->user->id) {
@@ -144,7 +135,7 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ckp $ckp)
+    public function edit(CkpR $ckp)
     {
         if (Auth::user()->id != $ckp->user->id) {
             abort(403);
@@ -160,9 +151,8 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ckp $ckp)
+    public function update(Request $request, CkpR $ckp)
     {
-
         if ($request->issend == "1") {
             $request->validate([
                 'activityname.*' => 'required',
@@ -176,7 +166,7 @@ class CkpController extends Controller
 
             $submittedckp = new SubmittedCkp;
             $submittedckp->assessor_id = User::where('department_id', $ckp->user->department->parent->id)->first()->id;
-            $submittedckp->ckp_id = $ckp->id;
+            $submittedckp->ckp_r_id = $ckp->id;
             $submittedckp->status_id = '3';
             $submittedckp->save();
         } else {
@@ -185,13 +175,13 @@ class CkpController extends Controller
         }
 
         if ($request->removedactivity) {
-            ActivityCkp::whereIn('id', $request->removedactivity)->delete();
+            ActivityCkpR::whereIn('id', $request->removedactivity)->delete();
         }
 
         for ($i = 0; $i < count($request->activityname); $i++) {
-            $activity = new ActivityCkp;
+            $activity = new ActivityCkpR();
             if ($request->activityid[$i]) {
-                $activity = ActivityCkp::find($request->activityid[$i]);
+                $activity = ActivityCkpR::find($request->activityid[$i]);
             }
             $activity->type = $request->activitytype[$i];
             $activity->name = $request->activityname[$i];
@@ -200,7 +190,7 @@ class CkpController extends Controller
             $activity->real = $request->activityreal[$i];
             $activity->note = $request->activitynote[$i];
             $activity->quality = '100';
-            $activity->ckp_id = $ckp->id;
+            $activity->ckp_r_id = $ckp->id;
             $activity->save();
         }
 
@@ -224,12 +214,12 @@ class CkpController extends Controller
 
     public function deleteAllActivities(Request $request)
     {
-        $ckp = Ckp::find($request->id);
+        $ckp = CkpR::find($request->id);
         if ($ckp->status_id != '5') {
-            ActivityCkp::where('ckp_id', $ckp->id)->delete();
+            ActivityCkpR::where('ckp_r_id', $ckp->id)->delete();
             $ckp->status_id = '1';
             $ckp->save();
-            $submittedCkps = SubmittedCkp::where(['status_id' => '3', 'ckp_id' => $ckp->id])->get();
+            $submittedCkps = SubmittedCkp::where(['status_id' => '3', 'ckp_r_id' => $ckp->id])->get();
             foreach ($submittedCkps as $submittedCkp) {
                 $submittedCkp->delete();
             }
