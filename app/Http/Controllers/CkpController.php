@@ -138,18 +138,17 @@ class CkpController extends Controller
      */
     public function editCkpT(Ckp $ckp)
     {
-        if (Auth::user()->id != $ckp->user->id) {
-            abort(403);
-        }
+        if (Auth::user()->id != $ckp->user->id) abort(403);
+
 
         return view('ckp.entrickpt', compact('ckp'));
     }
 
     public function editCkpR(Ckp $ckp)
     {
-        if (Auth::user()->id != $ckp->user->id) {
-            abort(403);
-        }
+        if ($ckp->status->id < 3) abort(404);
+
+        if (Auth::user()->id != $ckp->user->id) abort(403);
 
         return view('ckp.entrickpr', compact('ckp'));
     }
@@ -171,16 +170,16 @@ class CkpController extends Controller
                 'activityreal.*' => 'required|numeric|min:0',
             ]);
 
-            $ckp->status_id = '3';
+            $ckp->status_id = '5';
             $ckp->save();
 
             $submittedckp = new SubmittedCkp;
             $submittedckp->assessor_id = User::where('department_id', $ckp->user->department->parent->id)->first()->id;
             $submittedckp->ckp_id = $ckp->id;
-            $submittedckp->status_id = '3';
+            $submittedckp->status_id = '5';
             $submittedckp->save();
         } else {
-            $ckp->status_id = '2';
+            $ckp->status_id = '4';
             $ckp->save();
         }
 
@@ -213,9 +212,19 @@ class CkpController extends Controller
 
     public function updateCkpT(Request $request, Ckp $ckp)
     {
+        if ($request->issend == "1") {
+            $request->validate([
+                'activityname.*' => 'required',
+                'activityunit.*' => 'required',
+                'activitytarget.*' => 'required|numeric|min:0',
+            ]);
 
-        $ckp->status_id = '2';
-        $ckp->save();
+            $ckp->status_id = '3';
+            $ckp->save();
+        } else {
+            $ckp->status_id = '2';
+            $ckp->save();
+        }
 
         if ($request->removedactivity) {
             ActivityCkpT::whereIn('id', $request->removedactivity)->delete();
