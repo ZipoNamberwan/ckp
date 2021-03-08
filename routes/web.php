@@ -38,7 +38,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/ckps/year/{year}', [App\Http\Controllers\CkpController::class, 'ckpByYear']);
         Route::post('/ckps/deleteallactivities', [App\Http\Controllers\CkpController::class, 'deleteAllActivities']);
         //Route::resources(['ckps' => 'App\Http\Controllers\CkpController']);
+
         Route::get('/ckps', [App\Http\Controllers\CkpController::class, 'index']);
+        Route::get('/ckps/{ckp}', [App\Http\Controllers\CkpController::class, 'show']);
         Route::get('/ckps/ckpt/{ckp}/edit', [App\Http\Controllers\CkpController::class, 'editCkpT']);
         Route::get('/ckps/ckpr/{ckp}/edit', [App\Http\Controllers\CkpController::class, 'editCkpR']);
         Route::patch('/ckps/ckpt/{ckp}', [App\Http\Controllers\CkpController::class, 'updateCkpT']);

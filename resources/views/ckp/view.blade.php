@@ -38,117 +38,242 @@
                     </div>
                 </div>
                 <div class="card-body pb-0">
-                    <div class="col">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h5 class="mb-0">
-                                    Satuan Organisasi
-                                </h5>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#ckpt" role="tab" data-toggle="tab">CKP-T</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#ckpr" role="tab" data-toggle="tab">CKP-R</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="ckpt">
+                            <div class="col mt-3">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h5 class="mb-0">
+                                            Satuan Organisasi
+                                        </h5>
+                                    </div>
+                                    <div class="col-auto">
+                                        <h5>
+                                            : {{$ckp->user->department->name}}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h5 class="mb-0">
+                                            Nama
+                                        </h5>
+                                    </div>
+                                    <div class="col-auto">
+                                        <h5>
+                                            : {{$ckp->user->name}}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h5 class="mb-0">
+                                            Periode
+                                        </h5>
+                                    </div>
+                                    <div class="col-auto">
+                                        <h5>
+                                            : {{$ckp->month->name}} {{$ckp->year->name}}
+                                        </h5>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <h5>
-                                    : {{$ckp->user->department->name}}
-                                </h5>
+                            <div id="selection-container">
+                                <div class="table-responsive py-2">
+                                    <table class="table" width="90%" id="ckp-table-t">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="3%">No</th>
+                                                <th width="30%" class="px-1">Nama Kegiatan</th>
+                                                <th width="7%" class="px-1">Satuan</th>
+                                                <th width="7%" class="px-1">Target Kuantitas</th>
+                                                <th width="7%" class="px-1">Target Angka Kredit</th>
+                                                <th width="15%" class="px-1">Keterangan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="7"><b>Kegiatan Utama</b></td>
+                                            </tr>
+                                            @for($i = 0; $i < count($ckp->activitiesT); $i++) @if($ckp->activitiesT[$i]->type =='main' ) <tr>
+                                                    <td>{{$i}}</td>
+                                                    <td class="px-1">{{$ckp->activitiesT[$i]->name}}<input type="hidden" name="activitytype[]" value="{{$ckp->activitiesT[$i]->type}}">
+                                                        <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i)}}">
+                                                    </td>
+                                                    <td class="px-1">
+                                                        {{$ckp->activitiesT[$i]->unit}}
+                                                    </td>
+                                                    <td class="px-1">
+                                                        {{$ckp->activitiesT[$i]->target}}
+                                                    </td>
+                                                    <td class="px-1">
+                                                        {{$ckp->activitiesT[$i]->credit}}
+                                                    </td>
+                                                    <td class="px-1">
+                                                        {{$ckp->activitiesT[$i]->note}}
+                                                    </td>
+                                                </tr>
+                                                @endif
+                                                @endfor
+                                                <tr>
+                                                    <td colspan="7"><b>Kegiatan Tambahan</b></td>
+                                                </tr>
+                                                @for($i = 0; $i < count($ckp->activitiesT); $i++) @if($ckp->activitiesT[$i]->type =='additional' ) <tr>
+                                                        <td>{{$i}}</td>
+                                                        <td class="px-1">{{$ckp->activitiesT[$i]->name}}<input type="hidden" name="activitytype[]" value="{{$ckp->activitiesT[$i]->type}}">
+                                                            <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i)}}">
+                                                        </td>
+                                                        <td class="px-1">
+                                                            {{$ckp->activitiesT[$i]->unit}}
+                                                        </td>
+                                                        <td class="px-1">
+                                                            {{$ckp->activitiesT[$i]->target}}
+                                                        </td>
+                                                        <td class="px-1">
+                                                            {{$ckp->activitiesT[$i]->credit}}
+                                                        </td>
+                                                        <td class="px-1">
+                                                            {{$ckp->activitiesT[$i]->note}}
+                                                        </td>
+                                                    </tr>
+                                                    @endif
+                                                    @endfor
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h5 class="mb-0">
-                                    Nama
-                                </h5>
+                        <div role="tabpanel" class="tab-pane fade" id="ckpr">
+                            <div class="col mt-3">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h5 class="mb-0">
+                                            Satuan Organisasi
+                                        </h5>
+                                    </div>
+                                    <div class="col-auto">
+                                        <h5>
+                                            : {{$ckp->user->department->name}}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h5 class="mb-0">
+                                            Nama
+                                        </h5>
+                                    </div>
+                                    <div class="col-auto">
+                                        <h5>
+                                            : {{$ckp->user->name}}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h5 class="mb-0">
+                                            Periode
+                                        </h5>
+                                    </div>
+                                    <div class="col-auto">
+                                        <h5>
+                                            : {{$ckp->month->name}} {{$ckp->year->name}}
+                                        </h5>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <h5>
-                                    : {{$ckp->user->name}}
-                                </h5>
+                            <div id="selection-container">
+                                <div class="table-responsive py-2">
+                                    <table class="table" width="90%" id="ckp-table-r">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="3%">No</th>
+                                                <th width="30%" class="px-1">Nama Kegiatan</th>
+                                                <th width="7%" class="px-1">Satuan</th>
+                                                <th width="7%" class="px-1">Target</th>
+                                                <th width="7%" class="px-1">Realisasi</th>
+                                                <th width="7%" class="px-1">Kualitas</th>
+                                                <th width="7%" class="px-1">Capaian Angka Kredit</th>
+                                                <th width="15%" class="px-1">Keterangan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="7"><b>Kegiatan Utama</b></td>
+                                            </tr>
+                                            @for($i = 0; $i < count($ckp->activitiesR); $i++) @if($ckp->activitiesR[$i]->type =='main' ) <tr>
+                                                    <td>{{$i}}</td>
+                                                    <td class="px-1">{{$ckp->activitiesR[$i]->name}}<input type="hidden" name="activitytype[]" value="{{$ckp->activitiesR[$i]->type}}">
+                                                        <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i)}}">
+                                                    </td>
+                                                    <td class="px-1">
+                                                        {{$ckp->activitiesR[$i]->unit}}
+                                                    </td>
+                                                    <td class="px-1">
+                                                        {{$ckp->activitiesR[$i]->target}}
+                                                    </td>
+                                                    <td class="px-1">
+                                                        {{$ckp->activitiesR[$i]->real}}
+                                                    </td>
+                                                    <td class="px-1">
+                                                        @if($ckp->status->id == '7')
+                                                        {{$ckp->activitiesR[$i]->quality}}
+                                                        @endif
+                                                    </td>
+                                                    <td class="px-1">
+                                                        {{$ckp->activitiesR[$i]->credit}}
+                                                    </td>
+                                                    <td class="px-1">
+                                                        {{$ckp->activitiesR[$i]->note}}
+                                                    </td>
+                                                </tr>
+                                                @endif
+                                                @endfor
+                                                <tr>
+                                                    <td colspan="7"><b>Kegiatan Tambahan</b></td>
+                                                </tr>
+                                                @for($i = 0; $i < count($ckp->activitiesR); $i++) @if($ckp->activitiesR[$i]->type =='additional' ) <tr>
+                                                        <td>{{$i}}</td>
+                                                        <td class="px-1">{{$ckp->activitiesR[$i]->name}}<input type="hidden" name="activitytype[]" value="{{$ckp->activitiesR[$i]->type}}">
+                                                            <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i)}}">
+                                                        </td>
+                                                        <td class="px-1">
+                                                            {{$ckp->activitiesR[$i]->unit}}
+                                                        </td>
+                                                        <td class="px-1">
+                                                            {{$ckp->activitiesR[$i]->target}}
+                                                        </td>
+                                                        <td class="px-1">
+                                                            {{$ckp->activitiesR[$i]->real}}
+                                                        </td>
+                                                        <td class="px-1">
+                                                            @if($ckp->status->id == '7')
+                                                            {{$ckp->activitiesR[$i]->quality}}
+                                                            @endif
+                                                        </td>
+                                                        <td class="px-1">
+                                                            {{$ckp->activitiesR[$i]->credit}}
+                                                        </td>
+                                                        <td class="px-1">
+                                                            {{$ckp->activitiesR[$i]->note}}
+                                                        </td>
+                                                    </tr>
+                                                    @endif
+                                                    @endfor
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h5 class="mb-0">
-                                    Periode
-                                </h5>
-                            </div>
-                            <div class="col-auto">
-                                <h5>
-                                    : {{$ckp->month->name}} {{$ckp->year->name}}
-                                </h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="selection-container">
-                        <div class="table-responsive py-2">
-                            <table class="table" width="90%" id="ckp-table">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th width="3%">No</th>
-                                        <th width="30%" class="px-1">Nama Kegiatan</th>
-                                        <th width="7%" class="px-1">Satuan</th>
-                                        <th width="7%" class="px-1">Target</th>
-                                        <th width="7%" class="px-1">Realisasi</th>
-                                        <th width="4%" class="px-1">Kualitas</th>
-                                        <th width="15%" class="px-1">Keterangan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="7"><b>Kegiatan Utama</b></td>
-                                    </tr>
-                                    @for($i = 0; $i < count($ckp->activitiesR); $i++) @if($ckp->activitiesR[$i]->type =='main' ) <tr>
-                                        <td>{{$i}}</td>
-                                        <td class="px-1">{{$ckp->activitiesR[$i]->name}}<input type="hidden" name="activitytype[]" value="{{$ckp->activitiesR[$i]->type}}">
-                                            <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i)}}">
-                                        </td>
-                                        <td class="px-1">
-                                            {{$ckp->activitiesR[$i]->unit}}
-                                        </td>
-                                        <td class="px-1">
-                                            {{$ckp->activitiesR[$i]->target}}                                        
-                                        </td>
-                                        <td class="px-1">
-                                            {{$ckp->activitiesR[$i]->real}}                                        
-                                        </td>
-                                        <td class="px-1">
-                                            @if($ckp->status->id == '5')
-                                            {{$ckp->activitiesR[$i]->quality}}
-                                            @endif
-                                        </td>
-                                        <td class="px-1">
-                                            {{$ckp->activitiesR[$i]->note}}                                        
-                                        </td>
-                                        </tr>
-                                        @endif
-                                        @endfor
-                                    <tr>
-                                        <td colspan="7"><b>Kegiatan Tambahan</b></td>
-                                    </tr>
-                                    @for($i = 0; $i < count($ckp->activitiesR); $i++) @if($ckp->activitiesR[$i]->type =='additional' ) <tr>
-                                        <td>{{$i}}</td>
-                                        <td class="px-1">{{$ckp->activitiesR[$i]->name}}<input type="hidden" name="activitytype[]" value="{{$ckp->activitiesR[$i]->type}}">
-                                            <input type="hidden" name="activityid[]" value="{{old('activityid.'.$i)}}">
-                                        </td>
-                                        <td class="px-1">
-                                            {{$ckp->activitiesR[$i]->unit}}
-                                        </td>
-                                        <td class="px-1">
-                                            {{$ckp->activitiesR[$i]->target}}                                        
-                                        </td>
-                                        <td class="px-1">
-                                            {{$ckp->activitiesR[$i]->real}}                                        
-                                        </td>
-                                        <td class="px-1">
-                                            @if($ckp->status->id == '5')
-                                            {{$ckp->activitiesR[$i]->quality}}
-                                            @endif
-                                        </td>
-                                        <td class="px-1">
-                                            {{$ckp->activitiesR[$i]->note}}                                        
-                                        </td>
-                                        </tr>
-                                        @endif
-                                        @endfor
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -161,8 +286,7 @@
 @section('optionaljs')
 
 <script>
-    function reindex() {
-        var table = document.getElementById('ckp-table');
+    function reindex(table) {
         var startmain = 1;
         var startadd = 1;
         for (var i = 1; i < table.rows.length; i++) {
@@ -178,6 +302,7 @@
         }
     }
 
-    reindex();
+    reindex(document.getElementById('ckp-table-t'));
+    reindex(document.getElementById('ckp-table-r'));
 </script>
 @endsection

@@ -101,8 +101,8 @@ class RatingController extends Controller
             }
 
             $ckp = $rating->ckp;
-            $ckp->status_id = "5";
-            $rating->status_id = "5";
+            $ckp->status_id = "7";
+            $rating->status_id = "7";
             $ckp->save();
             $rating->save();
 
@@ -113,8 +113,9 @@ class RatingController extends Controller
             );
         } else {
             $ckp = $rating->ckp;
-            $ckp->status_id = "4";
-            $rating->status_id = "4";
+            $ckp->status_id = "6";
+            $ckp->note = $request->reasonreject;
+            $rating->status_id = "6";
             $ckp->save();
             $rating->save();
 

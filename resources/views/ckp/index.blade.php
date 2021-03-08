@@ -51,23 +51,31 @@
                         </div>
                         <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true" style="display: none;">
                             <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h6 class="modal-title" id="modal-title-default">FAQ</h6>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                  </button>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title" id="modal-title-default">FAQ</h6>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>1. Mengapa saya tidak bisa mengentri CKP-R?</strong></p>
+                                        <p> Entri CKP-T terlebih dahulu</p>
+                                        <p><strong>2. Bagaimana cara memperbaiki CKP-T yang sudah di-FINALISASI?</strong></p>
+                                        <p> Gunakan tombol <i class="fas fa-pen-square"></i> Perbaiki</p>
+                                        <p><strong>3. Bagaimana cara memperbaiki CKP-R yang sudah di-KIRIM?</strong></p>
+                                        <p> Gunakan tombol <i class="fas fa-window-close"></i> Batal Kirim</p>
+                                        <p><strong>4. Bagaimana cara memperbaiki CKP-R yang sudah di-NILAI?</strong></p>
+                                        <p> Tidak bisa diperbaiki, pastikan CKP sudah benar sebelum dikirim dan dinilai</p>
+                                        <p><strong>5. Apakah ada batas waktu pengentrian CKP setiap bulannya?</strong></p>
+                                        <p> Tidak ada</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+                                    </div>
                                 </div>
-                                <div class="modal-body">
-                                  <p>1. Apa</p>
-                                  <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
-                                </div>
-                              </div>
                             </div>
-                          </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row mx-3 my-3">
@@ -86,9 +94,9 @@
                         <thead class="thead-light">
                             <tr>
                                 <th width="10%">#</th>
-                                <th width="30%">Bulan</th>
+                                <th width="10%">Bulan</th>
                                 <th width="20%">Status</th>
-                                <th width="20%">Aksi</th>
+                                <th width="15%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -98,6 +106,7 @@
                                 <td><b>{{$ckp->month->name}}</b></td>
                                 <td>
                                     <h3><span class="badge badge-{{$ckp->status->color}}">{{$ckp->status->name_1}}</span></h3>
+                                    @if($ckp->note) Alasan: {{$ckp->note}} @endif
                                 </td>
                                 <td>
                                     <a href="{{url('/ckps/ckpt/'.$ckp->id.'/edit')}}" class="btn btn-outline-info btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Entri CKP-T">
@@ -109,7 +118,7 @@
                                     </a>
                                     @endif
                                     {{-- <button onclick="deleteallactivities('{{$ckp->id}}', '{{$ckp->month->name}}')" class="btn btn-icon btn-outline-danger btn-sm" type="button" data-toggle="tooltip" data-original-title="Hapus Data">
-                                        <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
+                                    <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
                                     </button> --}}
                                 </td>
                             </tr>

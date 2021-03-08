@@ -74,9 +74,11 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td><b>{{$ckp->ckp->user->name}}</b> mengirim CKP <b>{{$ckp->ckp->month->name}} {{$ckp->ckp->year->name}}</b></td>
-                                <td><h3><span class="badge badge-{{$ckp->status->color}}">{{$ckp->status->name_2}}</span></h3></td>
+                                <td>
+                                    <h3><span class="badge badge-{{$ckp->status->color}}">{{$ckp->status->name_2}}</span></h3>
+                                </td>
                                 <td>{{$ckp->created_at}}</td>
-                                <td> @if($ckp->status->id != '4' && $ckp->status->id != '5')<a href="{{url('ratings/'.$ckp->id.'/edit')}}" class="btn btn-outline-info  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Isi Penilaian">
+                                <td> @if($ckp->status->id != '6' && $ckp->status->id != '7')<a href="{{url('ratings/'.$ckp->id.'/edit')}}" class="btn btn-outline-info  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Isi Penilaian">
                                         <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>
                                     </a>@endif</td>
                             </tr>

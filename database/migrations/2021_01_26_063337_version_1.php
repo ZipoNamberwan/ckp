@@ -39,6 +39,7 @@ class Version1 extends Migration
             $table->foreignId('year_id')->constrained('years');
             $table->foreignId('month_id')->constrained('months');
             $table->foreignId('status_id')->constrained('statuses')->default('1');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
 
@@ -51,7 +52,7 @@ class Version1 extends Migration
             $table->decimal('target')->nullable();
             $table->decimal('real')->nullable();
             $table->decimal('quality')->nullable();
-            $table->string('credit')->nullable();
+            $table->double('credit')->nullable();
             $table->string('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -64,7 +65,7 @@ class Version1 extends Migration
             $table->string('name')->nullable();
             $table->string('unit')->nullable();
             $table->decimal('target')->nullable();
-            $table->string('credit')->nullable();
+            $table->double('credit')->nullable();
             $table->string('note')->nullable();
             $table->timestamps();
             $table->softDeletes();

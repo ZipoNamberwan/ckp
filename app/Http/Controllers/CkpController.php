@@ -150,6 +150,22 @@ class CkpController extends Controller
 
         if (Auth::user()->id != $ckp->user->id) abort(403);
 
+        if (count($ckp->activitiesR) == 0) {
+            foreach ($ckp->activitiesT as $activityT) {
+                $activityR = new ActivityCkpR();
+                $activityR->type = $activityT->type;
+                $activityR->name = $activityT->name;
+                $activityR->unit = $activityT->unit;
+                $activityR->target = $activityT->target;
+                $activityR->note = $activityT->note;
+                $activityR->credit = $activityT->credit;
+                $activityR->quality = '100';
+                $activityR->ckp_id = $ckp->id;
+                $activityR->save();
+            }
+        }
+        $ckp = $ckp->fresh();
+
         return view('ckp.entrickpr', compact('ckp'));
     }
 
@@ -171,6 +187,7 @@ class CkpController extends Controller
             ]);
 
             $ckp->status_id = '5';
+            $ckp->note = null;
             $ckp->save();
 
             $submittedckp = new SubmittedCkp;
@@ -180,7 +197,15 @@ class CkpController extends Controller
             $submittedckp->save();
         } else {
             $ckp->status_id = '4';
+            $ckp->note = null;
             $ckp->save();
+            if ($request->issendcancel == "1") {
+                $submittedCkps = SubmittedCkp::where(['status_id' => '5', 'ckp_id' => $ckp->id])->get();
+                foreach ($submittedCkps as $submittedCkp) {
+                    $submittedCkp->delete();
+                }
+                return redirect('/ckps/ckpr/' . $ckp->id . '/edit')->with('success-send', 'CKP ' . $ckp->month->name . ' ' . $ckp->year->name . ' sudah siap untuk diperbaiki');
+            }
         }
 
         if ($request->removedactivity) {
@@ -198,6 +223,7 @@ class CkpController extends Controller
             $activity->target = $request->activitytarget[$i];
             $activity->real = $request->activityreal[$i];
             $activity->note = $request->activitynote[$i];
+            $activity->credit = $request->activitycredit[$i];
             $activity->quality = '100';
             $activity->ckp_id = $ckp->id;
             $activity->save();
@@ -224,6 +250,9 @@ class CkpController extends Controller
         } else {
             $ckp->status_id = '2';
             $ckp->save();
+            if ($request->isfix == "1") {
+                return redirect('/ckps/ckpt/' . $ckp->id . '/edit')->with('success-send', 'CKP ' . $ckp->month->name . ' ' . $ckp->year->name . ' sudah siap untuk diperbaiki');
+            }
         }
 
         if ($request->removedactivity) {
@@ -240,12 +269,13 @@ class CkpController extends Controller
             $activity->unit = $request->activityunit[$i];
             $activity->target = $request->activitytarget[$i];
             $activity->note = $request->activitynote[$i];
+            $activity->credit = $request->activitycredit[$i];
             $activity->ckp_id = $ckp->id;
             $activity->save();
         }
 
         if ($request->issend == "1") {
-            return redirect('/ckps')->with('success-send', 'CKP sudah dikirim dan sedang dalam proses penilaian!');
+            return redirect('/ckps')->with('success-send', 'CKP-T ' . $ckp->month->name . ' ' . $ckp->year->name . ' sudah final. Entri CKP-R sudah bisa dilakukan');
         } else {
             return redirect('/ckps/ckpt/' . $ckp->id . '/edit')->with('success-save', 'CKP-T sudah disimpan!');
         }
@@ -262,28 +292,28 @@ class CkpController extends Controller
     //     //
     // }
 
-    public function deleteAllActivities(Request $request)
-    {
-        $ckp = Ckp::find($request->id);
-        if ($ckp->status_id != '5') {
-            ActivityCkpR::where('ckp_id', $ckp->id)->delete();
-            $ckp->status_id = '1';
-            $ckp->save();
-            $submittedCkps = SubmittedCkp::where(['status_id' => '3', 'ckp_id' => $ckp->id])->get();
-            foreach ($submittedCkps as $submittedCkp) {
-                $submittedCkp->delete();
-            }
-            $status = array(
-                'issuccess' => true,
-                'message' => 'Semua Kegiatan Berhasil Dihapus'
-            );
-            return response()->json($status);
-        } else {
-            $status = array(
-                'issuccess' => false,
-                'message' => 'CKP yang Sudah Dinilai Tidak Bisa Dihapus'
-            );
-            return response()->json($status);
-        }
-    }
+    // public function deleteAllActivities(Request $request)
+    // {
+    //     $ckp = Ckp::find($request->id);
+    //     if ($ckp->status_id != '5') {
+    //         ActivityCkpR::where('ckp_id', $ckp->id)->delete();
+    //         $ckp->status_id = '1';
+    //         $ckp->save();
+    //         $submittedCkps = SubmittedCkp::where(['status_id' => '3', 'ckp_id' => $ckp->id])->get();
+    //         foreach ($submittedCkps as $submittedCkp) {
+    //             $submittedCkp->delete();
+    //         }
+    //         $status = array(
+    //             'issuccess' => true,
+    //             'message' => 'Semua Kegiatan Berhasil Dihapus'
+    //         );
+    //         return response()->json($status);
+    //     } else {
+    //         $status = array(
+    //             'issuccess' => false,
+    //             'message' => 'CKP yang Sudah Dinilai Tidak Bisa Dihapus'
+    //         );
+    //         return response()->json($status);
+    //     }
+    // }
 }

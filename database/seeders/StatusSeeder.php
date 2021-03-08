@@ -14,10 +14,10 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
-//         1. Belum Entri CKP-T/Belum Entri CKP-T
-// 2. Sedang Entri CKP-T/Sedang Entri CKP-T
-// 3. Sudah Final CKP-T / Belum Entri CKP-R
-// 4. Sedang Entri CKP-R/Sedang Entri CKP-R
+        //         1. Belum Entri CKP-T/Belum Entri CKP-T
+        // 2. Sedang Entri CKP-T/Sedang Entri CKP-T
+        // 3. Sudah Final CKP-T / Belum Entri CKP-R
+        // 4. Sedang Entri CKP-R/Sedang Entri CKP-R
 
         StatusCkp::create([
             'name_1' => 'Belum Entri CKP-T',
@@ -40,17 +40,17 @@ class StatusSeeder extends Seeder
             'color' => 'primary',
         ]);
         StatusCkp::create([
-            'name_1' => 'Submit',
+            'name_1' => 'Sudah Kirim',
             'name_2' => 'Belum Dinilai',
             'color' => 'info',
         ]);
         StatusCkp::create([
-            'name_1' => 'Rejected',
-            'name_2' => 'Rejected',
+            'name_1' => 'Ditolak',
+            'name_2' => 'Ditolak',
             'color' => 'danger',
         ]);
         StatusCkp::create([
-            'name_1' => 'Approved',
+            'name_1' => 'Sudah Dinilai',
             'name_2' => 'Sudah Dinilai',
             'color' => 'success',
         ]);

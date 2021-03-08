@@ -45,7 +45,7 @@
     @elseif($ckp->status_id > 2)
     <div class="alert alert-info alert-dismissible fade show" role="alert">
         <span class="alert-icon"><i class="fas fa-check-circle"></i></span>
-        <span class="alert-text">CKP-T tidak bisa diubah karena sudah finalisasi</span>
+        <span class="alert-text">CKP-T tidak bisa diubah karena sudah finalisasi. Gunakan Tombol Perbaiki untuk Memperbaiki CKP-T</span>
     </div>
     @endif
     <!-- Table -->
@@ -73,7 +73,8 @@
                                                 <th width="3%">No</th>
                                                 <th width="30%" class="px-1">Nama Kegiatan</th>
                                                 <th width="7%" class="px-1">Satuan</th>
-                                                <th width="7%" class="px-1">Target</th>
+                                                <th width="7%" class="px-1">Target Kuantitas</th>
+                                                <th width="7%" class="px-1">Target Angka Kredit</th>
                                                 <th width="15%" class="px-1">Keterangan</th>
                                             </tr>
                                         </thead>
@@ -99,6 +100,13 @@
                                                 </td>
                                                 <td class="px-1"><input class="form-control" type="number" min="0" id="activitytarget[]" name="activitytarget[]" @if(old('activitytarget.0')) value="{{old('activitytarget.0')}}" @elseif(count($ckp->activitiesT) > 0) value="{{$ckp->activitiesT[0]->target}}" @endif @if($ckp->status_id > 2) disabled @endif>
                                                     @error('activitytarget.0')
+                                                    <div class="error-feedback">
+                                                        kosong
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td class="px-1"><input class="form-control" type="number" min="0" id="activitycredit[]" name="activitycredit[]" @if(old('activitycredit.0')) value="{{old('activitycredit.0')}}" @elseif(count($ckp->activitiesT) > 0) value="{{$ckp->activitiesT[0]->credit}}" @endif @if($ckp->status_id > 2) disabled @endif>
+                                                    @error('activitycredit.0')
                                                     <div class="error-feedback">
                                                         kosong
                                                     </div>
@@ -131,6 +139,13 @@
                                                     </div>
                                                     @enderror
                                                 </td>
+                                                <td class="px-1"><input class="form-control" type="number" min="0" id="activitycredit[]" name="activitycredit[]" value="{{old('activitycredit.'.$i)}}">
+                                                    @error('activitycredit.'.$i)
+                                                    <div class="error-feedback">
+                                                        kosong
+                                                    </div>
+                                                    @enderror
+                                                </td>
                                                 <td class="pl-1 pr-5"><input class="form-control d-inline mr-2" type="text" id="activitynote[]" name="activitynote[]" value="{{old('activitynote.'.$i)}}"><button id="btnName{{$i}}" onclick="removeactivity('btnName{{$i}}','main')" class="btn btn-icon btn-sm btn-outline-danger d-inline" type="button">
                                                         <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
                                                     </button>
@@ -146,6 +161,8 @@
                                                         <td class="px-1"><input class="form-control" type="text" id="activityunit[]" name="activityunit[]" value="{{$ckp->activitiesT[$i]->unit}}" @if($ckp->status_id > 2) disabled @endif>
                                                         </td>
                                                         <td class="px-1"><input class="form-control" type="number" min="0" id="activitytarget[]" name="activitytarget[]" value="{{$ckp->activitiesT[$i]->target}}" @if($ckp->status_id > 2) disabled @endif>
+                                                        </td>
+                                                        <td class="px-1"><input class="form-control" type="number" min="0" id="activitycredit[]" name="activitycredit[]" value="{{$ckp->activitiesT[$i]->credit}}" @if($ckp->status_id > 2) disabled @endif>
                                                         </td>
                                                         <td class="pl-1 pr-5"><input class="form-control d-inline mr-2" type="text" id="activitynote[]" name="activitynote[]" value="{{$ckp->activitiesT[$i]->note}}" @if($ckp->status_id > 2) disabled @endif><button id="btnName{{$i}}" onclick="removeactivity('btnName{{$i}}','main')" class="btn btn-icon btn-sm btn-outline-danger d-inline" type="button" @if($ckp->status_id > 2) disabled @endif>
                                                                 <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
@@ -190,6 +207,13 @@
                                                             </div>
                                                             @enderror
                                                         </td>
+                                                        <td class="px-1"><input class="form-control" type="number" min="0" id="activitycredit[]" name="activitycredit[]" value="{{old('activitycredit.'.$i)}}">
+                                                            @error('activitycredit.'.$i)
+                                                            <div class="error-feedback">
+                                                                kosong
+                                                            </div>
+                                                            @enderror
+                                                        </td>
                                                         <td class="pl-1 pr-5"><input class="form-control d-inline mr-2" type="text" id="activitynote[]" name="activitynote[]" value="{{old('activitynote.'.$i)}}"><button id="btnName{{$i}}" onclick="removeactivity('btnName{{$i}}','additional')" class="btn btn-icon btn-sm btn-outline-danger d-inline" type="button">
                                                                 <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
                                                             </button>
@@ -205,6 +229,8 @@
                                                                 <td class="px-1"><input class="form-control" type="text" id="activityunit[]" name="activityunit[]" value="{{$ckp->activitiesT[$i]->unit}}" @if($ckp->status_id > 2) disabled @endif>
                                                                 </td>
                                                                 <td class="px-1"><input class="form-control" type="number" min="0" id="activitytarget[]" name="activitytarget[]" value="{{$ckp->activitiesT[$i]->target}}" @if($ckp->status_id > 2) disabled @endif>
+                                                                </td>
+                                                                <td class="px-1"><input class="form-control" type="number" min="0" id="activitycredit[]" name="activitycredit[]" value="{{$ckp->activitiesT[$i]->credit}}" @if($ckp->status_id > 2) disabled @endif>
                                                                 </td>
                                                                 <td class="pl-1 pr-5"><input class="form-control d-inline mr-2" type="text" id="activitynote[]" name="activitynote[]" value="{{$ckp->activitiesT[$i]->note}}" @if($ckp->status_id > 2) disabled @endif><button id="btnName{{$i}}" onclick="removeactivity('btnName{{$i}}','additional')" class="btn btn-icon btn-sm btn-outline-danger d-inline" type="button" @if($ckp->status_id > 2) disabled @endif>
                                                                         <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
@@ -229,27 +255,27 @@
                         </div>
                     </div>
                     <input type="hidden" id="issend" name="issend" value="0">
+                    <input type="hidden" id="isfix" name="isfix" value="0">
                     <button onclick="onsave()" class="btn btn-icon btn-outline-primary ml-3 mb-3" type="button" @if($ckp->status_id > 2) disabled @endif>
                         <span class="btn-inner--icon"><i class="fas fa-save"></i></span>
                         <span class="btn-inner--text">Simpan</span>
                     </button>
-                    @if($ckp->status_id < 3)
-                    <button onclick="onfinal()" class="btn btn-icon btn-primary mb-3" type="button">
+                    @if($ckp->status_id < 3) <button onclick="onfinal()" class="btn btn-icon btn-primary mb-3" type="button">
                         <span class="btn-inner--icon"><i class="fas fa-check-circle"></i></span>
                         <span class="btn-inner--text">Finalisasi</span>
-                    </button>
-                    @endif
-                    @if($ckp->status_id > 2)
-                    <button onclick="onfix()" class="btn btn-icon btn-primary mb-3" type="button" @if($ckp->status_id > 4) disabled @endif>
-                        <span class="btn-inner--icon"><i class="fas fa-check-circle"></i></span>
-                        <span class="btn-inner--text">Perbaiki</span>
-                    </button>
-                    @endif
-                    @if (old('removedactivity'))
-                    @foreach(old('removedactivity') as $activity)
-                    <input type="hidden" id="removedactivity[]" name="removedactivity[]" value="{{$activity}}">
-                    @endforeach
-                    @endif
+                        </button>
+                        @endif
+                        @if($ckp->status_id > 2)
+                        <button onclick="onfix()" class="btn btn-icon btn-warning mb-3" type="button" @if($ckp->status_id > 4) disabled @endif>
+                            <span class="btn-inner--icon"><i class="fas fa-pen-square"></i></span>
+                            <span class="btn-inner--text">Perbaiki</span>
+                        </button>
+                        @endif
+                        @if (old('removedactivity'))
+                        @foreach(old('removedactivity') as $activity)
+                        <input type="hidden" id="removedactivity[]" name="removedactivity[]" value="{{$activity}}">
+                        @endforeach
+                        @endif
                 </form>
             </div>
         </div>
@@ -305,11 +331,13 @@
                 var cell2 = row.insertCell(1);
                 var cell3 = row.insertCell(2);
                 var cell4 = row.insertCell(3);
-                var cell7 = row.insertCell(4);
+                var cell5 = row.insertCell(4);
+                var cell7 = row.insertCell(5);
 
                 cell2.className = 'px-1';
                 cell3.className = 'px-1';
                 cell4.className = 'px-1';
+                cell5.className = 'px-1';
                 cell7.className = 'pl-1 pr-5';
 
                 if (type == 'main') {
@@ -322,6 +350,7 @@
 
                 cell3.innerHTML = "<input class='form-control' type='text' id='activityunit[]' name='activityunit[]'>";
                 cell4.innerHTML = "<input class='form-control' type='number' id='activitytarget[]' name='activitytarget[]'>";
+                cell5.innerHTML = "<input class='form-control' type='number' id='activitycredit[]' name='activitycredit[]'>";
 
                 var buttonid = Date.now();
                 if (type == 'main') {
@@ -347,8 +376,8 @@
                 var rowCount = table.rows.length;
                 for (var i = 1; i < rowCount; i++) {
                     var row = table.rows[i];
-                    if (row.cells[4]) {
-                        var rowObj = row.cells[4].childNodes[1];
+                    if (row.cells[5]) {
+                        var rowObj = row.cells[5].childNodes[1];
                         var rowId = row.cells[1].childNodes[2];
                         if (rowObj) {
                             if (rowObj.id == btnName) {
@@ -414,7 +443,8 @@
                     cancelButtonText: 'Tidak',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById('issend').value = "1";
+                        document.getElementById('issend').value = "0";
+                        document.getElementById('isfix').value = "1";
                         var form = document.getElementById('formupdate');
                         form.submit();
                     }
