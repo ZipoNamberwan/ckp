@@ -266,7 +266,7 @@
                         </button>
                         @endif
                         @if($ckp->status_id > 2)
-                        <button onclick="onfix()" class="btn btn-icon btn-warning mb-3" type="button" @if($ckp->status_id > 4) disabled @endif>
+                        <button onclick="onfix()" class="btn btn-icon btn-warning mb-3" type="button" @if($ckp->status_id == 5 || $ckp->status_id == 7) disabled @endif>
                             <span class="btn-inner--icon"><i class="fas fa-pen-square"></i></span>
                             <span class="btn-inner--text">Perbaiki</span>
                         </button>
