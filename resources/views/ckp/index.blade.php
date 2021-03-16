@@ -79,12 +79,12 @@
                                     <h3><span class="badge badge-{{$ckp->status->color}}">{{$ckp->status->name_1}}</span></h3>
                                 </td>
                                 <td>
-                                    <a href="{{url('/ckps/'.$ckp->id.'/edit')}}" class="btn btn-outline-info  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Entri CKP">
-                                        <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>
+                                    <a href="{{url('/ckps/ckpt/'.$ckp->id.'/edit')}}" class="btn btn-outline-info btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Entri CKP-T">
+                                        <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>CKP T
                                     </a>
-                                    <button onclick="deleteallactivities('{{$ckp->id}}', '{{$ckp->month->name}}')" class="btn btn-icon btn-outline-danger btn-sm" type="button" data-toggle="tooltip" data-original-title="Hapus Data">
-                                        <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
-                                    </button>
+                                    <a href="{{url('/ckps/ckpr/'.$ckp->id.'/edit')}}" class="btn btn-outline-primary  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Entri CKP-R">
+                                        <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>CKP R
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach

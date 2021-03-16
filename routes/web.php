@@ -37,7 +37,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['role:coordinator|subcoordinator|staf']], function () {
         Route::get('/ckps/year/{year}', [App\Http\Controllers\CkpController::class, 'ckpByYear']);
         Route::post('/ckps/deleteallactivities', [App\Http\Controllers\CkpController::class, 'deleteAllActivities']);
-        Route::resources(['ckps' => 'App\Http\Controllers\CkpController']);
+        //Route::resources(['ckps' => 'App\Http\Controllers\CkpController']);
+
+        Route::get('/ckps', [App\Http\Controllers\CkpController::class, 'index']);
+        Route::get('/ckps/{ckp}', [App\Http\Controllers\CkpController::class, 'show']);
+        Route::patch('/ckps/{type}/{ckp}/', [App\Http\Controllers\CkpController::class, 'update']);
+        Route::get('/ckps/{type}/{ckp}/edit', [App\Http\Controllers\CkpController::class, 'edit']);
         Route::get('/download', [App\Http\Controllers\DownloadController::class, 'index']);
         Route::post('/download', [App\Http\Controllers\DownloadController::class, 'download']);
     });

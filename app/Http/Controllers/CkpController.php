@@ -144,13 +144,19 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ckp $ckp)
+    public function edit($type, Ckp $ckp)
     {
         if (Auth::user()->id != $ckp->user->id) {
             abort(403);
         }
 
-        return view('ckp.entrickp', compact('ckp'));
+        if ($type == 'ckpr') {
+            return view('ckp.entrickpr', compact('ckp'));
+        } else if ($type == 'ckpt') {
+            return view('ckp.entrickpt', compact('ckp'));
+        } else {
+            abort(404);
+        }
     }
 
     /**
@@ -160,9 +166,8 @@ class CkpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ckp $ckp)
+    public function update(Request $request, $type, Ckp $ckp)
     {
-
         if ($request->issend == "1") {
             $request->validate([
                 'activityname.*' => 'required',
@@ -197,9 +202,11 @@ class CkpController extends Controller
             $activity->name = $request->activityname[$i];
             $activity->unit = $request->activityunit[$i];
             $activity->target = $request->activitytarget[$i];
-            $activity->real = $request->activityreal[$i];
+            if ($type == 'ckpr') {
+                $activity->real = $request->activityreal[$i];
+                $activity->quality = '100';
+            }
             $activity->note = $request->activitynote[$i];
-            $activity->quality = '100';
             $activity->ckp_id = $ckp->id;
             $activity->save();
         }
@@ -207,7 +214,13 @@ class CkpController extends Controller
         if ($request->issend == "1") {
             return redirect('/ckps')->with('success-send', 'CKP sudah dikirim dan sedang dalam proses penilaian!');
         } else {
-            return redirect('/ckps/' . $ckp->id . '/edit')->with('success-save', 'CKP sudah disimpan!');
+            if ($type == 'ckpt') {
+                return redirect('/ckps/ckpt/' . $ckp->id . '/edit')->with('success-save', 'CKP sudah disimpan!');
+            } else if ($type == 'ckpr') {
+                return redirect('/ckps/ckpr/' . $ckp->id . '/edit')->with('success-save', 'CKP sudah disimpan!');
+            } else {
+                abort(404);
+            }
         }
     }
 
