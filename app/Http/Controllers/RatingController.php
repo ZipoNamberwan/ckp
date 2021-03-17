@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivityCkpR;
+use App\Models\ActivityCkp;
 use App\Models\SubmittedCkp;
 use Auth;
 use Illuminate\Http\Request;
@@ -75,7 +75,7 @@ class RatingController extends Controller
 
         $ckp = $rating;
 
-        $activities = $rating->ckp->activitiesR;
+        $activities = $rating->ckp->activities;
 
         return view('assess.entrickp', compact('activities', 'ckp'));
     }
@@ -95,14 +95,14 @@ class RatingController extends Controller
             ]);
 
             for ($i = 0; $i < count($request->activityid); $i++) {
-                $activity = ActivityCkpR::find($request->activityid[$i]);
+                $activity = ActivityCkp::find($request->activityid[$i]);
                 $activity->quality = $request->activityquality[$i];
                 $activity->save();
             }
 
             $ckp = $rating->ckp;
-            $ckp->status_id = "7";
-            $rating->status_id = "7";
+            $ckp->status_id = "5";
+            $rating->status_id = "5";
             $ckp->save();
             $rating->save();
 
@@ -113,9 +113,8 @@ class RatingController extends Controller
             );
         } else {
             $ckp = $rating->ckp;
-            $ckp->status_id = "6";
-            $ckp->note = $request->reasonreject;
-            $rating->status_id = "6";
+            $ckp->status_id = "4";
+            $rating->status_id = "4";
             $ckp->save();
             $rating->save();
 

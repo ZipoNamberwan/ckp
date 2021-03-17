@@ -138,6 +138,6 @@ class UserSeeder extends Seeder
             'password' => bcrypt('123456'),
             'department_id' => $stafdls->id,
         ]);
-        $staf4->assignRole('staf');
+        $staf3->assignRole('staf');
     }
 }

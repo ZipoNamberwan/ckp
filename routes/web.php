@@ -41,10 +41,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/ckps', [App\Http\Controllers\CkpController::class, 'index']);
         Route::get('/ckps/{ckp}', [App\Http\Controllers\CkpController::class, 'show']);
-        Route::get('/ckps/ckpt/{ckp}/edit', [App\Http\Controllers\CkpController::class, 'editCkpT']);
-        Route::get('/ckps/ckpr/{ckp}/edit', [App\Http\Controllers\CkpController::class, 'editCkpR']);
-        Route::patch('/ckps/ckpt/{ckp}', [App\Http\Controllers\CkpController::class, 'updateCkpT']);
-        Route::patch('/ckps/ckpr/{ckp}', [App\Http\Controllers\CkpController::class, 'updateCkpR']);
+        Route::patch('/ckps/{type}/{ckp}/', [App\Http\Controllers\CkpController::class, 'update']);
+        Route::get('/ckps/{type}/{ckp}/edit', [App\Http\Controllers\CkpController::class, 'edit']);
         Route::get('/download', [App\Http\Controllers\DownloadController::class, 'index']);
         Route::post('/download', [App\Http\Controllers\DownloadController::class, 'download']);
     });

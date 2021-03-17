@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ActivityCkpT extends Model
+class ActivityCkp extends Model
 {
     use HasFactory;
-    protected $table = 'activity_ckp_t';
+    protected $table = 'activity_ckp';
     protected $guarded = [];
     use SoftDeletes;
 
@@ -19,6 +19,21 @@ class ActivityCkpT extends Model
     }
 
     public function getTargetAttribute($value)
+    {
+        if ($value) {
+            return $value + 0;
+        }
+        return $value;
+    }
+
+    public function getRealAttribute($value)
+    {
+        if ($value) {
+            return $value + 0;
+        }
+        return $value;
+    }
+    public function getQualityAttribute($value)
     {
         if ($value) {
             return $value + 0;

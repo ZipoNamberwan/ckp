@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ActivityCkpR;
-use App\Models\ActivityCkpT;
+use App\Models\ActivityCkp;
 use App\Models\Ckp;
 use Illuminate\Database\Seeder;
 
@@ -16,14 +15,14 @@ class CkpSeeder extends Seeder
      */
     public function run()
     {
-        $ckp =Ckp::create([
+        $ckp = Ckp::create([
             'user_id' => '6',
             'month_id' => '2',
             'year_id' => '1',
             'status_id' => '2',
         ]);
 
-        ActivityCkpR::create([
+        ActivityCkp::create([
             'ckp_id' => $ckp->id,
             'type' => 'main',
             'name' => 'Mengikuti pelatihan sakernas main',
@@ -34,7 +33,7 @@ class CkpSeeder extends Seeder
             'note' => 'test kegiatan'
         ]);
 
-        ActivityCkpR::create([
+        ActivityCkp::create([
             'ckp_id' => $ckp->id,
             'type' => 'main',
             'name' => 'Activity 2',
@@ -45,7 +44,7 @@ class CkpSeeder extends Seeder
             'note' => 'test kegiatan'
         ]);
 
-        ActivityCkpR::create([
+        ActivityCkp::create([
             'ckp_id' => $ckp->id,
             'type' => 'additional',
             'name' => 'Mengikuti pelatihan sakernas add',
@@ -53,34 +52,6 @@ class CkpSeeder extends Seeder
             'target' => '1',
             'real' => '1',
             'quality' => '100',
-            'note' => 'test kegiatan'
-        ]);
-
-        //
-        ActivityCkpT::create([
-            'ckp_id' => $ckp->id,
-            'type' => 'main',
-            'name' => 'Mengikuti pelatihan sakernas main CKP-T',
-            'unit' => 'Kegiatan',
-            'target' => '1',
-            'note' => 'test kegiatan'
-        ]);
-
-        ActivityCkpT::create([
-            'ckp_id' => $ckp->id,
-            'type' => 'main',
-            'name' => 'Activity 2 CKP-T',
-            'unit' => 'Kegiatan',
-            'target' => '1',
-            'note' => 'test kegiatan'
-        ]);
-
-        ActivityCkpT::create([
-            'ckp_id' => $ckp->id,
-            'type' => 'additional',
-            'name' => 'Mengikuti pelatihan sakernas add CKP-T',
-            'unit' => 'Kegiatan',
-            'target' => '1',
             'note' => 'test kegiatan'
         ]);
     }

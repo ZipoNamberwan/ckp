@@ -39,11 +39,10 @@ class Version1 extends Migration
             $table->foreignId('year_id')->constrained('years');
             $table->foreignId('month_id')->constrained('months');
             $table->foreignId('status_id')->constrained('statuses')->default('1');
-            $table->string('note')->nullable();
             $table->timestamps();
         });
 
-        Schema::create('activity_ckp_r', function (Blueprint $table) {
+        Schema::create('activity_ckp', function (Blueprint $table) {
             $table->id()->autoincrement();
             $table->foreignId('ckp_id')->constrained('ckp');
             $table->enum('type', ['main', 'additional'])->nullable();
@@ -52,20 +51,7 @@ class Version1 extends Migration
             $table->decimal('target')->nullable();
             $table->decimal('real')->nullable();
             $table->decimal('quality')->nullable();
-            $table->double('credit')->nullable();
-            $table->string('note')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        Schema::create('activity_ckp_t', function (Blueprint $table) {
-            $table->id()->autoincrement();
-            $table->foreignId('ckp_id')->constrained('ckp');
-            $table->enum('type', ['main', 'additional'])->nullable();
-            $table->string('name')->nullable();
-            $table->string('unit')->nullable();
-            $table->decimal('target')->nullable();
-            $table->double('credit')->nullable();
+            $table->string('credit')->nullable();
             $table->string('note')->nullable();
             $table->timestamps();
             $table->softDeletes();

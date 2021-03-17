@@ -37,12 +37,6 @@
                         <div class="col-6">
                             <h2 class="mb-0">Isi Penilaian CKP</h2>
                         </div>
-                        <div class="col-6 text-right">
-                            <a target="_blank" href="/ckps/{{$ckp->ckp->id}}" class="btn btn-outline-primary btn-round btn-icon mb-2" data-toggle="tooltip" data-original-title="Lihat CKP-T dan CKP-R">
-                                <span class="btn-inner--icon"><i class="fas fa-eye"></i></span>
-                                <span class="btn-inner--text">Lihat CKP</span>
-                            </a>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body pb-0">
@@ -100,8 +94,7 @@
                                                 <th width="7%" class="px-1">Satuan</th>
                                                 <th width="7%" class="px-1">Target</th>
                                                 <th width="7%" class="px-1">Realisasi</th>
-                                                <th width="7%" class="px-1">Kualitas</th>
-                                                <th width="4%" class="px-1">Angka Kredit</th>
+                                                <th width="4%" class="px-1">Kualitas</th>
                                                 <th width="15%" class="px-1">Keterangan</th>
                                             </tr>
                                         </thead>
@@ -133,9 +126,6 @@
                                                     @enderror
                                                 </td>
                                                 <td class="px-1">
-                                                    <input class="form-control" type="text" name="activitycredit[]" value="{{old('activitycredit.'.$i)}}" readonly>
-                                                </td>
-                                                <td class="px-1">
                                                     <input class="form-control" type="text" name="activitynote[]" value="{{old('activitynote.'.$i)}}" readonly>
                                                 </td>
                                                 </tr>
@@ -164,9 +154,6 @@
                                                                 error
                                                             </div>
                                                             @enderror
-                                                        </td>
-                                                        <td class="px-1">
-                                                            <input class="form-control" type="text" name="activitycredit[]" value="{{$activities[$i]->credit}}" readonly>
                                                         </td>
                                                         <td class="px-1">
                                                             <input class="form-control" type="text" name="activitynote[]" value="{{$activities[$i]->note}}" readonly>
@@ -202,9 +189,6 @@
                                                             @enderror
                                                         </td>
                                                         <td class="px-1">
-                                                            <input class="form-control" type="text" name="activityreal[]" value="{{old('activityreal.'.$i)}}" readonly>
-                                                        </td>
-                                                        <td class="px-1">
                                                             <input class="form-control" type="text" name="activitynote[]" value="{{old('activitynote.'.$i)}}" readonly>
                                                         </td>
                                                         </tr>
@@ -234,9 +218,6 @@
                                                                     @enderror
                                                                 </td>
                                                                 <td class="px-1">
-                                                                    <input class="form-control" type="text" name="activitytarget[]" value="{{$activities[$i]->target}}" readonly>
-                                                                </td>
-                                                                <td class="px-1">
                                                                     <input class="form-control" type="text" name="activitynote[]" value="{{$activities[$i]->note}}" readonly>
                                                                 </td>
                                                             </tr>
@@ -250,7 +231,6 @@
                         </div>
                     </div>
                     <input type="hidden" id="isapprove" name="isapprove" value="1">
-                    <input type="hidden" id="reasonreject" name="reasonreject">
                     <button onclick="onreject('{{$ckp->ckp->user->name}}')" class="btn btn-icon btn-outline-danger ml-3 mb-3" type="button">
                         <span class="btn-inner--icon"><i class="fas fa-times"></i></span>
                         <span class="btn-inner--text">Reject</span>
@@ -294,9 +274,8 @@
     function onreject(name) {
         Swal.fire({
             title: "Reject CKP?",
-            text: "*CKP akan dikembalikan ke " + name + ". Tulis alasan di bawah ini",
+            text: "*CKP akan dikembalikan ke " + name,
             icon: 'warning',
-            input: 'text',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
@@ -305,7 +284,6 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById('isapprove').value = "0";
-                document.getElementById('reasonreject').value = result.value;
                 var form = document.getElementById('formupdate');
                 form.submit();
             }

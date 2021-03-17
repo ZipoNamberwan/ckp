@@ -46,36 +46,6 @@
                         <div class="col-6">
                             <h2 class="mb-0">CKP {{$currentyear->name}}</h2>
                         </div>
-                        <div class="col-6 text-right">
-                            <button type="button" class="btn btn-primary btn-round btn-icon mb-2" data-toggle="modal" data-target="#modal-default"><i class="fas fa-question"></i></button>
-                        </div>
-                        <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true" style="display: none;">
-                            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h6 class="modal-title" id="modal-title-default">FAQ</h6>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p><strong>1. Mengapa saya tidak bisa mengentri CKP-R?</strong></p>
-                                        <p> Entri CKP-T terlebih dahulu</p>
-                                        <p><strong>2. Bagaimana cara memperbaiki CKP-T yang sudah di-FINALISASI?</strong></p>
-                                        <p> Gunakan tombol <i class="fas fa-pen-square"></i> Perbaiki</p>
-                                        <p><strong>3. Bagaimana cara memperbaiki CKP-R yang sudah di-KIRIM?</strong></p>
-                                        <p> Gunakan tombol <i class="fas fa-window-close"></i> Batal Kirim</p>
-                                        <p><strong>4. Bagaimana cara memperbaiki CKP-R yang sudah di-NILAI?</strong></p>
-                                        <p> Tidak bisa diperbaiki, pastikan CKP sudah benar sebelum dikirim dan dinilai</p>
-                                        <p><strong>5. Apakah ada batas waktu pengentrian CKP setiap bulannya?</strong></p>
-                                        <p> Tidak ada</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="form-row mx-3 my-3">
@@ -89,14 +59,15 @@
                         <button onclick="getckpbyyear()" class="btn btn-primary mt-3 d-inline" type="button">Tampilkan</button>
                     </div>
                 </div>
+
                 <div class="table-responsive py-4">
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
                                 <th width="10%">#</th>
-                                <th width="10%">Bulan</th>
+                                <th width="30%">Bulan</th>
                                 <th width="20%">Status</th>
-                                <th width="15%">Aksi</th>
+                                <th width="20%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,45 +77,19 @@
                                 <td><b>{{$ckp->month->name}}</b></td>
                                 <td>
                                     <h3><span class="badge badge-{{$ckp->status->color}}">{{$ckp->status->name_1}}</span></h3>
-                                    @if($ckp->note) Alasan: {{$ckp->note}} @endif
                                 </td>
                                 <td>
                                     <a href="{{url('/ckps/ckpt/'.$ckp->id.'/edit')}}" class="btn btn-outline-info btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Entri CKP-T">
                                         <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>CKP T
                                     </a>
-                                    @if($ckp->status->id > 2)
                                     <a href="{{url('/ckps/ckpr/'.$ckp->id.'/edit')}}" class="btn btn-outline-primary  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Entri CKP-R">
                                         <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>CKP R
                                     </a>
-                                    @endif
-                                    {{-- <button onclick="deleteallactivities('{{$ckp->id}}', '{{$ckp->month->name}}')" class="btn btn-icon btn-outline-danger btn-sm" type="button" data-toggle="tooltip" data-original-title="Hapus Data">
-                                    <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
-                                    </button> --}}
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                <div class="col ml-3 mb-3">
-                    <div class="row">
-                        <strong>Catatan:*</strong>
-                    </div>
-                    <div class="row">
-                        <p class="m-0">1. Entri CKP-T terlebih dahulu, kemudian entri CKP-R</p>
-                    </div>
-                    <div class="row">
-                        <p class="m-0">2. CKP-R baru bisa dientri jika CKP-T sudah <strong>FINALISASI</strong></p>
-                    </div>
-                    <div class="row">
-                        <p class="m-0">3. CKP-T yang sudah FINAL bisa diperbaiki menggunakan tombol <strong>PERBAIKI</strong></p>
-                    </div>
-                    <div class="row">
-                        <p class="m-0">4. Perbaikan CKP-T tidak menghapus data CKP-R, hanya tidak bisa akses CKP-R sampai finalisasi CKP-T lagi</p>
-                    </div>
-                    <div class="row">
-                        <p class="m-0">5. CKP-R yang sudah dientri bisa di-<strong>KIRIM</strong> untuk dinilai oleh atasan</p>
-                    </div>
                 </div>
             </div>
         </div>

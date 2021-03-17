@@ -31,13 +31,8 @@ class Ckp extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function activitiesR()
+    public function activities()
     {
-        return $this->hasMany(ActivityCkpR::class, 'ckp_id');
-    }
-
-    public function activitiesT()
-    {
-        return $this->hasMany(ActivityCkpT::class, 'ckp_id');
+        return $this->hasMany(ActivityCkp::class, 'ckp_id');
     }
 }
