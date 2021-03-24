@@ -24,7 +24,8 @@ class DownloadController extends Controller
         $month = Month::find($request->month);
 
         if ($ckp) {
-            $assessor = User::where('department_id', $ckp->user->department->parent->id)->first();
+            //$assessor = User::where('department_id', $ckp->user->department->parent->id)->first();
+            $assessor = $ckp->user->assessor;
             $user = Auth::user();
             $activities = ActivityCkp::where(['ckp_id' => $ckp->id])->get();
 
@@ -198,8 +199,8 @@ class DownloadController extends Controller
                 $row++;
                 $sheetT->mergeCells('B' . $row . ':C' . $row);
                 $sheetT->mergeCells('F' . $row . ':G' . $row);
-                $sheetT->setCellValue('B' . $row, $user->nip);
-                $sheetT->setCellValue('F' . $row, $assessor->nip);
+                $sheetT->setCellValue('B' . $row, 'NIP: ' . $user->nip);
+                $sheetT->setCellValue('F' . $row, 'NIP: ' . $assessor->nip);
                 $sheetT->getStyle('B' . $row . ':C' . $row)
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
@@ -438,8 +439,8 @@ class DownloadController extends Controller
                 $row++;
                 $sheetR->mergeCells('B' . $row . ':C' . $row);
                 $sheetR->mergeCells('H' . $row . ':I' . $row);
-                $sheetR->setCellValue('B' . $row, $user->nip);
-                $sheetR->setCellValue('H' . $row, $assessor->nip);
+                $sheetR->setCellValue('B' . $row, 'NIP: ' . $user->nip);
+                $sheetR->setCellValue('H' . $row, 'NIP: ' . $assessor->nip);
 
                 $sheetR->getStyle('B' . $row . ':C' . $row)
                     ->getAlignment()

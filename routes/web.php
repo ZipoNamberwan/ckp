@@ -29,12 +29,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/years/{year}/edit', [App\Http\Controllers\SettingController::class, 'editYear']);
     Route::post('/years', [App\Http\Controllers\SettingController::class, 'storeYear']);
 
-    Route::group(['middleware' => ['role:coordinator|subcoordinator']], function () {
+    Route::group(['middleware' => ['role:supervisor']], function () {
         Route::resources(['ratings' => 'App\Http\Controllers\RatingController']);
         Route::get('/monitoring', [App\Http\Controllers\MonitoringController::class, 'index']);
     });
 
-    Route::group(['middleware' => ['role:coordinator|subcoordinator|staf']], function () {
+    Route::group(['middleware' => ['role:supervisor|user']], function () {
         Route::get('/ckps/year/{year}', [App\Http\Controllers\CkpController::class, 'ckpByYear']);
         Route::post('/ckps/deleteallactivities', [App\Http\Controllers\CkpController::class, 'deleteAllActivities']);
         //Route::resources(['ckps' => 'App\Http\Controllers\CkpController']);

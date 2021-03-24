@@ -23,6 +23,8 @@ class ModifyUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('department_id')->constrained('departments');
             $table->string('avatar')->nullable();
+            $table->string('nip');
+            $table->foreignId('assessor_id')->nullable()->constrained('users');
         });
     }
 
@@ -35,8 +37,11 @@ class ModifyUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign('users_department_id_foreign');
+            $table->dropForeign('users_assessor_id_foreign');
             $table->dropColumn('department_id');
             $table->dropColumn('avatar');
+            $table->dropColumn('nip');
+            $table->dropColumn('assessor_id');
         });
 
         Schema::dropIfExists('departments');

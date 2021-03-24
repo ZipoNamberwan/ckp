@@ -72,6 +72,8 @@ class UserSeeder extends Seeder
             'name' => 'Administrator',
             'email' => 'admin@bps.go.id',
             'password' => bcrypt('123456'),
+            'nip' => '123456789',
+            //'assessor_id' => 1,
             'department_id' => $root->id,
         ]);
         $superadmin->assignRole('admin');
@@ -80,64 +82,80 @@ class UserSeeder extends Seeder
             'name' => 'Kepala BPS Provinsi NTT',
             'email' => 'kabps@bps.go.id',
             'password' => bcrypt('123456'),
+            'nip' => '123456789',
+            'assessor_id' => 1,
             'department_id' => $head->id,
         ]);
-        $kabps->assignRole('coordinator');
+        $kabps->assignRole('supervisor');
 
         $coordinator = User::create([
             'name' => 'Tio',
             'email' => 'tio@bps.go.id',
             'password' => bcrypt('123456'),
+            'nip' => '123456789',
+            'assessor_id' => 2,
             'department_id' => $ipds->id,
         ]);
-        $coordinator->assignRole('coordinator');
+        $coordinator->assignRole('supervisor');
 
         $subcoordinator = User::create([
             'name' => 'Iva',
             'email' => 'iva@bps.go.id',
             'password' => bcrypt('123456'),
+            'nip' => '123456789',
+            'assessor_id' => 3,
             'department_id' => $ipd->id,
         ]);
-        $subcoordinator->assignRole('subcoordinator');
+        $subcoordinator->assignRole('supervisor');
 
         $subcoordinator2 = User::create([
             'name' => 'Andri',
             'email' => 'andri@bps.go.id',
             'password' => bcrypt('123456'),
+            'nip' => '123456789',
+            'assessor_id' => 3,
             'department_id' => $jrs->id,
         ]);
-        $subcoordinator2->assignRole('subcoordinator');
+        $subcoordinator2->assignRole('supervisor');
 
         $staf = User::create([
             'name' => 'Indra',
             'email' => 'indra@bps.go.id',
             'password' => bcrypt('123456'),
+            'nip' => '123456789',
+            'assessor_id' => 4,
             'department_id' => $stafipd->id,
         ]);
-        $staf->assignRole('staf');
+        $staf->assignRole('user');
 
         $staf2 = User::create([
             'name' => 'Jati',
             'email' => 'jati@bps.go.id',
             'password' => bcrypt('123456'),
+            'nip' => '123456789',
+            'assessor_id' => 4,
             'department_id' => $stafipd->id,
         ]);
-        $staf2->assignRole('staf');
+        $staf2->assignRole('user');
 
         $staf3 = User::create([
             'name' => 'Stephen',
             'email' => 'stephen@bps.go.id',
             'password' => bcrypt('123456'),
+            'nip' => '123456789',
+            'assessor_id' => 4,
             'department_id' => $stafipd->id,
         ]);
-        $staf3->assignRole('staf');
+        $staf3->assignRole('user');
 
         $staf4 = User::create([
             'name' => 'Minan',
             'email' => 'minan@bps.go.id',
             'password' => bcrypt('123456'),
+            'nip' => '123456789',
+            'assessor_id' => 5,
             'department_id' => $stafdls->id,
         ]);
-        $staf3->assignRole('staf');
+        $staf4->assignRole('user');
     }
 }

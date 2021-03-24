@@ -22,7 +22,9 @@ class User extends Authenticatable
         'email',
         'password',
         'department_id',
-        'avatar'
+        'avatar',
+        'assessor_id',
+        'nip'
     ];
 
     /**
@@ -47,5 +49,10 @@ class User extends Authenticatable
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function assessor()
+    {
+        return $this->belongsTo(User::class, 'assessor_id');
     }
 }

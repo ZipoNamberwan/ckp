@@ -11,7 +11,8 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:coordinator|subcoordinator|admin');
+        //$this->middleware('role:supervisor|admin');
+        $this->middleware('role:admin');
     }
     /**
      * Display a listing of the resource.
@@ -35,8 +36,9 @@ class UserController extends Controller
         $department = Auth::user()->department;
 
         $departments = $department->getAllChildrenDepartment();
+        $users = User::where('id', '!=', '1')->get();
 
-        return view('user.create', compact('departments'));
+        return view('user.create', compact('departments', 'users'));
     }
 
     /**
@@ -52,14 +54,21 @@ class UserController extends Controller
             'email' => 'required|email',
             'department' => 'required',
             'password' => 'required|confirmed|min:6',
+            'assessor' => 'required',
+            'role' => 'required',
+            'nip' => 'required'
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'department_id' => $request->department,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'assessor_id' => $request->assessor,
+            'nip' => $request->nip
         ]);
+
+        $user->assignRole($request->role);
 
         return redirect('/users')->with('success-create', 'User telah ditambah!');
     }
@@ -86,8 +95,9 @@ class UserController extends Controller
         $department = Auth::user()->department;
 
         $departments = $department->getAllChildrenDepartment();
+        $users = User::where('id', '!=', '1')->get();
 
-        return view('user.edit', compact('departments', 'departments', 'user'));
+        return view('user.edit', compact('departments', 'departments', 'user', 'users'));
     }
 
     /**
@@ -102,7 +112,10 @@ class UserController extends Controller
         $validationArray = array(
             'name' => 'required',
             'email' => 'required|email',
-            'department' => 'required'
+            'department' => 'required',
+            'assessor' => 'required',
+            'role' => 'required',
+            'nip' => 'required'
         );
 
         if ($request->changepassword) {
@@ -115,6 +128,8 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'department_id' => $request->department,
+            'assessor_id' => $request->assessor,
+            'nip' => $request->nip
         );
 
         if ($request->changepassword) {
@@ -122,6 +137,8 @@ class UserController extends Controller
         }
 
         $user->update($updateArray);
+
+        $user->syncRoles($request->role);
 
         return redirect('/users')->with('success-edit', 'Data User telah diubah!');
     }

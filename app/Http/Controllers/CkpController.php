@@ -180,7 +180,8 @@ class CkpController extends Controller
             $ckp->save();
 
             $submittedckp = new SubmittedCkp;
-            $submittedckp->assessor_id = User::where('department_id', $ckp->user->department->parent->id)->first()->id;
+            //$submittedckp->assessor_id = User::where('department_id', $ckp->user->department->parent->id)->first()->id;
+            $submittedckp->assessor_id = $ckp->user->assessor->id;
             $submittedckp->ckp_id = $ckp->id;
             $submittedckp->status_id = '3';
             $submittedckp->save();
