@@ -142,8 +142,8 @@ class DownloadController extends Controller
                         $sheetT->setCellValue('B' . $row, $activities[$i]->name);
                         $sheetT->mergeCells('B' . $row . ':C' . $row);
                         $sheetT->setCellValue('D' . $row, $activities[$i]->unit);
-                        $sheetT->setCellValue('E' . $row, $activities[$i]->real);
-                        $sheetT->setCellValue('F' . $row, '');
+                        $sheetT->setCellValue('E' . $row, $activities[$i]->target);
+                        $sheetT->setCellValue('F' . $row, $activities[$i]->credit);
                         $sheetT->setCellValue('G' . $row, $activities[$i]->note);
                         $sheetT->getStyle('A' . $row . ':G' . $row)->applyFromArray($thinborderall);
                         $num++;
@@ -165,8 +165,8 @@ class DownloadController extends Controller
                         $sheetT->setCellValue('B' . $row, $activities[$i]->name);
                         $sheetT->mergeCells('B' . $row . ':C' . $row);
                         $sheetT->setCellValue('D' . $row, $activities[$i]->unit);
-                        $sheetT->setCellValue('E' . $row, $activities[$i]->real);
-                        $sheetT->setCellValue('F' . $row, '');
+                        $sheetT->setCellValue('E' . $row, $activities[$i]->target);
+                        $sheetT->setCellValue('F' . $row, $activities[$i]->credit);
                         $sheetT->setCellValue('G' . $row, $activities[$i]->note);
                         $sheetT->getStyle('A' . $row . ':G' . $row)->applyFromArray($thinborderall);
                         $num++;
@@ -331,19 +331,18 @@ class DownloadController extends Controller
                         $sheetR->setCellValue('E' . $row, $activities[$i]->target);
                         $sheetR->setCellValue('F' . $row, $activities[$i]->real);
                         $sheetR->setCellValue('G' . $row, $activities[$i]->real / $activities[$i]->target * 100);
-                        if ($ckp->status->id == '5') {
+                        if ($ckp->status->id == '7') {
                             $sheetR->setCellValue('H' . $row, $activities[$i]->quality);
                         } else {
                             $sheetR->setCellValue('H' . $row, '');
                         }
-                        $sheetR->setCellValue('I' . $row, '');
+                        $sheetR->setCellValue('I' . $row, $activities[$i]->credit);
                         $sheetR->setCellValue('J' . $row, $activities[$i]->note);
                         $sheetR->getStyle('A' . $row . ':J' . $row)->applyFromArray($thinborderall);
                         $num++;
                         $row++;
                     }
                 }
-
 
                 $sheetR->mergeCells('B' . $row . ':J' . $row);
                 $sheetR->setCellValue('B' . $row, 'TAMBAHAN');
@@ -352,7 +351,13 @@ class DownloadController extends Controller
                 $row++;
 
                 $num = 1;
+                $total_quality = 0;
+                $total_real = 0;
+                $total_credit = 0;
                 for ($i = 0; $i < count($activities); $i++) {
+                    $total_quality = $total_quality + $activities[$i]->quality;
+                    $total_real = $total_real + ($activities[$i]->real / $activities[$i]->target * 100);
+                    $total_credit = $total_credit + $activities[$i]->credit;
                     if ($activities[$i]->type == 'additional') {
                         $sheetR->setCellValue('A' . $row, $num);
                         $sheetR->setCellValue('B' . $row, $activities[$i]->name);
@@ -361,12 +366,12 @@ class DownloadController extends Controller
                         $sheetR->setCellValue('E' . $row, $activities[$i]->target);
                         $sheetR->setCellValue('F' . $row, $activities[$i]->real);
                         $sheetR->setCellValue('G' . $row, $activities[$i]->real / $activities[$i]->target * 100);
-                        if ($ckp->status->id == '5') {
+                        if ($ckp->status->id == '7') {
                             $sheetR->setCellValue('H' . $row, $activities[$i]->quality);
                         } else {
                             $sheetR->setCellValue('H' . $row, '');
                         }
-                        $sheetR->setCellValue('I' . $row, '');
+                        $sheetR->setCellValue('I' . $row, $activities[$i]->credit);
                         $sheetR->setCellValue('J' . $row, $activities[$i]->note);
                         $sheetR->getStyle('A' . $row . ':J' . $row)->applyFromArray($thinborderall);
                         $num++;
@@ -374,7 +379,42 @@ class DownloadController extends Controller
                     }
                 }
 
-                $row = $row + 2;
+                $sheetR->getStyle('A' . $row . ':J' . $row)->applyFromArray($thinborderall);
+                $row++;
+                $sheetR->setCellValue('A' . $row, "JUMLAH");
+                $sheetR->setCellValue('I' . $row, $total_credit);
+                $sheetR->getStyle('I' . $row)->getFont()->setBold(true);
+                $sheetR->mergeCells('A' . $row . ':C' . $row);
+                $sheetR->setCellValue('A' . ($row + 1), "RATA-RATA");
+                $sheetR->setCellValue('G' . ($row + 1), $total_real / count($activities));
+                $sheetR->setCellValue('H' . ($row + 1), $total_quality / count($activities));
+                $sheetR->mergeCells('A' . ($row + 1) . ':C' . ($row + 1));
+                $sheetR->setCellValue('A' . ($row + 2), "CAPAIAN KINERJA PEGAWAI");
+                $sheetR->setCellValue('G' . ($row + 2), ($total_quality + $total_real) / 2);
+                $sheetR->mergeCells('A' . ($row + 2) . ':C' . ($row + 2));
+                $sheetR->mergeCells('G' . ($row + 2) . ':H' . ($row + 2));
+                $sheetR->getStyle('G' . ($row + 2) . ':H' . ($row + 2))
+                    ->getAlignment()
+                    ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+                    ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+                    ->setWrapText(true);
+                $sheetR->getStyle('G' . $row . ':H' . ($row + 2))->getFont()->setBold(true);
+
+                $sheetR->getStyle('G' . $row . ':H' . $row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
+                $sheetR->getStyle('D' . $row . ':F' . ($row + 2))->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
+                $sheetR->getStyle('J' . $row . ':J' . ($row + 2))->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
+
+                $sheetR->getStyle('A' . $row . ':C' . ($row + 2))->getFont()->setBold(true);
+                $sheetR->getStyle('A' . $row . ':C' . ($row + 2))
+                    ->getAlignment()
+                    ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+                    ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+                    ->setWrapText(true);
+                $sheetR->getStyle('A' . $row . ':J' . $row)->applyFromArray($thinborderall);
+                $sheetR->getStyle('A' . ($row + 1) . ':J' . ($row + 1))->applyFromArray($thinborderall);
+                $sheetR->getStyle('A' . ($row + 2) . ':J' . ($row + 2))->applyFromArray($thinborderall);
+
+                $row = $row + 4;
                 $sheetR->getStyle('B' . $row . ':I' . ($row + 6))
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
@@ -407,10 +447,6 @@ class DownloadController extends Controller
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
                     ->setWrapText(true);
 
-                // $writer = new Xlsx($spreadsheet);
-                // $writer->save('hello world.xlsx');
-
-                // redirect output to client browser
                 header('Content-Type: application/vnd.ms-excel');
                 header('Content-Disposition: attachment;filename="CKP ' . $user->name . ' ' . $ckp->month->name . ' ' . $ckp->year->name . ' .xls"');
                 header('Cache-Control: max-age=0');

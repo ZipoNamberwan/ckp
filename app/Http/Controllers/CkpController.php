@@ -202,6 +202,7 @@ class CkpController extends Controller
             $activity->name = $request->activityname[$i];
             $activity->unit = $request->activityunit[$i];
             $activity->target = $request->activitytarget[$i];
+            $activity->credit = $request->activitycredit[$i];
             if ($type == 'ckpr') {
                 $activity->real = $request->activityreal[$i];
                 $activity->quality = '100';
