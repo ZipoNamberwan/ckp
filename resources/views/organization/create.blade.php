@@ -15,7 +15,7 @@
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="#"><i class="ni ni-app"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><a href="{{url('/departments')}}">Jenjang Jabatan</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="{{url('/organizations')}}">Unit Kerja</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                         </ol>
                     </nav>
@@ -35,17 +35,17 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h2 class="mb-0">Tambah Jenjang Jabatan</h2>
+                            <h2 class="mb-0">Tambah Unit Kerja</h2>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form autocomplete="off" method="post" action="/departments" class="needs-validation" enctype="multipart/form-data" novalidate>
+                    <form autocomplete="off" method="post" action="/organizations" class="needs-validation" enctype="multipart/form-data" novalidate>
                         @csrf
                         <div class="form-row">
                             <div class="col-md-4 mb-3">
-                                <label class="form-control-label" for="name">Nama Jenjang Jabatan</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" value="{{@old('name')}}" id="name" name="name" placeholder="Nama Jenjang Jabatan">
+                                <label class="form-control-label" for="name">Nama Unit Kerja</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" value="{{@old('name')}}" id="name" name="name" placeholder="Nama Unit Kerja">
                                 @error('name')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -55,7 +55,7 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-4 mb-3">
-                                <label class="form-control-label" for="validationCustom03">Unit Kerja</label>
+                                <label class="form-control-label" for="validationCustom03">Unit Kerja Induk</label>
                                 <select class="form-control @error('organization') is-invalid @enderror" data-toggle="select" name="organization">
                                     <option disabled selected>-- Pilih Unit Kerja --</option>
                                     @foreach($organizations as $organization)
@@ -63,22 +63,6 @@
                                     @endforeach
                                 </select>
                                 @error('organization')
-                                <div class="error-feedback">
-                                    {{$message}}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-4 mb-3">
-                                <label class="form-control-label" for="validationCustom03">Jenjang Jabatan Induk</label>
-                                <select class="form-control @error('department') is-invalid @enderror" data-toggle="select" name="department">
-                                    <option disabled selected>-- Pilih Jenjang Jabatan --</option>
-                                    @foreach($departments as $department)
-                                    <option value="{{$department->id}}" {{ old('department') == $department->id ? 'selected' : '' }}>{{$department->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('department')
                                 <div class="error-feedback">
                                     {{$message}}
                                 </div>

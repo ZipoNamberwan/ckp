@@ -128,7 +128,9 @@ class DownloadController extends Controller
                 $sheetT->getStyle('A11:H11')->getFont()->setSize(8);
                 $sheetT->getStyle('A11:H11')->applyFromArray($thinborderall);
 
-                $sheetT->setCellValue('C4', ': ' . Auth::user()->department->name);
+                if (Auth::user()->department->organization) {
+                    $sheetT->setCellValue('C4', ': ' . Auth::user()->department->organization->name);
+                }
                 $sheetT->setCellValue('C5', ': ' . Auth::user()->name);
                 $sheetT->setCellValue('C6', ': ' . Auth::user()->department->name);
                 $sheetT->setCellValue('C7', ': ' . $month->name . ' ' . $year->name);
@@ -342,7 +344,9 @@ class DownloadController extends Controller
                 $sheetR->getStyle('A11:K11')->getFont()->setSize(8);
                 $sheetR->getStyle('A11:K11')->applyFromArray($thinborderall);
 
-                $sheetR->setCellValue('C4', ': ' . Auth::user()->department->name);
+                if (Auth::user()->department->organization) {
+                    $sheetR->setCellValue('C4', ': ' . Auth::user()->department->organization->name);
+                }
                 $sheetR->setCellValue('C5', ': ' . Auth::user()->name);
                 $sheetR->setCellValue('C6', ': ' . Auth::user()->department->name);
                 $sheetR->setCellValue('C7', ': ' . $month->name . ' ' . $year->name);

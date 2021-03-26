@@ -27,30 +27,4 @@ trait SelfReferenceTrait
             ? $this->parent->root()
             : $this;
     }
-
-    public function getAllChildrenUsers()
-    {
-        $users = collect();
-        if ($this->allchildren) {
-            foreach ($this->allchildren as $subdepartment) {
-                $users = $users->merge($subdepartment->users);
-                $users = $users->merge($subdepartment->getAllChildrenUsers());
-            }
-        }
-        return $users;
-    }
-
-    public function getAllChildrenDepartment()
-    {
-        $departments = collect();
-        if ($this->allchildren) {
-            foreach ($this->allchildren as $subdepartment) {
-                $subdepartmentarray = collect();
-                $subdepartmentarray->push($subdepartment);
-                $departments = $departments->merge($subdepartmentarray);
-                $departments = $departments->merge($subdepartment->getAllChildrenDepartment());
-            }
-        }
-        return $departments;
-    }
 }

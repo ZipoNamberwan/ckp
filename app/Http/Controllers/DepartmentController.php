@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Organization;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -32,8 +33,9 @@ class DepartmentController extends Controller
     public function create()
     {
         $department = Department::find(1);
+        $organizations = Organization::all();
         $departments = $department->getAllChildrenDepartment();
-        return view('department.create', compact('departments'));
+        return view('department.create', compact('departments', 'organizations'));
     }
 
     /**
@@ -47,15 +49,17 @@ class DepartmentController extends Controller
         $request->validate([
             'name' => 'required',
             'department' => 'required',
+            'organization' => 'required'
         ]);
 
         Department::create([
             'name' => $request->name,
             'parent_id' => $request->department,
+            'organization_id' => $request->organization,
             'position' => 0,
         ]);
 
-        return redirect('/departments')->with('success-create', 'Unit Kerja telah ditambah!');
+        return redirect('/departments')->with('success-create', 'Jenjang Jabatan telah ditambah!');
     }
 
     /**
@@ -78,8 +82,9 @@ class DepartmentController extends Controller
     public function edit(Department $department)
     {
         $rootdepartment = Department::find(1);
+        $organizations = Organization::all();
         $departments = $rootdepartment->getAllChildrenDepartment();
-        return view('department.edit', compact('departments', 'department'));
+        return view('department.edit', compact('departments', 'department', 'organizations'));
     }
 
     /**
@@ -93,13 +98,15 @@ class DepartmentController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'organization' => 'required'
         ]);
 
         $department->update([
             'name' => $request->name,
+            'organization_id' => $request->organization
         ]);
 
-        return redirect('/departments')->with('success-edit', 'Unit Kerja telah diubah!');
+        return redirect('/departments')->with('success-edit', 'Jenjang Jabatan telah diubah!');
     }
 
     /**
@@ -112,16 +119,16 @@ class DepartmentController extends Controller
     {
         try {
             $result = $department->delete();
-            return redirect('/departments')->with('success-delete', 'Unit Kerja telah dihapus!');
+            return redirect('/departments')->with('success-delete', 'Jenjang Jabatan telah dihapus!');
         } catch (Exception $e) {
             $message = "";
             if ($e->getCode() == "23000") {
-                // $message = "Gagal menghapus Unit Kerja. Ada User yang menggunakan Unit Kerja " . $department->name . " atau Ada Unit Kerja di bawah " . $department->name;
-                $message = "Gagal menghapus Unit Kerja";
+                // $message = "Gagal menghapus Jenjang Jabatan. Ada User yang menggunakan Jenjang Jabatan " . $department->name . " atau Ada Jenjang Jabatan di bawah " . $department->name;
+                $message = "Gagal menghapus Jenjang Jabatan";
             } else if ($e->getCode() == "0") {
-                $message = "Gagal menghapus Unit Kerja. Unit Kerja " . $department->name . " tidak ada";
+                $message = "Gagal menghapus Jenjang Jabatan. Jenjang Jabatan " . $department->name . " tidak ada";
             } else {
-                $message = "Gagal menghapus Unit Kerja";
+                $message = "Gagal menghapus Jenjang Jabatan";
             }
             return redirect('/departments')->with('error-delete', $message);
         }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Department;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,57 +16,101 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $organization1 = Organization::create([
+            'name' => 'Root',
+            'position' => '1',
+        ]);
+
+        $organization2 = Organization::create([
+            'name' => 'BPS Provinsi NTT',
+            'position' => '1',
+            'parent_id' => $organization1->id
+        ]);
+
+        $organization3 = Organization::create([
+            'name' => 'Fungsi IPDS',
+            'position' => '1',
+            'parent_id' => $organization2->id
+        ]);
+
+        $organization4 = Organization::create([
+            'name' => 'Fungsi IPD',
+            'position' => '1',
+            'parent_id' => $organization3->id
+        ]);
+
+        $organization5 = Organization::create([
+            'name' => 'Fungsi JRS',
+            'position' => '1',
+            'parent_id' => $organization3->id
+        ]);
+
+        $organization6 = Organization::create([
+            'name' => 'Fungsi DLS',
+            'position' => '1',
+            'parent_id' => $organization3->id
+        ]);
+
         $root = Department::create([
             'name' => 'Root',
             'position' => '1',
+            'organization_id' => $organization1->id
         ]);
 
         $head = Department::create([
             'name' => 'Kepala BPS Provinsi NTT',
             'parent_id' => $root->id,
             'position' => '1',
+            'organization_id' => $organization2->id
         ]);
 
         $ipds = Department::create([
             'name' => 'Koordinator IPDS',
             'parent_id' => $head->id,
             'position' => '1',
+            'organization_id' => $organization3->id
         ]);
 
         $ipd = Department::create([
             'name' => 'Sub Koordinator IPD',
             'position' => '1',
             'parent_id' => $ipds->id,
+            'organization_id' => $organization4->id
         ]);
 
         $stafipd = Department::create([
             'name' => 'Staf IPD',
             'position' => '1',
             'parent_id' => $ipd->id,
+            'organization_id' => $organization4->id
         ]);
 
         $jrs = Department::create([
             'name' => 'Sub Koordinator JRS',
             'position' => '2',
-            'parent_id' => $ipds->id
+            'parent_id' => $ipds->id,
+            'organization_id' => $organization5->id
         ]);
 
         $stafjrs = Department::create([
             'name' => 'Staf JRS',
             'position' => '1',
             'parent_id' => $jrs->id,
+            'organization_id' => $organization5->id
         ]);
 
         $dls = Department::create([
             'name' => 'Sub Koordinator DLS',
             'position' => '3',
-            'parent_id' => $ipds->id
+            'parent_id' => $ipds->id,
+            'organization_id' => $organization6->id
         ]);
 
         $stafdls = Department::create([
             'name' => 'Staf DLS',
             'position' => '3',
-            'parent_id' => $dls->id
+            'parent_id' => $dls->id,
+            'organization_id' => $organization6->id
         ]);
 
         $superadmin = User::create([

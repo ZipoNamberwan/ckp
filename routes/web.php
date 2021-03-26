@@ -22,6 +22,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resources(['settings' => 'App\Http\Controllers\SettingController']);
     Route::resources(['users' => 'App\Http\Controllers\UserController']);
     Route::resources(['departments' => 'App\Http\Controllers\DepartmentController']);
+    Route::resources(['organizations' => 'App\Http\Controllers\OrganizationController']);
 
     Route::delete('/years/{year}', [App\Http\Controllers\SettingController::class, 'destroyYear']);
     Route::patch('/years/{year}', [App\Http\Controllers\SettingController::class, 'updateYear']);

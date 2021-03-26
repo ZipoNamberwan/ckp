@@ -14,7 +14,7 @@
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="#"><i class="ni ni-app"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Jenjang Jabatan</li>
+                            <li class="breadcrumb-item active" aria-current="page">Unit Kerja</li>
                         </ol>
                     </nav>
                 </div>
@@ -52,10 +52,10 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h2 class="mb-0">Daftar Jenjang Jabatan</h2>
+                            <h2 class="mb-0">Daftar Unit Kerja</h2>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="{{url('/departments/create')}}" class="btn btn-primary btn-round btn-icon mb-2" data-toggle="tooltip" data-original-title="Tambah Jenjang Jabatan">
+                            <a href="{{url('/organizations/create')}}" class="btn btn-primary btn-round btn-icon mb-2" data-toggle="tooltip" data-original-title="Tambah Unit Kerja">
                                 <span class="btn-inner--icon"><i class="fas fa-plus-circle"></i></span>
                                 <span class="btn-inner--text">Tambah</span>
                             </a>
@@ -67,25 +67,23 @@
                         <thead class="thead-light">
                             <tr>
                                 <th width="5%">#</th>
-                                <th width="30%">Jenjang Jabatan</th>
                                 <th width="30%">Unit Kerja</th>
                                 <th width="10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($departments as $department)
+                            @foreach($organizations as $organization)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td><b>{{$department->name}}</b></td>
-                                <td>@if($department->organization) {{$department->organization->name}} @endif</td>
+                                <td><b>{{$organization->name}}</b></td>
                                 <td> 
-                                    <a href="{{url('/departments/'.$department->id.'/edit')}}" class="btn btn-outline-info  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Ubah Data">
+                                    <a href="{{url('/organizations/'.$organization->id.'/edit')}}" class="btn btn-outline-info  btn-sm" role="button" aria-pressed="true" data-toggle="tooltip" data-original-title="Ubah Data">
                                         <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>
                                     </a>
-                                    <form class="d-inline" id="formdelete{{$department->id}}" name="formdelete{{$department->id}}" onsubmit="deletedepartment('{{$department->id}}','{{$department->name}}')" method="POST" action="{{url('/departments/'.$department->id)}}">
+                                    <form class="d-inline" id="formdelete{{$organization->id}}" name="formdelete{{$organization->id}}" onsubmit="deleteorganization('{{$organization->id}}','{{$organization->name}}')" method="POST" action="{{url('/organizations/'.$organization->id)}}">
                                         @method('delete')
                                         @csrf
-                                        <button class="btn btn-icon btn-outline-danger btn-sm" type="submit" data-toggle="tooltip" data-original-title="Hapus Jenjang Jabatan">
+                                        <button class="btn btn-icon btn-outline-danger btn-sm" type="submit" data-toggle="tooltip" data-original-title="Hapus Unit Kerja">
                                             <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
                                         </button>
                                     </form>
@@ -121,10 +119,10 @@
 </script>
 
 <script>
-    function deletedepartment(id, name) {
+    function deleteorganization(id, name) {
         event.preventDefault();
         Swal.fire({
-            title: 'Yakin Hapus Jenjang Jabatan Ini?',
+            title: 'Yakin Hapus Unit Kerja Ini?',
             text: name,
             icon: 'warning',
             showCancelButton: true,

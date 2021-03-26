@@ -69,11 +69,12 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th width="5%">#</th>
-                                    <th width="30%">Nama</th>
-                                    <th width="15%">Email</th>
-                                    <th width="15%">Unit</th>
-                                    <th width="15%">Pejabat Penilai</th>
-                                    <th width="15%">Role</th>
+                                    <th width="20%">Nama</th>
+                                    <th width="10%">Email</th>
+                                    <th width="10%">Jabatan</th>
+                                    <th width="10%">Unit Kerja</th>
+                                    <th width="10%">Pejabat Penilai</th>
+                                    <th width="10%">Role</th>
                                     <th width="10%">Aksi</th>
                                 </tr>
                             </thead>
@@ -84,7 +85,8 @@
                                         <td><b>{{ $user->name }}</b></td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->department->name }}</td>
-                                        <td>{{ $user->assessor->name }}</td>
+                                        <td>@if($user->department->organization) {{$user->department->organization->name}}  @endif</td>
+                                        <td>@if($user->assessor->id != 1) {{ $user->assessor->name }} @endif</td>
                                         <td>@if($user->hasRole('admin')) Admin @elseif($user->hasRole('supervisor')) Supervisor @elseif($user->hasRole('user')) User @endif</td>
                                         <td>
                                             <a href="{{ url('/users/' . $user->id . '/edit') }}"

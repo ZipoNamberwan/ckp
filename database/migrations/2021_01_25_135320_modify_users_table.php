@@ -13,17 +13,25 @@ class ModifyUsersTable extends Migration
      */
     public function up()
     {
+        Schema::create('organizations', function (Blueprint $table) {
+            $table->id()->autoincrement();
+            $table->string('name');
+            $table->integer('position')->nullable();
+            $table->foreignId('parent_id')->nullable()->constrained('organizations');
+        });
+        
         Schema::create('departments', function (Blueprint $table) {
             $table->id()->autoincrement();
             $table->string('name');
             $table->integer('position')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('departments');
+            $table->foreignId('organization_id')->nullable()->constrained('organizations');
         });
 
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('department_id')->constrained('departments');
             $table->string('avatar')->nullable();
-            $table->string('nip');
+            $table->string('nip')->nullable();
             $table->foreignId('assessor_id')->nullable()->constrained('users');
         });
     }

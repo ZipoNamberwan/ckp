@@ -124,8 +124,14 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url('/departments') }}">
-                <i class="fas fa-building"></i>
+                <i class="fas fa-dice-d6"></i>
                 <span class="nav-link-text">Jenjang Jabatan</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url('/organizations') }}">
+                <i class="fas fa-building"></i>
+                <span class="nav-link-text">Unit Kerja</span>
               </a>
             </li>
             <li class="nav-item">
