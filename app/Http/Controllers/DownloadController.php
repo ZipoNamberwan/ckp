@@ -60,20 +60,20 @@ class DownloadController extends Controller
                 $sheetT->getStyle('A2')->getFont()->setSize(14)->setBold(true);
 
                 $sheetT->setCellValue('A2', 'Target Kinerja Pegawai Tahun ' . $year->name);
-                $sheetT->mergeCells('A2:G2');
-                $sheetT->setCellValue('G1', 'CKP-T');
-                $sheetT->getStyle('G1')
+                $sheetT->mergeCells('A2:H2');
+                $sheetT->setCellValue('H1', 'CKP-T');
+                $sheetT->getStyle('H1')
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-                $sheetT->getStyle('G1')->getFont()->setBold(true);
-                $sheetT->getStyle('G1')
+                $sheetT->getStyle('H1')->getFont()->setBold(true);
+                $sheetT->getStyle('H1')
                     ->getBorders()->getRight()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
-                $sheetT->getStyle('G1')
+                $sheetT->getStyle('H1')
                     ->getBorders()->getLeft()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
-                $sheetT->getStyle('G1')
+                $sheetT->getStyle('H1')
                     ->getBorders()->getTop()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
-                $sheetT->getStyle('G1')
+                $sheetT->getStyle('H1')
                     ->getBorders()->getBottom()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
 
                 $sheetT->getColumnDimension('A')->setWidth(5);
@@ -82,7 +82,8 @@ class DownloadController extends Controller
                 $sheetT->getColumnDimension('D')->setWidth(15);
                 $sheetT->getColumnDimension('E')->setWidth(15);
                 $sheetT->getColumnDimension('F')->setWidth(15);
-                $sheetT->getColumnDimension('G')->setWidth(20);
+                $sheetT->getColumnDimension('G')->setWidth(15);
+                $sheetT->getColumnDimension('H')->setWidth(25);
 
                 $sheetT->setCellValue('B4', 'Satuan Organisasi');
                 $sheetT->setCellValue('B5', 'Nama');
@@ -97,17 +98,19 @@ class DownloadController extends Controller
                 $sheetT->mergeCells('D9:D10');
                 $sheetT->setCellValue('E9', 'Target Kuantitas');
                 $sheetT->mergeCells('E9:E10');
-                $sheetT->setCellValue('F9', 'Capaian Angka Kredit');
+                $sheetT->setCellValue('F9', 'Butir Kegiatan');
                 $sheetT->mergeCells('F9:F10');
-                $sheetT->setCellValue('G9', 'Keterangan');
+                $sheetT->setCellValue('G9', 'Capaian Angka Kredit');
                 $sheetT->mergeCells('G9:G10');
-                $sheetT->getStyle('A9:G10')
+                $sheetT->setCellValue('H9', 'Keterangan');
+                $sheetT->mergeCells('H9:H10');
+                $sheetT->getStyle('A9:H10')
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
                     ->setWrapText(true);
-                $sheetT->getStyle('A9:G10')->getFont()->setBold(true);
-                $sheetT->getStyle('A9:G10')->applyFromArray($thinborderall);
+                $sheetT->getStyle('A9:H10')->getFont()->setBold(true);
+                $sheetT->getStyle('A9:H10')->applyFromArray($thinborderall);
 
                 $sheetT->setCellValue('A11', '(1)');
                 $sheetT->setCellValue('B11', '(2)');
@@ -116,47 +119,55 @@ class DownloadController extends Controller
                 $sheetT->setCellValue('E11', '(4)');
                 $sheetT->setCellValue('F11', '(5)');
                 $sheetT->setCellValue('G11', '(6)');
-                $sheetT->getStyle('A11:G11')
+                $sheetT->setCellValue('H11', '(7)');
+                $sheetT->getStyle('A11:H11')
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
                     ->setWrapText(true);
-                $sheetT->getStyle('A11:G11')->getFont()->setSize(8);
-                $sheetT->getStyle('A11:G11')->applyFromArray($thinborderall);
+                $sheetT->getStyle('A11:H11')->getFont()->setSize(8);
+                $sheetT->getStyle('A11:H11')->applyFromArray($thinborderall);
 
                 $sheetT->setCellValue('C4', ': ' . Auth::user()->department->name);
                 $sheetT->setCellValue('C5', ': ' . Auth::user()->name);
                 $sheetT->setCellValue('C6', ': ' . Auth::user()->department->name);
                 $sheetT->setCellValue('C7', ': ' . $month->name . ' ' . $year->name);
 
-                $sheetT->mergeCells('B12:G12');
+                $sheetT->mergeCells('B12:H12');
                 $sheetT->setCellValue('B12', 'UTAMA');
-                $sheetT->getStyle('A12:G12')->getFont()->setBold(true);
-                $sheetT->getStyle('A12:G12')->applyFromArray($thinborderall);
+                $sheetT->getStyle('A12:H12')->getFont()->setBold(true);
+                $sheetT->getStyle('A12:H12')->applyFromArray($thinborderall);
 
                 //Kegiatan Utama
                 $num = 1;
                 $row = 13;
+                $total_credit = 0;
                 for ($i = 0; $i < count($activities); $i++) {
+                    $total_credit = $total_credit + $activities[$i]->credit;
                     if ($activities[$i]->type == 'main') {
                         $sheetT->setCellValue('A' . $row, $num);
                         $sheetT->setCellValue('B' . $row, $activities[$i]->name);
                         $sheetT->mergeCells('B' . $row . ':C' . $row);
                         $sheetT->setCellValue('D' . $row, $activities[$i]->unit);
                         $sheetT->setCellValue('E' . $row, $activities[$i]->target);
-                        $sheetT->setCellValue('F' . $row, $activities[$i]->credit);
-                        $sheetT->setCellValue('G' . $row, $activities[$i]->note);
-                        $sheetT->getStyle('A' . $row . ':G' . $row)->applyFromArray($thinborderall);
+                        $sheetT->setCellValue('F' . $row, $activities[$i]->creditcode);
+                        $sheetT->setCellValue('G' . $row, $activities[$i]->credit);
+                        $sheetT->setCellValue('H' . $row, $activities[$i]->note);
+                        $sheetT->getStyle('A' . $row . ':H' . $row)->applyFromArray($thinborderall);
+                        $sheetT->getStyle('D' . $row . ':G' . $row)
+                            ->getAlignment()
+                            ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+                            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                         $num++;
                         $row++;
                     }
                 }
 
 
-                $sheetT->mergeCells('B' . $row . ':G' . $row);
+                $sheetT->mergeCells('B' . $row . ':H' . $row);
                 $sheetT->setCellValue('B' . $row, 'TAMBAHAN');
-                $sheetT->getStyle('A' . $row . ':G' . $row)->getFont()->setBold(true);
-                $sheetT->getStyle('A' . $row . ':G' . $row)->applyFromArray($thinborderall);
+                $sheetT->getStyle('A' . $row . ':H' . $row)->getFont()->setBold(true);
+                $sheetT->getStyle('A' . $row . ':H' . $row)->applyFromArray($thinborderall);
                 $row++;
 
                 $num = 1;
@@ -167,40 +178,57 @@ class DownloadController extends Controller
                         $sheetT->mergeCells('B' . $row . ':C' . $row);
                         $sheetT->setCellValue('D' . $row, $activities[$i]->unit);
                         $sheetT->setCellValue('E' . $row, $activities[$i]->target);
-                        $sheetT->setCellValue('F' . $row, $activities[$i]->credit);
-                        $sheetT->setCellValue('G' . $row, $activities[$i]->note);
-                        $sheetT->getStyle('A' . $row . ':G' . $row)->applyFromArray($thinborderall);
+                        $sheetT->setCellValue('F' . $row, $activities[$i]->creditcode);
+                        $sheetT->setCellValue('G' . $row, $activities[$i]->credit);
+                        $sheetT->setCellValue('H' . $row, $activities[$i]->note);
+                        $sheetT->getStyle('A' . $row . ':H' . $row)->applyFromArray($thinborderall);
+                        $sheetT->getStyle('D' . $row . ':G' . $row)
+                            ->getAlignment()
+                            ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+                            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                         $num++;
                         $row++;
                     }
                 }
 
-                $row = $row + 2;
-                $sheetT->getStyle('B' . $row . ':G' . ($row + 6))
+                $sheetT->setCellValue('A' . $row, 'JUMLAH');
+                $sheetT->setCellValue('G' . $row, $total_credit);
+                $sheetT->getStyle('A' . $row . ':H' . $row)->getFont()->setBold(true);
+                $sheetT->getStyle('A' . $row . ':H' . $row)
+                    ->getAlignment()
+                    ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+                    ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+                    ->setWrapText(true);
+                $sheetT->getStyle('A' . $row . ':H' . $row)->applyFromArray($thinborderall);
+                $sheetT->mergeCells('A' . $row . ':F' . $row);
+                $sheetT->getStyle('H' . $row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
+
+                $row = $row + 3;
+                $sheetT->getStyle('B' . $row . ':H' . ($row + 6))
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
                     ->setWrapText(true);
                 $sheetT->mergeCells('B' . $row . ':C' . $row);
-                $sheetT->mergeCells('F' . $row . ':G' . $row);
+                $sheetT->mergeCells('G' . $row . ':H' . $row);
                 $sheetT->setCellValue('B' . $row, 'Pegawai yang Dinilai');
-                $sheetT->setCellValue('F' . $row, 'Pejabat Penilai');
+                $sheetT->setCellValue('G' . $row, 'Pejabat Penilai');
                 $row++;
                 for ($i = 0; $i < 4; $i++) {
                     $sheetT->mergeCells('B' . $row . ':C' . $row);
-                    $sheetT->mergeCells('F' . $row . ':G' . $row);
+                    $sheetT->mergeCells('G' . $row . ':H' . $row);
                     $row++;
                 }
 
                 $sheetT->mergeCells('B' . $row . ':C' . $row);
-                $sheetT->mergeCells('F' . $row . ':G' . $row);
+                $sheetT->mergeCells('G' . $row . ':H' . $row);
                 $sheetT->setCellValue('B' . $row, $user->name);
-                $sheetT->setCellValue('F' . $row, $assessor->name);
+                $sheetT->setCellValue('G' . $row, $assessor->name);
                 $row++;
                 $sheetT->mergeCells('B' . $row . ':C' . $row);
-                $sheetT->mergeCells('F' . $row . ':G' . $row);
+                $sheetT->mergeCells('G' . $row . ':H' . $row);
                 $sheetT->setCellValue('B' . $row, 'NIP: ' . $user->nip);
-                $sheetT->setCellValue('F' . $row, 'NIP: ' . $assessor->nip);
+                $sheetT->setCellValue('G' . $row, 'NIP: ' . $assessor->nip);
                 $sheetT->getStyle('B' . $row . ':C' . $row)
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
@@ -235,20 +263,20 @@ class DownloadController extends Controller
                 $sheetR->getStyle('A2')->getFont()->setSize(14)->setBold(true);
 
                 $sheetR->setCellValue('A2', 'Capaian Kinerja Pegawai (CKP) Tahun ' . $year->name);
-                $sheetR->mergeCells('A2:J2');
-                $sheetR->setCellValue('J1', 'CKP-R');
-                $sheetR->getStyle('J1')
+                $sheetR->mergeCells('A2:K2');
+                $sheetR->setCellValue('K1', 'CKP-R');
+                $sheetR->getStyle('K1')
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-                $sheetR->getStyle('J1')->getFont()->setBold(true);
-                $sheetR->getStyle('J1')
+                $sheetR->getStyle('K1')->getFont()->setBold(true);
+                $sheetR->getStyle('K1')
                     ->getBorders()->getRight()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
-                $sheetR->getStyle('J1')
+                $sheetR->getStyle('K1')
                     ->getBorders()->getLeft()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
-                $sheetR->getStyle('J1')
+                $sheetR->getStyle('K1')
                     ->getBorders()->getTop()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
-                $sheetR->getStyle('J1')
+                $sheetR->getStyle('K1')
                     ->getBorders()->getBottom()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
 
                 $sheetR->getColumnDimension('A')->setWidth(5);
@@ -260,7 +288,8 @@ class DownloadController extends Controller
                 $sheetR->getColumnDimension('G')->setWidth(15);
                 $sheetR->getColumnDimension('H')->setWidth(15);
                 $sheetR->getColumnDimension('I')->setWidth(15);
-                $sheetR->getColumnDimension('J')->setWidth(20);
+                $sheetR->getColumnDimension('J')->setWidth(15);
+                $sheetR->getColumnDimension('K')->setWidth(25);
 
                 $sheetR->setCellValue('B4', 'Satuan Organisasi');
                 $sheetR->setCellValue('B5', 'Nama');
@@ -280,17 +309,19 @@ class DownloadController extends Controller
                 $sheetR->setCellValue('G10', 'Persentase');
                 $sheetR->setCellValue('H9', 'Tingkat Kualitas');
                 $sheetR->mergeCells('H9:H10');
-                $sheetR->setCellValue('I9', 'Capaian Angka Kredit');
+                $sheetR->setCellValue('I9', 'Butir Kegiatan');
                 $sheetR->mergeCells('I9:I10');
-                $sheetR->setCellValue('J9', 'Keterangan');
+                $sheetR->setCellValue('J9', 'Capaian Angka Kredit');
                 $sheetR->mergeCells('J9:J10');
-                $sheetR->getStyle('A9:J10')
+                $sheetR->setCellValue('K9', 'Keterangan');
+                $sheetR->mergeCells('K9:K10');
+                $sheetR->getStyle('A9:K10')
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
                     ->setWrapText(true);
-                $sheetR->getStyle('A9:J10')->getFont()->setBold(true);
-                $sheetR->getStyle('A9:J10')->applyFromArray($thinborderall);
+                $sheetR->getStyle('A9:K10')->getFont()->setBold(true);
+                $sheetR->getStyle('A9:K10')->applyFromArray($thinborderall);
 
                 $sheetR->setCellValue('A11', '(1)');
                 $sheetR->setCellValue('B11', '(2)');
@@ -302,23 +333,24 @@ class DownloadController extends Controller
                 $sheetR->setCellValue('H11', '(7)');
                 $sheetR->setCellValue('I11', '(8)');
                 $sheetR->setCellValue('J11', '(9)');
-                $sheetR->getStyle('A11:J11')
+                $sheetR->setCellValue('K11', '(10)');
+                $sheetR->getStyle('A11:K11')
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
                     ->setWrapText(true);
-                $sheetR->getStyle('A11:J11')->getFont()->setSize(8);
-                $sheetR->getStyle('A11:J11')->applyFromArray($thinborderall);
+                $sheetR->getStyle('A11:K11')->getFont()->setSize(8);
+                $sheetR->getStyle('A11:K11')->applyFromArray($thinborderall);
 
                 $sheetR->setCellValue('C4', ': ' . Auth::user()->department->name);
                 $sheetR->setCellValue('C5', ': ' . Auth::user()->name);
                 $sheetR->setCellValue('C6', ': ' . Auth::user()->department->name);
                 $sheetR->setCellValue('C7', ': ' . $month->name . ' ' . $year->name);
 
-                $sheetR->mergeCells('B12:J12');
+                $sheetR->mergeCells('B12:K12');
                 $sheetR->setCellValue('B12', 'UTAMA');
-                $sheetR->getStyle('A12:J12')->getFont()->setBold(true);
-                $sheetR->getStyle('A12:J12')->applyFromArray($thinborderall);
+                $sheetR->getStyle('A12:K12')->getFont()->setBold(true);
+                $sheetR->getStyle('A12:K12')->applyFromArray($thinborderall);
 
                 //Kegiatan Utama
                 $num = 1;
@@ -337,18 +369,23 @@ class DownloadController extends Controller
                         } else {
                             $sheetR->setCellValue('H' . $row, '');
                         }
-                        $sheetR->setCellValue('I' . $row, $activities[$i]->credit);
-                        $sheetR->setCellValue('J' . $row, $activities[$i]->note);
-                        $sheetR->getStyle('A' . $row . ':J' . $row)->applyFromArray($thinborderall);
+                        $sheetR->setCellValue('I' . $row, $activities[$i]->creditcode);
+                        $sheetR->setCellValue('J' . $row, $activities[$i]->credit);
+                        $sheetR->setCellValue('K' . $row, $activities[$i]->note);
+                        $sheetR->getStyle('A' . $row . ':K' . $row)->applyFromArray($thinborderall);
+                        $sheetR->getStyle('D' . $row . ':J' . $row)
+                            ->getAlignment()
+                            ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+                            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                         $num++;
                         $row++;
                     }
                 }
 
-                $sheetR->mergeCells('B' . $row . ':J' . $row);
+                $sheetR->mergeCells('B' . $row . ':K' . $row);
                 $sheetR->setCellValue('B' . $row, 'TAMBAHAN');
-                $sheetR->getStyle('A' . $row . ':J' . $row)->getFont()->setBold(true);
-                $sheetR->getStyle('A' . $row . ':J' . $row)->applyFromArray($thinborderall);
+                $sheetR->getStyle('A' . $row . ':K' . $row)->getFont()->setBold(true);
+                $sheetR->getStyle('A' . $row . ':K' . $row)->applyFromArray($thinborderall);
                 $row++;
 
                 $num = 1;
@@ -372,19 +409,25 @@ class DownloadController extends Controller
                         } else {
                             $sheetR->setCellValue('H' . $row, '');
                         }
-                        $sheetR->setCellValue('I' . $row, $activities[$i]->credit);
-                        $sheetR->setCellValue('J' . $row, $activities[$i]->note);
-                        $sheetR->getStyle('A' . $row . ':J' . $row)->applyFromArray($thinborderall);
+                        $sheetR->setCellValue('I' . $row, $activities[$i]->creditCODE);
+                        $sheetR->setCellValue('J' . $row, $activities[$i]->credit);
+                        $sheetR->setCellValue('K' . $row, $activities[$i]->note);
+                        $sheetR->getStyle('A' . $row . ':K' . $row)->applyFromArray($thinborderall);
+                        $sheetR->getStyle('D' . $row . ':J' . $row)
+                            ->getAlignment()
+                            ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+                            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
                         $num++;
                         $row++;
                     }
                 }
 
-                $sheetR->getStyle('A' . $row . ':J' . $row)->applyFromArray($thinborderall);
+                $sheetR->getStyle('A' . $row . ':K' . $row)->applyFromArray($thinborderall);
                 $row++;
                 $sheetR->setCellValue('A' . $row, "JUMLAH");
-                $sheetR->setCellValue('I' . $row, $total_credit);
-                $sheetR->getStyle('I' . $row)->getFont()->setBold(true);
+                $sheetR->setCellValue('J' . $row, $total_credit);
+                $sheetR->getStyle('J' . $row)->getFont()->setBold(true);
                 $sheetR->mergeCells('A' . $row . ':C' . $row);
                 $sheetR->setCellValue('A' . ($row + 1), "RATA-RATA");
                 $sheetR->setCellValue('G' . ($row + 1), $total_real / count($activities));
@@ -394,7 +437,7 @@ class DownloadController extends Controller
                 $sheetR->setCellValue('G' . ($row + 2), ($total_quality + $total_real) / 2);
                 $sheetR->mergeCells('A' . ($row + 2) . ':C' . ($row + 2));
                 $sheetR->mergeCells('G' . ($row + 2) . ':H' . ($row + 2));
-                $sheetR->getStyle('G' . ($row + 2) . ':H' . ($row + 2))
+                $sheetR->getStyle('G' . ($row) . ':J' . ($row + 2))
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
@@ -403,7 +446,7 @@ class DownloadController extends Controller
 
                 $sheetR->getStyle('G' . $row . ':H' . $row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
                 $sheetR->getStyle('D' . $row . ':F' . ($row + 2))->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
-                $sheetR->getStyle('J' . $row . ':J' . ($row + 2))->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
+                $sheetR->getStyle('K' . $row . ':K' . ($row + 2))->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
 
                 $sheetR->getStyle('A' . $row . ':C' . ($row + 2))->getFont()->setBold(true);
                 $sheetR->getStyle('A' . $row . ':C' . ($row + 2))
@@ -411,34 +454,34 @@ class DownloadController extends Controller
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
                     ->setWrapText(true);
-                $sheetR->getStyle('A' . $row . ':J' . $row)->applyFromArray($thinborderall);
-                $sheetR->getStyle('A' . ($row + 1) . ':J' . ($row + 1))->applyFromArray($thinborderall);
-                $sheetR->getStyle('A' . ($row + 2) . ':J' . ($row + 2))->applyFromArray($thinborderall);
+                $sheetR->getStyle('A' . $row . ':K' . $row)->applyFromArray($thinborderall);
+                $sheetR->getStyle('A' . ($row + 1) . ':K' . ($row + 1))->applyFromArray($thinborderall);
+                $sheetR->getStyle('A' . ($row + 2) . ':K' . ($row + 2))->applyFromArray($thinborderall);
 
                 $row = $row + 4;
-                $sheetR->getStyle('B' . $row . ':I' . ($row + 6))
+                $sheetR->getStyle('B' . $row . ':J' . ($row + 6))
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
                     ->setWrapText(true);
                 $sheetR->mergeCells('B' . $row . ':C' . $row);
-                $sheetR->mergeCells('H' . $row . ':I' . $row);
+                $sheetR->mergeCells('H' . $row . ':J' . $row);
                 $sheetR->setCellValue('B' . $row, 'Pegawai yang Dinilai');
                 $sheetR->setCellValue('H' . $row, 'Pejabat Penilai');
                 $row++;
                 for ($i = 0; $i < 4; $i++) {
                     $sheetR->mergeCells('B' . $row . ':C' . $row);
-                    $sheetR->mergeCells('H' . $row . ':I' . $row);
+                    $sheetR->mergeCells('H' . $row . ':J' . $row);
                     $row++;
                 }
 
                 $sheetR->mergeCells('B' . $row . ':C' . $row);
-                $sheetR->mergeCells('H' . $row . ':I' . $row);
+                $sheetR->mergeCells('H' . $row . ':J' . $row);
                 $sheetR->setCellValue('B' . $row, $user->name);
                 $sheetR->setCellValue('H' . $row, $assessor->name);
                 $row++;
                 $sheetR->mergeCells('B' . $row . ':C' . $row);
-                $sheetR->mergeCells('H' . $row . ':I' . $row);
+                $sheetR->mergeCells('H' . $row . ':J' . $row);
                 $sheetR->setCellValue('B' . $row, 'NIP: ' . $user->nip);
                 $sheetR->setCellValue('H' . $row, 'NIP: ' . $assessor->nip);
 

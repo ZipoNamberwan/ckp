@@ -25,8 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->hasRole('admin')){
-            return redirect('/users');
+        if (Auth::user()->hasRole('admin')) {
+            return redirect('/monitoring');
         }
         return redirect('/ckps');
     }

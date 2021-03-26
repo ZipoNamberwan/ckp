@@ -116,15 +116,9 @@ class CkpController extends Controller
     public function show(Ckp $ckp)
     {
         $department = Auth::user()->department;
-        $users = collect();
-        foreach ($department->allchildren as $bidang) {
-            $users = $users->merge($bidang->users);
-            if ($bidang->allchildren) {
-                foreach ($bidang->allchildren as $seksi) {
-                    $users = $users->merge($seksi->users);
-                }
-            }
-        }
+        
+        $users = $department->getAllChildrenUsers();
+
         $isallowed = false;
         foreach ($users as $user) {
             if ($user->id == $ckp->user->id) {
@@ -203,6 +197,7 @@ class CkpController extends Controller
             $activity->name = $request->activityname[$i];
             $activity->unit = $request->activityunit[$i];
             $activity->target = $request->activitytarget[$i];
+            $activity->creditcode = $request->activitycreditcode[$i];
             $activity->credit = $request->activitycredit[$i];
             if ($type == 'ckpr') {
                 $activity->real = $request->activityreal[$i];

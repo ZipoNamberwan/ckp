@@ -74,6 +74,7 @@
                                                 <th width="30%" class="px-1">Nama Kegiatan</th>
                                                 <th width="7%" class="px-1">Satuan</th>
                                                 <th width="7%" class="px-1">Target Kuantitas</th>
+                                                <th width="7%" class="px-1">Butir Kegiatan</th>
                                                 <th width="7%" class="px-1">Target Angka Kredit</th>
                                                 <th width="15%" class="px-1">Keterangan</th>
                                             </tr>
@@ -100,6 +101,13 @@
                                                 </td>
                                                 <td class="px-1"><input class="form-control" type="number" min="0" id="activitytarget[]" name="activitytarget[]" @if(old('activitytarget.0')) value="{{old('activitytarget.0')}}" @elseif(count($ckp->activities) > 0) value="{{$ckp->activities[0]->target}}" @endif @if($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
                                                     @error('activitytarget.0')
+                                                    <div class="error-feedback">
+                                                        kosong
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td class="px-1"><input class="form-control" type="text" min="0" id="activitycreditcode[]" name="activitycreditcode[]" @if(old('activitycreditcode.0')) value="{{old('activitycreditcode.0')}}" @elseif(count($ckp->activities) > 0) value="{{$ckp->activities[0]->creditcode}}" @endif @if($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
+                                                    @error('activitycreditcode.0')
                                                     <div class="error-feedback">
                                                         kosong
                                                     </div>
@@ -139,6 +147,13 @@
                                                     </div>
                                                     @enderror
                                                 </td>
+                                                <td class="px-1"><input class="form-control" type="text" min="0" id="activitycreditcode[]" name="activitycreditcode[]" value="{{old('activitycreditcode.'.$i)}}">
+                                                    @error('activitycreditcode.'.$i)
+                                                    <div class="error-feedback">
+                                                        kosong
+                                                    </div>
+                                                    @enderror
+                                                </td>
                                                 <td class="px-1"><input class="form-control" type="number" min="0" id="activitycredit[]" name="activitycredit[]" value="{{old('activitycredit.'.$i)}}">
                                                     @error('activitycredit.'.$i)
                                                     <div class="error-feedback">
@@ -161,6 +176,8 @@
                                                         <td class="px-1"><input class="form-control" type="text" id="activityunit[]" name="activityunit[]" value="{{$ckp->activities[$i]->unit}}" @if($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
                                                         </td>
                                                         <td class="px-1"><input class="form-control" type="number" min="0" id="activitytarget[]" name="activitytarget[]" value="{{$ckp->activities[$i]->target}}" @if($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
+                                                        </td>
+                                                        <td class="px-1"><input class="form-control" type="text" min="0" id="activitycreditcode[]" name="activitycreditcode[]" value="{{$ckp->activities[$i]->creditcode}}" @if($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
                                                         </td>
                                                         <td class="px-1"><input class="form-control" type="number" min="0" id="activitycredit[]" name="activitycredit[]" value="{{$ckp->activities[$i]->credit}}" @if($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
                                                         </td>
@@ -207,6 +224,13 @@
                                                             </div>
                                                             @enderror
                                                         </td>
+                                                        <td class="px-1"><input class="form-control" type="text" min="0" id="activitycreditcode[]" name="activitycreditcode[]" value="{{old('activitycreditcode.'.$i)}}">
+                                                            @error('activitycreditcode.'.$i)
+                                                            <div class="error-feedback">
+                                                                kosong
+                                                            </div>
+                                                            @enderror
+                                                        </td>
                                                         <td class="px-1"><input class="form-control" type="number" min="0" id="activitycredit[]" name="activitycredit[]" value="{{old('activitycredit.'.$i)}}">
                                                             @error('activitycredit.'.$i)
                                                             <div class="error-feedback">
@@ -229,6 +253,8 @@
                                                                 <td class="px-1"><input class="form-control" type="text" id="activityunit[]" name="activityunit[]" value="{{$ckp->activities[$i]->unit}}" @if($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
                                                                 </td>
                                                                 <td class="px-1"><input class="form-control" type="number" min="0" id="activitytarget[]" name="activitytarget[]" value="{{$ckp->activities[$i]->target}}" @if($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
+                                                                </td>
+                                                                <td class="px-1"><input class="form-control" type="text" min="0" id="activitycreditcode[]" name="activitycreditcode[]" value="{{$ckp->activities[$i]->creditcode}}" @if($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
                                                                 </td>
                                                                 <td class="px-1"><input class="form-control" type="number" min="0" id="activitycredit[]" name="activitycredit[]" value="{{$ckp->activities[$i]->credit}}" @if($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
                                                                 </td>
@@ -320,12 +346,14 @@
                 var cell3 = row.insertCell(2);
                 var cell4 = row.insertCell(3);
                 var cell5 = row.insertCell(4);
-                var cell7 = row.insertCell(5);
+                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
 
                 cell2.className = 'px-1';
                 cell3.className = 'px-1';
                 cell4.className = 'px-1';
                 cell5.className = 'px-1';
+                cell6.className = 'px-1';
                 cell7.className = 'pl-1 pr-5';
 
                 if (type == 'main') {
@@ -338,7 +366,8 @@
 
                 cell3.innerHTML = "<input class='form-control' type='text' id='activityunit[]' name='activityunit[]'>";
                 cell4.innerHTML = "<input class='form-control' type='number' id='activitytarget[]' name='activitytarget[]'>";
-                cell5.innerHTML = "<input class='form-control' type='number' id='activitycredit[]' name='activitycredit[]'>";
+                cell5.innerHTML = "<input class='form-control' type='text' id='activitycreditcode[]' name='activitycreditcode[]'>";
+                cell6.innerHTML = "<input class='form-control' type='number' id='activitycredit[]' name='activitycredit[]'>";
 
                 var buttonid = Date.now();
                 if (type == 'main') {
@@ -364,8 +393,8 @@
                 var rowCount = table.rows.length;
                 for (var i = 1; i < rowCount; i++) {
                     var row = table.rows[i];
-                    if (row.cells[5]) {
-                        var rowObj = row.cells[5].childNodes[1];
+                    if (row.cells[6]) {
+                        var rowObj = row.cells[6].childNodes[1];
                         var rowId = row.cells[1].childNodes[2];
                         if (rowObj) {
                             if (rowObj.id == btnName) {

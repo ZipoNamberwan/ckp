@@ -6,9 +6,9 @@
      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
      <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
      <meta name="author" content="Creative Tim">
-     <title>Argon Dashboard PRO - Premium Bootstrap 4 Admin Template</title>
+     <title>Login CKP Online - BPS Provinsi NTT</title>
      <!-- Favicon -->
-     <link rel="icon" href="/assets/img/brand/favicon.png" type="image/png">
+     <link rel="icon" href="/assets/img/brand/ckp logo.png" type="image/png">
      <!-- Fonts -->
      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
      <!-- Icons -->
@@ -23,9 +23,6 @@
      <!-- Navbar -->
      <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
          <div class="container">
-             <a class="navbar-brand" href="/pages/dashboards/dashboard.html">
-                 <img src="/assets/img/brand/white.png">
-             </a>
              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                  <span class="navbar-toggler-icon"></span>
              </button>

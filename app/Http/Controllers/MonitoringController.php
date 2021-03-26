@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ckp;
-use App\Models\Department;
 use App\Models\Month;
-use App\Models\User;
 use Auth;
-use Illuminate\Http\Request;
 
 class MonitoringController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:admin|supervisor');
+    }
     /**
      * Display a listing of the resource.
      *

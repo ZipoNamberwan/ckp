@@ -103,3 +103,9 @@
         transform: scale3D(0, 0, 1);
     }
 }
+
+.scrollable {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
