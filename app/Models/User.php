@@ -24,7 +24,8 @@ class User extends Authenticatable
         'department_id',
         'avatar',
         'assessor_id',
-        'nip'
+        'nip',
+        'nipold',
     ];
 
     /**

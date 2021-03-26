@@ -19,7 +19,7 @@ class ModifyUsersTable extends Migration
             $table->integer('position')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('organizations');
         });
-        
+
         Schema::create('departments', function (Blueprint $table) {
             $table->id()->autoincrement();
             $table->string('name');
@@ -32,7 +32,11 @@ class ModifyUsersTable extends Migration
             $table->foreignId('department_id')->constrained('departments');
             $table->string('avatar')->nullable();
             $table->string('nip')->nullable();
+            $table->string('nipold')->nullable();
             $table->foreignId('assessor_id')->nullable()->constrained('users');
+
+            // $table->integer('employee_data')->nullable();
+            // $table->foreign('employee_data')->references('nip')->on('bpst7622_absensi.pegawai');
         });
     }
 

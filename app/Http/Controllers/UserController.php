@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\EmployeeData;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -37,8 +38,9 @@ class UserController extends Controller
 
         $departments = $department->getAllChildrenDepartment();
         $users = User::where('id', '!=', '1')->get();
+        $employees = EmployeeData::all();
 
-        return view('user.create', compact('departments', 'users'));
+        return view('user.create', compact('departments', 'users', 'employees'));
     }
 
     /**
@@ -50,22 +52,23 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'employee' => 'required',
             'email' => 'required|email',
             'department' => 'required',
             'password' => 'required|confirmed|min:6',
             'assessor' => 'required',
             'role' => 'required',
-            'nip' => 'required'
         ]);
 
+        $employee = EmployeeData::find($request->employee);
         $user = User::create([
-            'name' => $request->name,
             'email' => $request->email,
             'department_id' => $request->department,
             'password' => bcrypt($request->password),
             'assessor_id' => $request->assessor,
-            'nip' => $request->nip
+            'name' => $employee->nama,
+            'nip' => $employee->nipbaru,
+            'nipold' => strval($employee->nip),
         ]);
 
         $user->assignRole($request->role);
@@ -96,8 +99,9 @@ class UserController extends Controller
 
         $departments = $department->getAllChildrenDepartment();
         $users = User::where('id', '!=', '1')->get();
+        $employees = EmployeeData::all();
 
-        return view('user.edit', compact('departments', 'departments', 'user', 'users'));
+        return view('user.edit', compact('departments', 'departments', 'user', 'users', 'employees'));
     }
 
     /**
@@ -110,13 +114,14 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validationArray = array(
-            'name' => 'required',
+            'employee' => 'required',
             'email' => 'required|email',
             'department' => 'required',
             'assessor' => 'required',
             'role' => 'required',
-            'nip' => 'required'
         );
+
+        $employee = EmployeeData::find($request->employee);
 
         if ($request->changepassword) {
             $validationArray['password'] = 'required|confirmed|min:6';
@@ -125,11 +130,12 @@ class UserController extends Controller
         $request->validate($validationArray);
 
         $updateArray = array(
-            'name' => $request->name,
             'email' => $request->email,
             'department_id' => $request->department,
             'assessor_id' => $request->assessor,
-            'nip' => $request->nip
+            'name' => $employee->nama,
+            'nip' => $employee->nipbaru,
+            'nipold' => strval($employee->nip),
         );
 
         if ($request->changepassword) {

@@ -57,23 +57,18 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="col mb-3">
-                                        <label class="form-control-label" for="nip">NIP Baru</label>
-                                        <input type="text" class="form-control @error('nip') is-invalid @enderror"
-                                            value="{{ @old('nip') }}" id="nip" name="nip" placeholder="NIP Baru">
-                                        @error('nip')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col mb-3">
-                                        <label class="form-control-label" for="name">Nama</label>
-                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                            value="{{ @old('name') }}" id="name" name="name" placeholder="Nama">
-                                        @error('name')
-                                            <div class="invalid-feedback">
+                                        <label class="form-control-label" for="employee">Pilih Pegawai</label>
+                                        <select class="form-control @error('employee') is-invalid @enderror"
+                                            data-toggle="select" name="employee">
+                                            <option disabled selected>-- Pilih Pegawai --</option>
+                                            @foreach ($employees as $employee)
+                                                <option value="{{ $employee->nip }}"
+                                                    {{ old('employee') == $employee->nip ? 'selected' : '' }}>
+                                                    {{ $employee->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('employee')
+                                            <div class="error-feedback">
                                                 {{ $message }}
                                             </div>
                                         @enderror
@@ -123,8 +118,8 @@
                                         <select class="form-control @error('role') is-invalid @enderror"
                                             data-toggle="select" name="role">
                                             <option disabled selected>-- Pilih Role --</option>
-                                            <option value="supervisor">Supervisor</option>
-                                            <option value="user">User</option>
+                                            <option @if(old('role') == 'supervisor') selected @endif value="supervisor">Supervisor</option>
+                                            <option @if(old('role') == 'user') selected @endif value="user">User</option>
                                         </select>
                                         @error('role')
                                             <div class="error-feedback">

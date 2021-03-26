@@ -11,4 +11,5 @@ class EmployeeData extends Model
 
     protected $connection = 'mysql2';
     protected $table = 'pegawai';
+    protected $primaryKey = 'nip';
 }
