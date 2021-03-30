@@ -43,7 +43,7 @@
                     <form autocomplete="off" method="post" action="/departments" class="needs-validation" enctype="multipart/form-data" novalidate>
                         @csrf
                         <div class="form-row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-control-label" for="name">Nama Jenjang Jabatan</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" value="{{@old('name')}}" id="name" name="name" placeholder="Nama Jenjang Jabatan">
                                 @error('name')
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-control-label" for="validationCustom03">Unit Kerja</label>
                                 <select class="form-control @error('organization') is-invalid @enderror" data-toggle="select" name="organization">
                                     <option disabled selected>-- Pilih Unit Kerja --</option>
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-control-label" for="validationCustom03">Jenjang Jabatan Induk</label>
                                 <select class="form-control @error('department') is-invalid @enderror" data-toggle="select" name="department">
                                     <option disabled selected>-- Pilih Jenjang Jabatan --</option>

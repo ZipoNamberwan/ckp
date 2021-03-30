@@ -43,7 +43,7 @@
                     <form autocomplete="off" method="post" action="/organizations" class="needs-validation" enctype="multipart/form-data" novalidate>
                         @csrf
                         <div class="form-row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-control-label" for="name">Nama Unit Kerja</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" value="{{@old('name')}}" id="name" name="name" placeholder="Nama Unit Kerja">
                                 @error('name')
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-control-label" for="validationCustom03">Unit Kerja Induk</label>
                                 <select class="form-control @error('organization') is-invalid @enderror" data-toggle="select" name="organization">
                                     <option disabled selected>-- Pilih Unit Kerja --</option>

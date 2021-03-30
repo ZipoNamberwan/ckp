@@ -46,7 +46,7 @@
                             @method('patch')
                             @csrf
                             <div class="form-row">
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label class="form-control-label" for="name">Nama Jenjang Jabatan</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         value="{{ @old('name', $department->name) }}" id="name" name="name"
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label class="form-control-label" for="validationCustom03">Unit Kerja</label>
                                     <select class="form-control @error('organization') is-invalid @enderror"
                                         data-toggle="select" name="organization">
@@ -77,13 +77,38 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-control-label" for="name">Jenjang Jabatan Induk</label>
-                                    <input type="text" class="form-control" value="{{ $department->parent->name }}"
-                                        disabled>
+                            @if ($department->parent->id != '1')
+                                <div class="form-row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-control-label" for="parent">Jenjang Jabatan Induk</label>
+                                        <select class="form-control @error('parent') is-invalid @enderror"
+                                            data-toggle="select" name="parent">
+                                            <option disabled selected>-- Pilih Jenjang Jabatan --</option>
+                                            @foreach ($departments as $d)
+                                                @if ($d->id != $department->id)
+                                                    <option value="{{ $d->id }}"
+                                                        {{ old('parent', $department->parent->id) == $d->id ? 'selected' : '' }}>
+                                                        {{ $d->name }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                        @error('parent')
+                                            <div class="error-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
+                            @else
+                                <div class="form-row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-control-label" for="name">Jenjang Jabatan Induk</label>
+                                        <input type="text" class="form-control" value="{{ $department->parent->name }}"
+                                            disabled>
+                                        <input type="hidden" name="parent" value="{{ $department->parent->id }}">
+                                    </div>
+                                </div>
+                            @endif
                             <button class="btn btn-primary" id="sbmtbtn" type="submit">Submit</button>
                         </form>
                     </div>

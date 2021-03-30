@@ -40,6 +40,13 @@ class UserSeeder extends Seeder
             'organization_id' => $organization2->id
         ]);
 
+        $department48 = Department::create([
+            'name' => 'Statistisi Madya',
+            'parent_id' => $department1->id,
+            'position' => '1',
+            'organization_id' => $organization2->id
+        ]);
+
         $organization3 = Organization::create([
             'name' => 'Bagian Umum',
             'position' => '1',
@@ -226,6 +233,27 @@ class UserSeeder extends Seeder
             'organization_id' => $organization16->id
         ]);
 
+        $department60 = Department::create([
+            'name' => 'Statistisi Madya Fungsi Statistik Sosial',
+            'parent_id' => $department13->id,
+            'position' => '1',
+            'organization_id' => $organization4->id
+        ]);
+
+        $department49 = Department::create([
+            'name' => 'Statistisi Muda Fungsi Statistik Sosial',
+            'parent_id' => $department13->id,
+            'position' => '1',
+            'organization_id' => $organization4->id
+        ]);
+
+        $department50 = Department::create([
+            'name' => 'Statistisi Pertama Fungsi Statistik Sosial',
+            'parent_id' => $department13->id,
+            'position' => '1',
+            'organization_id' => $organization4->id
+        ]);
+
         $organization5 = Organization::create([
             'name' => 'Fungsi Statistik Produksi',
             'position' => '1',
@@ -297,6 +325,27 @@ class UserSeeder extends Seeder
             'parent_id' => $department25->id,
             'position' => '1',
             'organization_id' => $organization19->id
+        ]);
+
+        $department61 = Department::create([
+            'name' => 'Statistisi Madya Fungsi Statistik Produksi',
+            'parent_id' => $department20->id,
+            'position' => '1',
+            'organization_id' => $organization5->id
+        ]);
+
+        $department50 = Department::create([
+            'name' => 'Statistisi Muda Fungsi Statistik Produksi',
+            'parent_id' => $department20->id,
+            'position' => '1',
+            'organization_id' => $organization5->id
+        ]);
+
+        $department51 = Department::create([
+            'name' => 'Statistisi Pertama Fungsi Statistik Produksi',
+            'parent_id' => $department20->id,
+            'position' => '1',
+            'organization_id' => $organization5->id
         ]);
 
         $organization6 = Organization::create([
@@ -372,6 +421,27 @@ class UserSeeder extends Seeder
             'organization_id' => $organization22->id
         ]);
 
+        $department62 = Department::create([
+            'name' => 'Statistisi Madya Fungsi Statistik Distribusi',
+            'parent_id' => $department27->id,
+            'position' => '1',
+            'organization_id' => $organization6->id
+        ]);
+
+        $department52 = Department::create([
+            'name' => 'Statistisi Muda Fungsi Statistik Distribusi',
+            'parent_id' => $department27->id,
+            'position' => '1',
+            'organization_id' => $organization6->id
+        ]);
+
+        $department53 = Department::create([
+            'name' => 'Statistisi Pertama Fungsi Statistik Distribusi',
+            'parent_id' => $department27->id,
+            'position' => '1',
+            'organization_id' => $organization6->id
+        ]);
+
         $organization7 = Organization::create([
             'name' => 'Fungsi Neraca Wilayah dan Analisis Statistik',
             'position' => '1',
@@ -443,6 +513,27 @@ class UserSeeder extends Seeder
             'parent_id' => $department39->id,
             'position' => '1',
             'organization_id' => $organization25->id
+        ]);
+
+        $department63 = Department::create([
+            'name' => 'Statistisi Madya Fungsi Neraca Wilayah dan Analisis Statistik',
+            'parent_id' => $department34->id,
+            'position' => '1',
+            'organization_id' => $organization7->id
+        ]);
+
+        $department54 = Department::create([
+            'name' => 'Statistisi Muda Fungsi Neraca Wilayah dan Analisis Statistik',
+            'parent_id' => $department34->id,
+            'position' => '1',
+            'organization_id' => $organization7->id
+        ]);
+
+        $department55 = Department::create([
+            'name' => 'Statistisi Pertama Fungsi Neraca Wilayah dan Analisis Statistik',
+            'parent_id' => $department34->id,
+            'position' => '1',
+            'organization_id' => $organization7->id
         ]);
 
         $organization8 = Organization::create([
@@ -518,6 +609,34 @@ class UserSeeder extends Seeder
             'organization_id' => $organization28->id
         ]);
 
+        $department56 = Department::create([
+            'name' => 'Statistisi Muda Fungsi Integrasi Pengolahan dan Diseminasi Statistik',
+            'parent_id' => $department41->id,
+            'position' => '1',
+            'organization_id' => $organization8->id
+        ]);
+
+        $department57 = Department::create([
+            'name' => 'Statistisi Pertama Fungsi Integrasi Pengolahan dan Diseminasi Statistik',
+            'parent_id' => $department41->id,
+            'position' => '1',
+            'organization_id' => $organization8->id
+        ]);
+
+        $department58 = Department::create([
+            'name' => 'Pranata Komputer Muda Fungsi Integrasi Pengolahan dan Diseminasi Statistik',
+            'parent_id' => $department41->id,
+            'position' => '1',
+            'organization_id' => $organization8->id
+        ]);
+
+        $department59 = Department::create([
+            'name' => 'Pranata Komputer Pertama Fungsi Integrasi Pengolahan dan Diseminasi Statistik',
+            'parent_id' => $department41->id,
+            'position' => '1',
+            'organization_id' => $organization8->id
+        ]);
+
         // $organization6 = Organization::create([
         //     'name' => 'Fungsi DLS',
         //     'position' => '1',
@@ -583,15 +702,16 @@ class UserSeeder extends Seeder
         ]);
         $superadmin->assignRole('admin');
 
-        // $kabps = User::create([
-        //     'name' => 'Kepala BPS Provinsi NTT',
-        //     'email' => 'kabps@bps.go.id',
-        //     'password' => bcrypt('123456'),
-        //     'nip' => '123456789',
-        //     'assessor_id' => 1,
-        //     'department_id' => $head->id,
-        // ]);
-        // $kabps->assignRole('supervisor');
+        $kabps = User::create([
+            'name' => 'Kepala BPS Provinsi NTT',
+            'email' => 'darwis@bps.go.id',
+            'password' => bcrypt('123456'),
+            'nip' => '19650801 198901 1 002',
+            'nipold' => '12046',
+            'assessor_id' => 1,
+            'department_id' => 2,
+        ]);
+        $kabps->assignRole('supervisor');
 
         // $coordinator = User::create([
         //     'name' => 'Tio',

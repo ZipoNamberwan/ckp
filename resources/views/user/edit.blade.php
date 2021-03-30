@@ -39,24 +39,11 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <form autocomplete="off" method="post" action="/users/{{ $user->id }}"
                                 class="needs-validation" enctype="multipart/form-data" novalidate>
                                 @csrf
                                 @method('patch')
-                                <div class="form-row">
-                                    <div class="col mb-3">
-                                        <label class="form-control-label" for="email">Email</label>
-                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                            value="{{ @old('email', $user->email) }}" id="email" name="email"
-                                            placeholder="Email">
-                                        @error('email')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                </div>
                                 <div class="form-row">
                                     <div class="col mb-3">
                                         <label class="form-control-label" for="employee">Pilih Pegawai</label>
@@ -71,6 +58,19 @@
                                         </select>
                                         @error('employee')
                                             <div class="error-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col mb-3">
+                                        <label class="form-control-label" for="email">Email</label>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                            value="{{ @old('email', $user->email) }}" id="email" name="email"
+                                            placeholder="Email">
+                                        @error('email')
+                                            <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
                                         @enderror

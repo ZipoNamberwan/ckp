@@ -94,10 +94,12 @@ class OrganizationController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'parent' => 'required'
         ]);
 
         $organization->update([
             'name' => $request->name,
+            'parent_id' => $request->parent
         ]);
 
         return redirect('/organizations')->with('success-edit', 'Unit Kerja telah diubah!');

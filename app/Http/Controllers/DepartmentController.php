@@ -33,7 +33,7 @@ class DepartmentController extends Controller
     public function create()
     {
         $department = Department::find(1);
-        $organizations = Organization::all();
+        $organizations = Organization::find(1)->getAllChildrenOrganizations();
         $departments = $department->getAllChildrenDepartment();
         return view('department.create', compact('departments', 'organizations'));
     }
@@ -82,7 +82,7 @@ class DepartmentController extends Controller
     public function edit(Department $department)
     {
         $rootdepartment = Department::find(1);
-        $organizations = Organization::all();
+        $organizations = Organization::find(1)->getAllChildrenOrganizations();
         $departments = $rootdepartment->getAllChildrenDepartment();
         return view('department.edit', compact('departments', 'department', 'organizations'));
     }
@@ -98,12 +98,14 @@ class DepartmentController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'organization' => 'required'
+            'organization' => 'required',
+            'parent' => 'required'
         ]);
 
         $department->update([
             'name' => $request->name,
-            'organization_id' => $request->organization
+            'organization_id' => $request->organization,
+            'parent_id' => $request->parent
         ]);
 
         return redirect('/departments')->with('success-edit', 'Jenjang Jabatan telah diubah!');
