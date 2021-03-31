@@ -144,10 +144,10 @@
 
     <script>
         var table = $('#datatable-id').DataTable({
-            "responsive": true,
-            "fixedColumns": true,
-            "fixedHeader": true,
-            "order": [],
+            // "responsive": true,
+            // "fixedColumns": true,
+            // "fixedHeader": true,
+            // "order": [],
             "language": {
                 'paginate': {
                     'previous': '<i class="fas fa-angle-left"></i>',

@@ -355,7 +355,7 @@ class UserSeeder extends Seeder
         ]);
 
         $department27 = Department::create([
-            'name' => 'Koordinator Fungsi Statistik Produksi',
+            'name' => 'Koordinator Fungsi Statistik Distribusi',
             'parent_id' => $department1->id,
             'position' => '1',
             'organization_id' => $organization6->id
@@ -703,7 +703,7 @@ class UserSeeder extends Seeder
         $superadmin->assignRole('admin');
 
         $kabps = User::create([
-            'name' => 'Kepala BPS Provinsi NTT',
+            'name' => 'Darwis Sitorus, S.Si, M.Si',
             'email' => 'darwis@bps.go.id',
             'password' => bcrypt('123456'),
             'nip' => '19650801 198901 1 002',
