@@ -7,6 +7,7 @@ use App\Models\Ckp;
 use App\Models\Month;
 use App\Models\SubmittedCkp;
 use App\Models\User;
+use App\Models\WfhActivity;
 use App\Models\Year;
 use Auth;
 use Illuminate\Http\Request;
@@ -116,7 +117,7 @@ class CkpController extends Controller
     public function show(Ckp $ckp)
     {
         $department = Auth::user()->department;
-        
+
         $users = $department->getAllChildrenUsers();
 
         $isallowed = false;
@@ -254,6 +255,26 @@ class CkpController extends Controller
                 'message' => 'CKP yang Sudah Dinilai Tidak Bisa Dihapus'
             );
             return response()->json($status);
+        }
+    }
+
+    public function getWfhActivity($month)
+    {
+        if (Auth::user()) {
+            $array = [];
+            $activities = WfhActivity::where(['pegawai' => Auth::user()->nipold])->whereMonth('tanggal', $month)->orderBy('tanggal')->get();
+            foreach ($activities as $activity) {
+                $array[] = array(
+                    'id' => $activity->id,
+                    'tanggal' => $activity->tanggal,
+                    'namakegiatan' => $activity->namakegiatan,
+                    'satuankegiatan' => $activity->satuankegiatan,
+                    'volume' => $activity->volume
+                );
+            }
+            return response()->json($array);
+        } else {
+            abort(404);
         }
     }
 }

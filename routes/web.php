@@ -48,5 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/ckps/{type}/{ckp}/edit', [App\Http\Controllers\CkpController::class, 'edit']);
         Route::get('/download', [App\Http\Controllers\DownloadController::class, 'index']);
         Route::post('/download', [App\Http\Controllers\DownloadController::class, 'download']);
+
+        Route::get('/wfhactivity/{month}', [App\Http\Controllers\CkpController::class, 'getWfhActivity']);
     });
 });

@@ -367,8 +367,12 @@ class DownloadController extends Controller
                         $sheetR->setCellValue('D' . $row, $activities[$i]->unit);
                         $sheetR->setCellValue('E' . $row, $activities[$i]->target);
                         $sheetR->setCellValue('F' . $row, $activities[$i]->real);
-                        $sheetR->setCellValue('G' . $row, $activities[$i]->real / $activities[$i]->target * 100);
-                        if ($ckp->status->id == '7') {
+                        if ($activities[$i]->target == 0) {
+                            $sheetR->setCellValue('G' . $row, '');
+                        } else {
+                            $sheetR->setCellValue('G' . $row, round($activities[$i]->real / $activities[$i]->target * 100, 0));
+                        }
+                        if ($ckp->status->id == '5') {
                             $sheetR->setCellValue('H' . $row, $activities[$i]->quality);
                         } else {
                             $sheetR->setCellValue('H' . $row, '');
@@ -398,7 +402,11 @@ class DownloadController extends Controller
                 $total_credit = 0;
                 for ($i = 0; $i < count($activities); $i++) {
                     $total_quality = $total_quality + $activities[$i]->quality;
-                    $total_real = $total_real + ($activities[$i]->real / $activities[$i]->target * 100);
+                    $t = 0;
+                    if ($activities[$i]->target != 0) {
+                        $t = ($activities[$i]->real / $activities[$i]->target * 100);
+                    }
+                    $total_real = $total_real + $t;
                     $total_credit = $total_credit + $activities[$i]->credit;
                     if ($activities[$i]->type == 'additional') {
                         $sheetR->setCellValue('A' . $row, $num);
@@ -407,8 +415,12 @@ class DownloadController extends Controller
                         $sheetR->setCellValue('D' . $row, $activities[$i]->unit);
                         $sheetR->setCellValue('E' . $row, $activities[$i]->target);
                         $sheetR->setCellValue('F' . $row, $activities[$i]->real);
-                        $sheetR->setCellValue('G' . $row, $activities[$i]->real / $activities[$i]->target * 100);
-                        if ($ckp->status->id == '7') {
+                        if ($activities[$i]->target == 0) {
+                            $sheetR->setCellValue('G' . $row, '0');
+                        } else {
+                            $sheetR->setCellValue('G' . $row, round($activities[$i]->real / $activities[$i]->target * 100, 0));
+                        }
+                        if ($ckp->status->id == '5') {
                             $sheetR->setCellValue('H' . $row, $activities[$i]->quality);
                         } else {
                             $sheetR->setCellValue('H' . $row, '');
@@ -434,11 +446,11 @@ class DownloadController extends Controller
                 $sheetR->getStyle('J' . $row)->getFont()->setBold(true);
                 $sheetR->mergeCells('A' . $row . ':C' . $row);
                 $sheetR->setCellValue('A' . ($row + 1), "RATA-RATA");
-                $sheetR->setCellValue('G' . ($row + 1), $total_real / count($activities));
-                $sheetR->setCellValue('H' . ($row + 1), $total_quality / count($activities));
+                $sheetR->setCellValue('G' . ($row + 1), round($total_real / count($activities), 0));
+                $sheetR->setCellValue('H' . ($row + 1), round($total_quality / count($activities), 0));
                 $sheetR->mergeCells('A' . ($row + 1) . ':C' . ($row + 1));
                 $sheetR->setCellValue('A' . ($row + 2), "CAPAIAN KINERJA PEGAWAI");
-                $sheetR->setCellValue('G' . ($row + 2), ($total_quality + $total_real) / 2);
+                $sheetR->setCellValue('G' . ($row + 2), round((($total_quality / count($activities)) + ($total_real / count($activities))) / 2, 0));
                 $sheetR->mergeCells('A' . ($row + 2) . ':C' . ($row + 2));
                 $sheetR->mergeCells('G' . ($row + 2) . ':H' . ($row + 2));
                 $sheetR->getStyle('G' . ($row) . ':J' . ($row + 2))

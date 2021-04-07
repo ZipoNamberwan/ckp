@@ -109,3 +109,45 @@
     overflow-x: auto;
     white-space: nowrap;
 }
+
+/* Oh Snap Alert */
+
+.snap {
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #eed3d7;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.snap-red {
+    color: white;
+    background-color: #DA4453;
+}
+
+.snap-green {
+    color: white;
+    background-color: #37BC9B;
+}
+
+.snap-blue {
+    color: white;
+    background-color: #4A89DC;
+}
+
+.snap-yellow {
+    color: white;
+    background-color: #F6BB42;
+}
+
+.snap-orange {
+    color: white;
+    background-color: #E9573F;
+}
+
+.ohsnap {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
