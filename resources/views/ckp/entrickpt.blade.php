@@ -261,7 +261,7 @@
                                                 <tr>
                                                     <td colspan="7">
                                                         <button type="button" class="btn btn-secondary btn-sm"
-                                                            onclick="addactivity('main', '', '')" @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
+                                                            onclick="addactivity('main', '', '', '')" @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
                                                             <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
                                                             <span class="btn-inner--text">Tambah Kegiatan Utama</span>
                                                         </button>
@@ -399,7 +399,7 @@
                                                 <tr>
                                                     <td colspan="7">
                                                         <button type="button" class="btn btn-secondary btn-sm"
-                                                            onclick="addactivity('additional', '', '')" @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
+                                                            onclick="addactivity('additional', '', '', '')" @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
                                                             <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
                                                             <span class="btn-inner--text">Tambah Kegiatan Tambahan</span>
                                                         </button>
@@ -509,7 +509,7 @@
     @endif
 
     <script>
-        function addactivity(type, namakegiatan, satuankegiatan) {
+        function addactivity(type, namakegiatan, satuankegiatan, volume) {
             var ckptable = document.getElementById('ckp-table');
             //console.log(namakegiatan);
             var row;
@@ -551,7 +551,8 @@
 
             cell3.innerHTML = "<input class='form-control' type='text' value='" + satuankegiatan +
                 "' name='activityunit[]'>";
-            cell4.innerHTML = "<input class='form-control' type='number' name='activitytarget[]'>";
+            cell4.innerHTML = "<input class='form-control' value='" + volume +
+                "' type='number' name='activitytarget[]'>";
             cell5.innerHTML =
                 "<input class='form-control' type='text' name='activitycreditcode[]'>";
             cell6.innerHTML = "<input class='form-control' type='number' name='activitycredit[]'>";
@@ -741,7 +742,8 @@
                         "render": function(data, rendertype, row) {
                             return "<button onclick=\"addWfHActivity('" + row.namakegiatan +
                                 "','" +
-                                row.satuankegiatan + "')\" id=\"button" + row.id +
+                                row.satuankegiatan + "','" + row.volume + "')\" id=\"button" +
+                                row.id +
                                 "\" class=\"btn btn-icon btn-primary btn-sm\" type=\"button\">" +
                                 "<span class=\"btn-inner--icon\"><i class=\"fas fa-hand-pointer\"></i></span>" +
                                 "</button>";
@@ -772,16 +774,17 @@
             wfhtype = type;
         }
 
-        function addWfHActivity(namakegiatan, satuankegiatan) {
+        function addWfHActivity(namakegiatan, satuankegiatan, volume) {
             if (wfhtype == 'main' && document.getElementById('activitynamefirst').value == '' && document.getElementById(
                     'activityunitfirst')
                 .value == '') {
                 document.getElementById('activitynamefirst').value = namakegiatan;
                 document.getElementById('activityunitfirst').value = satuankegiatan;
+                document.getElementById('activitytargetfirst').value = volume;
             } else {
-                addactivity(wfhtype, namakegiatan, satuankegiatan);
+                addactivity(wfhtype, namakegiatan, satuankegiatan, volume);
             }
-            ohSnap('Aktivitas berhasil ditambahkan', {
+            ohSnap('Kegiatan berhasil ditambahkan', {
                 color: 'green'
             });
         }

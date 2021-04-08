@@ -88,7 +88,7 @@
                                                     <td class="px-1"><input class="form-control" type="text"
                                                             id="activitynamefirst" name="activityname[]" @if (old('activityname.0')) value="{{ old('activityname.0') }}" @elseif(count($ckp->activities) > 0) value="{{ $ckp->activities[0]->name }}" @endif @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6')
                                                         disabled @endif><input type="hidden" value="main"
-                                                            name="activitytype[]"><input type="hidden" @if (old('activityid.0')) value="{{ old('activityid.0') }}" @elseif(count($ckp->activities) > 0) value="{{ $ckp->activities[0]->id }}" @endif id="activityid[]" name="activityid[]">
+                                                            name="activitytype[]"><input type="hidden" @if (old('activityid.0')) value="{{ old('activityid.0') }}" @elseif(count($ckp->activities) > 0) value="{{ $ckp->activities[0]->id }}" @endif name="activityid[]">
                                                         @error('activityname.0')
                                                             <div class="error-feedback">
                                                                 kosong
@@ -105,7 +105,7 @@
                                                         @enderror
                                                     </td>
                                                     <td class="px-1"><input class="form-control" type="number" min="0"
-                                                            name="activitytarget[]" @if (old('activitytarget.0')) value="{{ old('activitytarget.0') }}" @elseif(count($ckp->activities) > 0) value="{{ $ckp->activities[0]->target }}" @endif @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6')
+                                                            id="activitytargetfirst" name="activitytarget[]" @if (old('activitytarget.0')) value="{{ old('activitytarget.0') }}" @elseif(count($ckp->activities) > 0) value="{{ $ckp->activities[0]->target }}" @endif @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6')
                                                         disabled @endif>
                                                         @error('activitytarget.0')
                                                             <div class="error-feedback">
@@ -286,7 +286,7 @@
                                                 <tr>
                                                     <td colspan="9">
                                                         <button type="button" class="btn btn-secondary btn-sm"
-                                                            onclick="addactivity('main', '', '')" @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
+                                                            onclick="addactivity('main', '', '', '')" @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
                                                             <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
                                                             <span class="btn-inner--text">Tambah Kegiatan Utama</span>
                                                         </button>
@@ -445,7 +445,7 @@
                                                     <td colspan="9">
                                                         <button id="additional-activity-button" type="button"
                                                             class="btn btn-secondary btn-sm"
-                                                            onclick="addactivity('additional', '', '')" @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
+                                                            onclick="addactivity('additional', '', '', '')" @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6') disabled @endif>
                                                             <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
                                                             <span class="btn-inner--text">Tambah Kegiatan Tambahan</span>
                                                         </button>
@@ -559,7 +559,7 @@
     @endif
 
     <script>
-        function addactivity(type, namakegiatan, satuankegiatan) {
+        function addactivity(type, namakegiatan, satuankegiatan, volume) {
             var ckptable = document.getElementById('ckp-table');
             var row;
             if (type == 'main') {
@@ -602,9 +602,10 @@
                     "' name='activityname[]'><input type='hidden' value='additional' name='activitytype[]'><input type='hidden' name='activityid[]'>";
             }
 
-            cell3.innerHTML = "<input class='form-control'  value='" + satuankegiatan +
+            cell3.innerHTML = "<input class='form-control' value='" + satuankegiatan +
                 "' type='text' name='activityunit[]'>";
-            cell4.innerHTML = "<input class='form-control' type='number' name='activitytarget[]'>";
+            cell4.innerHTML = "<input class='form-control' value='" + volume +
+                "' type='number' name='activitytarget[]'>";
             cell5.innerHTML = "<input class='form-control' type='number' name='activityreal[]'>";
             cell6.innerHTML = "<input class='form-control' type='text' disabled>";
             cell7.innerHTML =
@@ -796,7 +797,8 @@
                         "render": function(data, rendertype, row) {
                             return "<button onclick=\"addWfHActivity('" + row.namakegiatan +
                                 "','" +
-                                row.satuankegiatan + "')\" id=\"button" + row.id +
+                                row.satuankegiatan + "','" + row.volume + "')\" id=\"button" +
+                                row.id +
                                 "\" class=\"btn btn-icon btn-primary btn-sm\" type=\"button\">" +
                                 "<span class=\"btn-inner--icon\"><i class=\"fas fa-hand-pointer\"></i></span>" +
                                 "</button>";
@@ -827,16 +829,17 @@
             wfhtype = type;
         }
 
-        function addWfHActivity(namakegiatan, satuankegiatan) {
+        function addWfHActivity(namakegiatan, satuankegiatan, volume) {
             if (wfhtype == 'main' && document.getElementById('activitynamefirst').value == '' && document.getElementById(
                     'activityunitfirst')
                 .value == '') {
                 document.getElementById('activitynamefirst').value = namakegiatan;
                 document.getElementById('activityunitfirst').value = satuankegiatan;
+                document.getElementById('activitytargetfirst').value = volume;
             } else {
-                addactivity(wfhtype, namakegiatan, satuankegiatan);
+                addactivity(wfhtype, namakegiatan, satuankegiatan, volume);
             }
-            ohSnap('Aktivitas berhasil ditambahkan', {
+            ohSnap('Kegiatan berhasil ditambahkan', {
                 color: 'green'
             });
         }

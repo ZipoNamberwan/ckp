@@ -463,6 +463,7 @@ class DownloadController extends Controller
                 $sheetR->getStyle('G' . $row . ':H' . $row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
                 $sheetR->getStyle('D' . $row . ':F' . ($row + 2))->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
                 $sheetR->getStyle('K' . $row . ':K' . ($row + 2))->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
+                $sheetR->getStyle('I' . $row . ':I' . ($row + 2))->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000000');
 
                 $sheetR->getStyle('A' . $row . ':C' . ($row + 2))->getFont()->setBold(true);
                 $sheetR->getStyle('A' . $row . ':C' . ($row + 2))
