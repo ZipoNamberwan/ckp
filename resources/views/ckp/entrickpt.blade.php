@@ -109,7 +109,7 @@
                                                         @enderror
                                                     </td>
                                                     <td class="px-1"><input class="form-control" type="number" min="0"
-                                                            name="activitytarget[]" @if (old('activitytarget.0')) value="{{ old('activitytarget.0') }}" @elseif(count($ckp->activities) > 0) value="{{ $ckp->activities[0]->target }}" @endif @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6')
+                                                            id="activitytargetfirst" name="activitytarget[]" @if (old('activitytarget.0')) value="{{ old('activitytarget.0') }}" @elseif(count($ckp->activities) > 0) value="{{ $ckp->activities[0]->target }}" @endif @if ($ckp->status_id == '3' || $ckp->status_id == '5' || $ckp->status_id == '6')
                                                         disabled @endif>
                                                         @error('activitytarget.0')
                                                             <div class="error-feedback">
